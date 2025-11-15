@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Assistive Technologies</title>
+		<meta name="description" content="Web development focused on accessibility, with practical examples exploring FastHTML and other web technologies.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="assistive-technologies">Assistive Technologies</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/assistive-technology/" class="post-tag">
+      assistive-technology
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/screen-reader/" class="post-tag">
+      screen-reader
+    </a>
+  </li>
+
+</ul>
+
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="assistive-technologies-2">Assistive Technologies</h2>
+<p>&quot;Assistive Technologies&quot; (AT) is a broad term for tools that help people with disabilities perform tasks that might otherwise be difficult or impossible from wheelchairs and prosthetics to communication boards, glasses, and accessibility software.</p>
+<p>However, <strong>access to AT alone does not remove all barriers</strong>.</p>
+<p>For the purposes of the posts in this overall series, the focus is on people who use desktop screen reader software and those who rely on keyboards or keyboard-like devices.</p>
+<p>It's important not to assume how someone interacts with your site or which technologies they use. The Web Accessibility Initiative (WAI) interview series <a href="%5Bhttps://www.w3.org/WAI/people-use-web/user-stories/">&quot;How People with Disabilities Use the Web&quot;</a> provides real-world stories highlighting the barriers interviewees face and the AT they rely on.</p>
+<h2 id="what-is-a-screen-reader">What is a screen reader?</h2>
+<p>Screen readers are software applications that convert on-screen content - like text, links, and buttons - into speech or braille output, allowing people to navigate and interact with websites and applications. They are primarily used by blind people or those with low-vision issues but can also support people with dyslexia or cognitive disabilities. They also provide other functionality such as navigational aids via keyboard commands.</p>
+<p>Testing with a screen reader offers a practical perspective on accessibility that no amount of reading or automated tool can provide. Personally, a lot of accessibility theory really &quot;clicked&quot; for me once I began using a screen reader regularly.</p>
+<p>You don't need to become an expert. Start with the basics, <strong>use default settings</strong> - to ensure you don't rely on a non-standard configuration - and maybe slow the speech rate until you get comfortable. The goal is simply to understand how your content is announced and interacted with.</p>
+<h3 id="common-screen-readers">Common screen readers</h3>
+<p>In the last WebAIM Screen Reader survey the top 4 most <a href="https://webaim.org/projects/screenreadersurvey10/#used">commonly used screen readers</a> were:</p>
+<ul>
+<li>NVDA 65.6%</li>
+<li>JAWS 60.5%</li>
+<li>VoiceOver 43.9%</li>
+<li>Narrator 37.3%</li>
+</ul>
+<p>And the associated <a href="https://webaim.org/projects/screenreadersurvey10/#os">operating systems</a> were:</p>
+<ul>
+<li>Windows 86.1%</li>
+<li>Mac 9.6%</li>
+<li>Linux 2.9%</li>
+</ul>
+<p>WebAIM noted that <em>&quot;Respondents without disabilitites were nearly 3 times more likely to use Mac OS than respondents with disabilities.&quot;</em>.</p>
+<h3 id="nonvisual-desktop-access-nvda">NonVisual Desktop Access (NVDA)</h3>
+<p>A free, open-source and Windows based. Donations are welcome!</p>
+<ul>
+<li><a href="https://www.nvaccess.org/download/">NonVisual Desktop Access (NVDA)</a></li>
+<li><a href="https://dequeuniversity.com/screenreaders/nvda-keyboard-shortcuts">NVDA Keyboard shortcuts</a></li>
+</ul>
+<h3 id="narrator">Narrator</h3>
+<p>Built into Windows by default.</p>
+<ul>
+<li><a href="https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1">Windows Narrator</a></li>
+<li><a href="https://dequeuniversity.com/screenreaders/narrator-keyboard-shortcuts">Narrator Keyboard shortcuts</a></li>
+</ul>
+<h3 id="job-access-with-speech-jaws">Job Access With Speech (JAWS)</h3>
+<p>A fully featured but paid-for, screen reader.</p>
+<ul>
+<li><a href="https://www.freedomscientific.com/products/software/jaws/">Job Access With Speech (JAWS)</a></li>
+<li><a href="https://dequeuniversity.com/screenreaders/jaws-keyboard-shortcuts">JAWS Keyboard shortcuts</a></li>
+</ul>
+<h3 id="voiceover">VoiceOver</h3>
+<p>Built into MacOs and iOS devices.</p>
+<ul>
+<li><a href="https://support.apple.com/en-ie/guide/voiceover/welcome/mac">MacOS VoiceOver</a></li>
+<li><a href="https://dequeuniversity.com/screenreaders/voiceover-keyboard-shortcuts">VoiceOver Keyboard shortcuts</a></li>
+</ul>
+<h3 id="screen-reader-and-browser-combinations">Screen Reader and Browser combinations</h3>
+<p>Screen readers rely on browsers to interpret accessibility information, and because of differences in proprietary software, behaviour can vary between combinations. This is why it is important to test with more than one screen reader and browser setup.</p>
+<p>According to the <a href="https://webaim.org/projects/screenreadersurvey10/#browsercombos">latest WebAIM survey</a>, the top 5 common combinations were:</p>
+<ul>
+<li>JAWS with Chrome</li>
+<li>NVDA with Chrome</li>
+<li>JAWS with Edge</li>
+<li>NVDA with Firefox</li>
+</ul>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/do-not-disable-zoom/">Don&#39;t Disable Zoom</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/">Web Accessibility with FastHTML</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/intro-accessibility-tree/">A Brief Intro to the Accessibility Tree</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/assistive-technologies/` was built on 2025-11-15T17:47:07.370Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Keyboard Accessibility Basics</title>
+		<meta name="description" content="A beginner&#39;s guide to enabling smooth keyboard-only navigation for accessible web content.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="keyboard-accessibility-basics">Keyboard Accessibility Basics</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/keyboard/" class="post-tag">
+      keyboard
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/navigation/" class="post-tag">
+      navigation
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/skip-links/" class="post-tag">
+      skip-links
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/keyboard_navigation">Keyboard Navigation&quot;</a>&quot;</strong></p>
+<p>This post provides a high-level overview of keyboard accessibility and highlights common issues that can arise.</p>
+<p>In an earlier post, we covered the <a href="/fasthtml-web-a11y/wcag-basics/#pour-the-four-principles">four core principles</a> for web accessibility: Perceivable, <strong>Operable</strong>, Understandable, and Robust (POUR). Keyboard accessibility is essential for making the web <strong>operable</strong>. It's a <a href="https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html">Level A</a> - the lowest level - requirement because it's considered a <strong>basic</strong> accessibility expectation.</p>
+<p>Many people rely on keyboards due to <a href="https://webaim.org/articles/motor/motordisabilities">motor disabilities</a>, temporary injury, or choose to use  them as a personal preference. These keyboard-only users need to navigate content and complete tasks without a mouse, making keyboard accessibility critical for inclusive web experiences.</p>
+<p>The term <em>&quot;keyboard-only users&quot;</em> is a broad term that includes people navigating with a traditional keyboard as well as those using alternative input methods like <a href="https://www.24a11y.com/2018/i-used-a-switch-control-for-a-day/">switch controls</a>, <a href="https://youtu.be/D_Siea79t4M?si=-e0aMqMyyjJSJXRE">sip-and-puff</a>, <a href="https://webaim.org/articles/motor/assistive#headwand">head wands</a> or voice commands.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="an-important-note-for-macos-users">An important note for MacOS users</h2>
+<p>Keyboard accessibility <em>might not be enabled by default</em>. Please see <a href="https://dequeuniversity.com/mac/keyboard-access-mac">Deque University's guide</a> for instructions.</p>
+<h2 id="what-keyboard-users-expect">What keyboard users expect</h2>
+<p>Keyboard navigation is typically <em>linear</em>. Pressing the <code>Tab</code> key should move through the focusable elements on a page with predictable behaviour. Some common keyboard commands are:</p>
+<ul>
+<li><strong><code>Tab</code> or <code>Shift + Tab</code></strong> - Move forwards or backwards through focusable elements.</li>
+<li><strong><code>Enter</code></strong> - Activate links and buttons.</li>
+<li><strong><code>Space</code></strong>-  Toggle checkboxes, activate buttons, or scroll the page.</li>
+<li><strong>Arrow keys</strong> - Navigate within widgets like radiobutton groups, menus, tabs, or sliders.</li>
+<li><strong><code>Home</code> / <code>End</code> (Windows)</strong> or <strong><code>Fn + Left Arrow</code> / <code>Fn + Right Arrow</code> (MacOS)</strong> - Move to first or last item within widgets.</li>
+<li><strong><code>Esc</code></strong> - Close popups, modals, or menus.</li>
+</ul>
+<p>WebAIM provides a <a href="https://webaim.org/techniques/keyboard/#testing">comprehensive list of the most common keyboard interactions</a>.</p>
+<p>Many of these behaviours are <strong>provided automatically by native HTML elements</strong> such as <code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, and <code>&lt;textarea&gt;</code>. When used correctly, these elements handle focus, activation, and keyboard interaction without extra code. Custom controls require additional work to replicate this functionality.</p>
+<h2 id="common-pitfalls">Common pitfalls</h2>
+<h3 id="no-skip-link-s">No Skip link(s)</h3>
+<p>Users are forced to tab through repetitive content and navigation on every page. See <a href="/fasthtml-web-a11y/skip-links/">Skip Links</a> for more details.</p>
+<h3 id="device-dependent-functionality">Device dependent functionality</h3>
+<p>This usually means requiring mouse input to complete a task or reveal information.</p>
+<h4 id="relying-on-the-title-attribute-to-reveal-information">Relying on the <code>title</code> attribute to reveal information</h4>
+<p>The <code>title</code> attribute is often misused as a type of &quot;tooltip&quot; on <code>&lt;input&gt;</code> elements to show expected input or formatting. It may be announced by some screen readers, but inconsistently, and is not available to keyboard-only users. The Web Hypertext Application Technology Working Group (WHATWG)'s HTML Spec states that <a href="https://html.spec.whatwg.org/multipage/dom.html#the-title-attribute">&quot;relying on the title attribute is currently discouraged&quot;</a> due to poor accessibility.</p>
+<p><strong>Note:</strong> Important information should be <strong>visible by default</strong> and not depend on a specific or interaction to reveal it.</p>
+<h4 id="javascript-mouse-specific-event-handling">JavaScript mouse-specific event handling</h4>
+<p>Additional code may be written for keyboard-based events but consider if the necessary functionality can be provided using device-independent JavaScript event handlers.</p>
+<p>Device-independent event handlers include:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/focus_event"><code>onfocus</code></a> - triggers when an element receives focus.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event"><code>onblur</code></a> - triggers when an element loses focus.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event"><code>onchange</code></a> - triggers when an element's value changes and loses focus.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event"><code>onclick</code></a> - triggers when <code>&lt;button&gt;</code> elements are activated via keyboard or mouse.</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event"><code>onsubmit</code></a> - triggers when forms are submitted.</li>
+</ul>
+<h4 id="css-rules-for-mouse-only-interactions">CSS rules for mouse-only interactions</h4>
+<p>As mentioned in the <code>title</code> attribute section above, don't rely on device-specific interactions to reveal important information, <strong>make it visible by default</strong>.</p>
+<p>Instead of relying solely on <code>:hover</code>, consider including <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus"><code>:focus</code></a> and <a href="%5B%60:active%60%5D(https://developer.mozilla.org/en-US/docs/Web/CSS/:active)"><code>:active</code></a> states so styles work for mouse, keyboard and touch. For example:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token comment">/* Instead of hover-only */</span>
+<span class="token selector">.tooltip:hover .tooltip-content</span> <span class="token punctuation">{</span>
+  ...
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Use combined states */</span>
+<span class="token selector">.tooltip:hover .tooltip-content,
+.tooltip:focus .tooltip-content,
+.tooltip:active .tooltip-content</span> <span class="token punctuation">{</span>
+  <span class="token comment">/* apply styling...*/</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="tab-order-does-not-follow-visual-order">Tab order does not follow visual order</h3>
+<p>When pressing <code>Tab</code> or <code>Shift + Tab</code> does not follow a logical visual sequence i.e. <em>next</em> or <em>previous</em> focusable element, navigation becomes confusing for keyboard users.</p>
+<p>To prevent this, try to keep the HTML code in a logical reading order to ensure that the tab sequence matches the visual layout.</p>
+<p>Be aware <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/order">CSS Grid's <code>order</code> property</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Ordering_flex_items#the_order_property">Flexbox's <code>order</code> property</a> can change the <a href="https://gridbyexample.com/examples/example14/">visual order of elements</a> without changing the DOM. This can create mismatches between what the users see and how the keyboard focus moves through the page.</p>
+<p>Avoid using <em>positive</em> <code>tabindex</code> values - e.g. <code>tabindex=&quot;1&quot;, tabindex=&quot;2&quot;</code> - they can create unpredictable tab order. Use <code>tabindex=&quot;0&quot;</code> to <em>add</em> otherwise non-focusable elements to the natural tab order and <code>tabindex=&quot;-1&quot;</code> to <em>remove</em> elements from the tab order.</p>
+<h4 id="verifying-tab-order">Verifying <code>Tab</code> order</h4>
+<p>The WebAIM WAVE extension can visually display the tab order of interactive elements. This helps to confirm that the sequence matches the expected reading order and avoids confusion for keyboard users.</p>
+<p>WAVE is <a href="https://chromewebstore.google.com/detail/jbbplnpkjmmeebjpijfedlgcdilocofh?utm_source=item-share-cb">browser extension</a> launched from the browser extension toolbar or the context menu &quot;WAVE this page&quot; option.</p>
+<p>Below is a screenshot of WAVE showing the tab order and visual order of the <a href="https://www.bbc.co.uk/rd">BBC R&amp;D homepage</a>.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/keyboard-navigation/UUA6ERfFcF-960.avif 960w"><source type="image/webp" srcset="/fasthtml-web-a11y/keyboard-navigation/UUA6ERfFcF-960.webp 960w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/keyboard-navigation/UUA6ERfFcF-960.png" alt="WAVE tool displaying the tab order of elements on the BBC Research and Development homepage" width="960" height="540"></picture></p>
+<h3 id="low-contrast-or-no-visible-focus">Low contrast or no visible focus</h3>
+<p>Focus indicators for keyboard users serve the same purpose as the cursor for mouse users. If users cannot see where they are on a page, they cannot navigate or complete a task confidently.</p>
+<p>This is often caused by removing outlines (e.g. <code>outline: none</code>) or styling focus outlines with very low contrast making they difficult to see against the page's background. See <a href="/fasthtml-web-a11y/focus-indicators/">post on creating accessible focus for keyboard users</a>.</p>
+<h3 id="keyboard-traps">Keyboard traps</h3>
+<p>Users can become stuck in controls they cannot <code>Esc</code> or <code>Tab</code> out of, e.g. modals requiring users to click on an icon to close them. Ensure modals and complex widgets allow exiting using keyboard commands.</p>
+<h3 id="custom-components-without-keyboard-support">Custom components without keyboard support</h3>
+<p>Replacing native buttons or links, often with divs or spans, without providing full keyboard functionality is a frequent accessibility failure.</p>
+<p>As mentioned earlier, use native HTML elements (when possible) for their built-in keyboard support, or ensure custom components have proper focus management and ARIA attributes (will be covered in a future post).</p>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html">2.1.1 Keyboard (Level A)</a></strong> - All functionality must be operable using a keyboard or other assistive input, without requiring a mouse.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap">2.1.2 No Keyboard Trap (Level A)</a></strong> - Users must be able to navigate through and interact with a page without getting &quot;stuck&quot; on any element.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-order">2.4.3 Focus Order (Level A)</a></strong> - The order in which users navigate through the interactive elements on a page must be logical and predictable.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus">1.4.13 Content on Hover or Focus (Level AA)</a></strong> - Content that appears when a user focuses or hovers over an element must be easy to close and remain visible as long as needed.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/intro-accessibility-tree/">A Brief Intro to the Accessibility Tree</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/landmarks/">Landmarks Help Screen Reader Users Navigate</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/empty-buttons/">Don&#39;t Create Empty Buttons</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/focus-indicators/">Focus Indicators Are the Keyboard User&#39;s Cursor</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/keyboard-navigation/` was built on 2025-11-15T17:47:07.374Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

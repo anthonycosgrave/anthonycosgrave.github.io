@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Don&#39;t Rely on Colour Alone</title>
+		<meta name="description" content="Learn why colour should not be the only means of conveying information and how to provide accessible alternatives.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="dont-rely-on-colour-alone">Don&#39;t Rely on Colour Alone</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/colour-blindness/" class="post-tag">
+      colour-blindness
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/low-vision/" class="post-tag">
+      low-vision
+    </a>
+  </li>
+
+</ul>
+
+<p>Colour is a powerful design tool. It can be used to draw attention, express meaning, and create hierarchy. It is important to be aware that not everybody perceives colours in the same way. According to <a href="https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/">Colour Blind Awareness</a>:</p>
+<ul>
+<li>Approximately 8% of men (1 in 12) and 0.5% of women (1 in 200) are &quot;colour blind&quot;, meaning they have difficulty perceiving or distinguishing between certain colours.</li>
+<li>The most common types are <em>protanopia</em> (reduced red perception) and <em>deuteranopia</em> (reduced green perception).</li>
+<li>A very small number of people have <em>achromatopsia</em> (complete colour blindness).</li>
+<li>Colour vision loss is not always genetic trait, it can develop due <a href="https://www.colourblindawareness.org/colour-blindness/causes-of-colour-blindness/acquired-colour-vision-defects/">illness, accidents and ageing</a>.</li>
+</ul>
+<p>These examples highlight why relying solely on colour is not acceptable and why avoiding colour dependence is a baseline (Level A) requirement for web accessibility.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="colours-indicating-states">Colours indicating states</h2>
+<p>One of the most common examples of relying on colour is <strong>form validation</strong>.</p>
+<p>The design of forms, validation, and feedback in accessible ways is a detailed topic and will be covered in a future post.</p>
+<p>Within the context of colour use, it is very common for red to indicate an error or invalid input, while green indicates valid data or successful action.</p>
+<h3 id="form-validation-with-colours-only">Form validation with colours only</h3>
+<p>In the example below, the &quot;Name&quot; field is valid, and the &quot;Email&quot; field is invalid as it is not a proper email address.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/g8I3NYVD-_-480.avif 480w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/g8I3NYVD-_-480.webp 480w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/g8I3NYVD-_-480.png" alt="Name input field with a green border to indicate valid date and an email field with a red border because it contains an invalid email address" width="480" height="228"></picture></p>
+<p>Here are the same fields with <em>protanopia</em>. Notice how difficult the colours are to distinguish:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/JlrXPoMlg3-480.avif 480w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/JlrXPoMlg3-480.webp 480w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/JlrXPoMlg3-480.png" alt="Name input field and email address field but the colours are not distinguishable as different with red-green colour blind filter applied" width="480" height="228"></picture></p>
+<h3 id="form-validation-with-additional-text-and-icon">Form validation with additional text and icon</h3>
+<p>The example has been updated with icons and error feedback to avoid the reliance on colours.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/FrAHZAF5lM-480.avif 480w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/FrAHZAF5lM-480.webp 480w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/FrAHZAF5lM-480.png" alt="An email field with a red border and red cross icon and error text because it contains an invalid email address" width="480" height="228"></picture></p>
+<p>And with <em>deuteranopia</em>:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/i9vOC_y630-480.avif 480w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/i9vOC_y630-480.webp 480w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/i9vOC_y630-480.png" alt="An email field with a border, a cross icon and error text because it contains an invalid email address. The colours are not easily discernible as a red-green colour blind filter has been applied" width="480" height="228"></picture></p>
+<h3 id="system-status-in-user-interfaces">System status in user interfaces</h3>
+<p>Another common uses of red and green:</p>
+<ul>
+<li><strong>Hardware</strong>: monitoring software indicates computing / networking resources are &quot;offline&quot; with device's name in red and &quot;online&quot; in green.</li>
+<li><strong>Transportation</strong>: timetables using green for &quot;on time&quot; and red for &quot;delay&quot; or &quot;cancelled&quot;.</li>
+<li><strong>Build systems</strong>: test names in green if they pass and red if they fail.</li>
+<li><strong>Chat software</strong>: a circle icon where &quot;active&quot; is green and &quot;busy&quot; is red.</li>
+</ul>
+<p>All of these examples would benefit from including icons and/or text to reduce reliance on colour alone. For more compact or minimalist interfaces, consider using different icon shapes (such as circles, squares, or triangles) to distinguish between states.</p>
+<p>In the following sections, the left side of each image is a &quot;full colour&quot; version of a fake transport timetable, and the right side is the same timetable with colour vision loss rendering applied to it.</p>
+<h4 id="example-1-colour-coded-text-only">Example 1: colour-coded text only</h4>
+<p>As you can see in this example, not only is the difference between the statuses difficult to distinguish but the text itself is difficult to read because it falls below the <a href="/fasthtml-web-a11y/low-contrast-text/#the-text-contrast-requirements">required 4.5:1 ratio</a>.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/aG3nMzER3Q-1080.avif 1080w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/aG3nMzER3Q-1080.webp 1080w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/aG3nMzER3Q-1080.png" alt="" width="1080" height="300"></picture></p>
+<h4 id="example-2-colour-coded-icons">Example 2: colour-coded icons</h4>
+<p>It's common for user interfaces to use uniform shapes or icons for the sake of simplicity (coding and styling), often when elements or components are generated programmatically from data. As the example below demonstrates, the colour coding of the icons alone is not enough to distinguish between the statuses. In fact, the uniformity almost makes it harder than the previous colour-coded text example.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/4Fn9bIeGE_-1080.avif 1080w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/4Fn9bIeGE_-1080.webp 1080w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/4Fn9bIeGE_-1080.png" alt="" width="1080" height="292"></picture></p>
+<h4 id="example-3-distinctive-icons">Example 3: distinctive icons</h4>
+<p>By adding distinctive shapes and symbols alongside colour, each status is now easily identifiable even with colour vision loss.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/QzkOwydfZr-1080.avif 1080w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/QzkOwydfZr-1080.webp 1080w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/QzkOwydfZr-1080.png" alt="" width="1080" height="292"></picture></p>
+<h2 id="links-without-underlines">Links without underlines</h2>
+<p>Blue underlined links are a <strong>long-standing web convention</strong>, born out of the necessity to <a href="https://blog.mozilla.org/en/internet-culture/deep-dives/why-are-hyperlinks-blue/">differentiate links from text on terminal UIs</a>. They are easily recognisable and remain one of the most effective visual cues for identifying links in bodies of text.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/4V7k9Mn-37-728.avif 728w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/4V7k9Mn-37-728.webp 728w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/4V7k9Mn-37-728.png" alt="" width="728" height="185"></picture></p>
+<p>Some modern designs and CSS frameworks remove these default styles for &quot;cleaner&quot; or “minimalist” appearance. Frameworks such as Tailwind CSS reset <a href="https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/preflight.css">many element styles</a> to provide a fresh slate to start from, leaving it up to developers to reintroduce styles and functionality via utility CSS classes. For links this often means resetting the text <code>color</code> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration"><code>text-decoration</code></a> properties:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">a</span> <span class="token punctuation">{</span>
+  ...
+  <span class="token property">color</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+  <span class="token property">text-decoration</span><span class="token punctuation">:</span> inherit<span class="token punctuation">;</span>
+  ...
+<span class="token punctuation">}</span></code></pre>
+<p>Without underlines and colour, links become visually indistinguishable from surrounding text, forcing people to search word-by-word or, if they are able to use a mouse, rely on the cursor changing to the <a href="https://www.w3schools.com/cssref/playit.php?filename=playcss_cursor&amp;preval=pointer"><code>pointer</code> icon</a> to find what's clickable.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/pCVwIxeQ9f-728.webp 728w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/pCVwIxeQ9f-728.gif" alt="" width="728" height="185"></picture></p>
+<h3 id="links-do-not-have-to-be-blue">Links do not have to be blue</h3>
+<p>It's fine to change the <code>color</code> property as long as it meets the <strong>4.5:1 text contrast ratio</strong>. See this previous post detailing ways to resolve <a href="/fasthtml-web-a11y/low-contrast-text/#resolving-contrast-issues">low contrast text issues</a>.</p>
+<p>Be aware that non-standard colours may still confuse people used to the conventional styling. In 2016, <a href="https://mashable.com/article/google-black-links">Google briefly experimented with changing links to black</a>, which left people <a href="https://www.nbcnews.com/tech/tech-news/google-tests-black-links-people-see-red-n572171">confused and annoyed</a>. Google later responded: <em>&quot;We're not quite sure that black is the new blue&quot;</em>.</p>
+<h3 id="when-underlines-can-be-removed">When underlines can be removed</h3>
+<p>Underlines <em>can</em> be removed in <strong>clearly defined</strong> UI components, e.g. navigation bars, where the link text is on its own and it is visually obvious that it's interactive. In bodies of text, however, underlines should not be removed.</p>
+<h2 id="charts-graphs-and-visual-data">Charts, graphs, and visual data</h2>
+<p>Reliance on colour should also be avoided in visual representations of data. Augment the use of colour with additional supporting information:</p>
+<ul>
+<li><strong>Label data directly</strong> instead of relying on colour-coded keys or legends.</li>
+<li><strong>Include a legend</strong> with clear, descriptive labels when multiple data types or categories are shown.</li>
+<li><strong>Use patterns or textures (stripes, dots, shapes)</strong> in combination with colours to differentiate sections, segments or bars.</li>
+<li><strong>Provide a data table alternative</strong> so the same information can be read by screen readers.</li>
+</ul>
+<p>For more practical guidance for creating accessible presentations of complex data sets please see <a href="https://www.mass.gov/info-details/data-visualization-accessibility">Data Visualization Accessibility</a>.</p>
+<h2 id="referencing-colours-in-text">Referencing colours in text</h2>
+<p>Avoid using colours alone in instructions or descriptions. Aside from causing issues for people with colour vision loss, assistive technologies like screen readers have no ability to help blind users understand colours. Use names, labels, or positions instead:</p>
+<ul>
+<li>Instead of &quot;Click the green button&quot;, use &quot;Click the Accept button&quot;.</li>
+<li>Replace phrases like &quot;Refer to the blue section&quot; with &quot;Refer to the Sales section of the chart&quot;.</li>
+<li>&quot;Completed tasks will appear under the &quot;Done&quot; heading&quot; is better than &quot;Completed tasks will appear in green&quot;.</li>
+<li>Swap statements like &quot;All fields highlighted in red are required&quot; for &quot;Check the fields marked as required&quot;.</li>
+</ul>
+<h2 id="emulating-colour-related-vision-issues">Emulating colour related vision issues</h2>
+<p>A useful question to ask is: <em>&quot;If I removed ALL colour from this page or component, would someone still understand what to do or where to click?&quot;</em>.</p>
+<p>It can be difficult to appreciate the impact of colour vision loss without experiencing it directly, but there are tools to help provide some degree of understanding.</p>
+<h3 id="testing-individual-colour-combinations">Testing individual colour combinations</h3>
+<p><a href="https://www.whocanuse.com/">Whocanuse.com</a> helps you see how different text and background colour combinations appear to people with many types of colour vision loss (and other visual impairments), while also showing their contrast ratios.</p>
+<h3 id="browser-based-emulation-tools">Browser-based emulation tools</h3>
+<p>Most Chromium browsers - e.g. Chrome, Edge, Brave - provide a very useful way to emulate the common colour vision issues in their Developer Tools.</p>
+<p>With DevTools open:</p>
+<ol>
+<li>Open the Command Palette via <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (MacOS).</li>
+<li>Type &quot;Rendering&quot;.</li>
+<li>Press Enter or click on &quot;Show Rendering&quot;.</li>
+<li>On on the &quot;Rendering&quot; panel scroll down to find the dropdown list titled &quot;Emulate vision deficiencies&quot;.</li>
+<li>Click an item in list - Protanopia, Deuteranopia, Tritanopia or, Achromatopsia - to change the rendering of the current web page.</li>
+</ol>
+<p><strong>Be aware that once the DevTools are closed the emulated vision deficiency will be stopped too.</strong></p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/WQfxF96IBC-207.avif 207w"><source type="image/webp" srcset="/fasthtml-web-a11y/do-not-rely-on-colour-alone/WQfxF96IBC-207.webp 207w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/do-not-rely-on-colour-alone/WQfxF96IBC-207.png" alt="A dropdown list of the common vision deficiencies that Chrome DevTools can emulate" width="207" height="262"></picture></p>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html">1.4.1 Use of Color (Level A)</a></strong> - Colour should not be relied on as the only way to communicate information. This applies to text, icons, buttons, charts, links, and all interface elements.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html">1.4.11 Non-text Contrast (Level AA)</a></strong> - User interface components and graphical objects (e.g., charts, diagrams, icons) must have a contrast of at least 3:1 with nearby colours so they are easy to see and use.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/do-not-disable-zoom/">Don&#39;t Disable Zoom</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/empty-buttons/">Don&#39;t Create Empty Buttons</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/low-contrast-text/">Don&#39;t use Low Contrast Text and Colours</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/empty-links/">Don&#39;t Create Empty Links</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/do-not-rely-on-colour-alone/` was built on 2025-11-15T17:47:07.371Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

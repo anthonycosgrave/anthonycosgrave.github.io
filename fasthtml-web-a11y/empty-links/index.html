@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Don&#39;t Create Empty Links</title>
+		<meta name="description" content="How to prevent empty links so that screen readers and assistive technologies correctly announce them.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="dont-create-empty-links">Don&#39;t Create Empty Links</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/empty-links/" class="post-tag">
+      empty-links
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/links/" class="post-tag">
+      links
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/screen-reader/" class="post-tag">
+      screen-reader
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/empty_links">Empty Links</a>&quot;. Screen reader required!</strong></p>
+<p>Since 2019, empty links rank as <strong>one of the most common accessibility issues</strong>. According to the 2025 WebAIM Millions Project <a href="https://webaim.org/projects/million/#wcag">45.4% of homepages</a> contained empty links.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="what-is-an-empty-link">What is an empty link?</h2>
+<p>An empty link is a link with no <strong>accessible name</strong> (accName), meaning assistive technology (AT) users have no way to know what the link does. This often happens when visible link text is replaced with an icon or image - e.g. a shopping cart icon replaces “View cart”, or a social media logo replaces the text of a company name - without providing a text alternative for AT.</p>
+<h3 id="a-standard-text-based-link-example">A standard text-based link example</h3>
+<p>A typical text-based link exposes that text as its accName. Additionally, links are styled by default - typically underlined and coloured - to make it visually clear that it's a link.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span><span class="token string">'My GitHub Profile'</span><span class="token punctuation">,</span> href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span><span class="token punctuation">)</span></code></pre>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/YDlYs4MdQY-310.avif 310w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/YDlYs4MdQY-310.webp 310w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/YDlYs4MdQY-310.png" alt="A text link with the words My GitHub Profile" width="310" height="87"></picture></p>
+<p>And this can be seen in the &quot;Accessibility&quot; panel in browser DevTools.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/qhfY7oLL8n-341.avif 341w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/qhfY7oLL8n-341.webp 341w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/qhfY7oLL8n-341.png" alt="A link with an accessible name My GitHub Profile derived from its text content" width="341" height="150"></picture></p>
+<h4 id="writing-accessible-link-text">Writing accessible link text</h4>
+<p>Only using text for links does not automatically make them accessible. The text should be clear and descriptive for everyone and, where possible, make sense when read or heard out of context. In general:</p>
+<ul>
+<li>Don't be vague: avoid “Click here”, “Read more”, or “Download” that give no context when read out of place.</li>
+<li>Be <strong>specific</strong>: “Read more about Physical Reservoir Computing” is better than “Read more”.</li>
+<li>Keep it <strong>simple</strong>: avoid <em>unnecessary</em> jargon or complex wording.</li>
+<li>Avoid redundant phrasing like “Click here to” or “link to”. For example, instead of “Click here to download”, use “Download the 2025 Budget Breakdown (PDF)”.</li>
+</ul>
+<p>Clear, descriptive link text improves both accessibility and usability.</p>
+<h3 id="an-empty-link-example">An empty link example</h3>
+<p>The text has been replaced with image to display a Github logo.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>Img<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'images/logos/github.svg'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span><span class="token punctuation">)</span></code></pre>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/O1hLOwShEX-155.avif 155w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/O1hLOwShEX-155.webp 155w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/O1hLOwShEX-155.png" alt="A link that is represented by the GitHub icon" width="155" height="110"></picture></p>
+<p>A sighted user may recognise the image and understand the purpose of the link but as the screenshot below shows, nothing meaningful is exposed to AT apart from its <code>role</code>. As it's a native HTML element the <code>role</code> is provided <strong>automatically</strong>.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/3cQ_AtPjdW-331.avif 331w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/3cQ_AtPjdW-331.webp 331w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/3cQ_AtPjdW-331.png" alt="DevTools Accessibility panel showing no accessible name information" width="331" height="151"></picture></p>
+<h2 id="how-they-appear-to-a-screen-reader-user">How they appear to a screen reader user</h2>
+<p>The differences between a standard text link and an empty link becomes clearer when announced by screen readers.</p>
+<h3 id="firefox-and-nvda">Firefox and NVDA</h3>
+<p>The text link is announced as <em>“My GitHub Profile link”</em> which is clear and meaningful.</p>
+<p>The empty link is announced as <em>“your username graphic link”</em> NVDA is using <strong>the URL path</strong> as the name, which gives no indication of purpose. In many real cases, that path could be long and/or unreadable - UUIDS, query strings etc. - making the user experience even worse.</p>
+<lite-youtube videoid="XQovIURDfug" title="Empty Link Example with Firefox and NVDA" style="background-image: url('https://i.ytimg.com/vi/XQovIURDfug/hqdefault.jpg');">
+  <a href="https://youtu.be/XQovIURDfug" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Empty Link Example with Firefox and NVDA</span>
+  </a>
+</lite-youtube>
+<p>Here is how the links appear in NVDA's &quot;Elements&quot; list via the keyboard command <code>Insert + F7</code>:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/Evo8KeLYEB-522.avif 522w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/Evo8KeLYEB-522.webp 522w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/Evo8KeLYEB-522.png" alt="A link with an accessible name and an empty link in NVDA's &quot;Links&quot; element list" width="522" height="478"></picture></p>
+<h3 id="edge-and-windows-narrator">Edge and Windows Narrator</h3>
+<p><strong>Note:</strong> Microsoft Edge is built on Chromium (like Google Chrome), so this example also illustrates how other Chromium-based browsers typically handle empty links with screen readers.</p>
+<p>The text link is announced simply as <em>“Link, My GitHub Profile”</em> which is clear and understandable.</p>
+<p>The empty link is announced as <em>“Link, to get missing image descriptions open the context menu”</em> and then Narrator continues by reading out the entire URL. This gives the user no meaningful indication of the link's purpose and adds unnecessary noise.</p>
+<lite-youtube videoid="RpW3v3RjZBY" title="Empty Link Example with Edge and Windows Narrator" style="background-image: url('https://i.ytimg.com/vi/RpW3v3RjZBY/hqdefault.jpg');">
+  <a href="https://youtu.be/RpW3v3RjZBY" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Empty Link Example with Edge and Windows Narrator</span>
+  </a>
+</lite-youtube>
+<p>And in Narrator's &quot;Elements&quot; List via <code>Insert + F7</code>:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/XpLol0yofN-394.avif 394w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/XpLol0yofN-394.webp 394w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/XpLol0yofN-394.png" alt="A link with an accessible name and an empty link in Narrator's &quot;Links&quot; element list" width="394" height="262"></picture></p>
+<h3 id="browser-attempts-to-fix-missing-content">Browser attempts to &quot;fix&quot; missing content</h3>
+<p>As shown in the Edge and Narrator example above, certain browsers can identify an issue and attempt to resolve it. Both <a href="https://support.microsoft.com/en-us/microsoft-edge/accessibility-features-in-microsoft-edge-4c696192-338e-9465-b2cd-bd9b698ad19a#bkmk_get_image_descriptions">Edge</a> and <a href="https://support.google.com/chrome/answer/9311597?hl=en">Chrome</a> offer the option to search via Google or Bing to find information about the image being used for the link. In practice, this behaviour is unreliable (failing more than it succeeds in my experience) and happens even when the related accessibility settings have been <strong>turned off</strong> in both browsers</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/cUM5bCZz40-686.avif 686w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/cUM5bCZz40-686.webp 686w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/cUM5bCZz40-686.png" alt="Get image descriptions from Google accessibility setting in Chrome that is turned off" width="686" height="80"></picture></p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/u3wGjV1_gg-1026.avif 1026w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/u3wGjV1_gg-1026.webp 1026w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/u3wGjV1_gg-1026.png" alt="Get image descriptions for screen readers setting in Edge that is turned off" width="1026" height="87"></picture></p>
+<h2 id="fix-empty-links-by-providing-an-accessible-name">Fix empty links by providing an accessible name</h2>
+<p>As mentioned at the start, an empty link does not provide an accName for the accessibility tree which in turns means there is nothing useful available to the AT. The <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Algorithm</a> is used determine what the accName of an element should be. The list of properties used by the algorithm is visible in most browser's DevTools in the &quot;Accessibility&quot; panel in the &quot;Name&quot; section.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/Tcgs4dkzb2-354.avif 354w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/Tcgs4dkzb2-354.webp 354w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/Tcgs4dkzb2-354.png" alt="List of properties in Chome DevTools for determining an accessible name" width="354" height="172"></picture></p>
+<p>In the spirit of the <a href="https://www.w3.org/TR/using-aria/#rule1">first rule of ARIA</a> - use native HTML and attributes before turning to ARIA - these solutions will follow a similar approach.</p>
+<p>The guidelines given at the start about <a href="#writing-accessible-link-text">writing accessible link text</a>, in general, apply for the fixes that will be discussed below.</p>
+<p>Before we look at the different ways to fix empty links, here's what a properly accessible link sounds like with a screen reader.</p>
+<h3 id="an-accessible-link-with-firefox-and-nvda">An accessible link with Firefox and NVDA</h3>
+<lite-youtube videoid="ip4RBzI9OoQ" title="Accessible Link With Image Example - Firefox and NVDA" style="background-image: url('https://i.ytimg.com/vi/ip4RBzI9OoQ/hqdefault.jpg');">
+  <a href="https://youtu.be/ip4RBzI9OoQ" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Accessible Link With Image Example - Firefox and NVDA</span>
+  </a>
+</lite-youtube>
+<h3 id="an-accessible-link-narrator-and-edge">An accessible link Narrator and Edge</h3>
+<p><strong>Note:</strong> <strong>Microsoft Edge is a Chromium-based browser (like Google Chrome), so this example also reflects how properly named links can work in other Chromium browsers.</strong></p>
+<lite-youtube videoid="FR3vsNiYcks" title="Accessible Link With Image Example - Narrator and Edge" style="background-image: url('https://i.ytimg.com/vi/FR3vsNiYcks/hqdefault.jpg');">
+  <a href="https://youtu.be/FR3vsNiYcks" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Accessible Link With Image Example - Narrator and Edge</span>
+  </a>
+</lite-youtube>
+<h3 id="option-1-use-the-img-alt-text-attribute">Option 1 Use the <code>&lt;img&gt;</code> <code>alt</code> text attribute</h3>
+<p>Technically, the <a href="http://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/alt"><code>alt</code></a> text is intended as an <strong>alternate text description</strong> of an image for the accessibility tree. However, when an image replaces link text it is considered a <strong>functional image</strong> and the <code>alt</code> attribute can be used to tell an AT user <strong>what the link will do</strong> instead of describing the image.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+  Img<span class="token punctuation">(</span>
+      src<span class="token operator">=</span><span class="token string">'images/bootstrap/github.svg'</span><span class="token punctuation">,</span> 
+      alt<span class="token operator">=</span><span class="token string">'Visit my GitHub profile'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span>
+<span class="token punctuation">)</span></code></pre>
+<p>The <code>alt</code> attribute provides the accName for the empty link:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/LQkeocv5g2-299.avif 299w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/LQkeocv5g2-299.webp 299w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/LQkeocv5g2-299.png" alt="Link with Go to Github.com as its accessible name in DevTools" width="299" height="135"></picture></p>
+<h4 id="alt-text-tips-for-functional-images"><code>alt</code> text tips for functional images</h4>
+<p>Tell the user <strong>where</strong> they'll go or <strong>what</strong> will happen not how to interact or what the element is.</p>
+<ol>
+<li>Describe the <em>purpose</em> of the link.</li>
+<li>Be brief and unique, avoid generic phrases like 'Read More' or 'Download Here'.</li>
+<li>Don't use actions like 'click', 'tap' or 'press'.</li>
+<li>Don't reference the elements like 'link' or 'image'.</li>
+</ol>
+<h3 id="option-2-use-visually-hidden-text">Option 2 - Use 'visually hidden' text</h3>
+<p>Also known as 'sr-only' or 'screen reader only' in other CSS libraries like older versions of Bootstrap and the current version of <a href="https://tailwindcss.com/docs/display#screen-reader-only">Tailwind</a> it is a way to hide text while still making it accessible to AT.</p>
+<p>As mentioned in the <a href="/fasthtml-web-a11y/intro-accessibility-tree/#the-accessibility-tree">&quot;Intro to the Accessibility Tree&quot; post</a>, elements that are hidden from the DOM do not become part of the accessibility tree. In this case, the content is made invisible to sighted users while keeping it in the DOM and therefore available to the accessibility tree.</p>
+<p>For a thoroughly detailed breakdown of the technique please read <a href="https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html">Scott O'Hara's &quot;Inclusively Hidden&quot;</a> post. It can be used to hide a lot of other content in an accessible way.</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">.visually-hidden</span> <span class="token punctuation">{</span>
+    <span class="token property">clip</span><span class="token punctuation">:</span> <span class="token function">rect</span><span class="token punctuation">(</span>0 0 0 0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">clip-path</span><span class="token punctuation">:</span> <span class="token function">inset</span><span class="token punctuation">(</span>50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span>
+    <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+    <span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>To prevent screen readers from a &quot;double announcement&quot; of <strong>both</strong> i.e. the <code>alt</code> text AND the visually hidden text, set <code>alt</code> to an <strong>empty string</strong>.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+    Img<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'images/bootstrap/github.svg'</span><span class="token punctuation">,</span> alt<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Span<span class="token punctuation">(</span><span class="token string">'Vist my GitHub profile'</span><span class="token punctuation">,</span> cls<span class="token operator">=</span><span class="token string">'visually-hidden'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span>
+<span class="token punctuation">)</span></code></pre>
+<p>The accName is now provided by the text content of the <code>Span()</code>.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/MVHcpYnPHY-285.avif 285w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/MVHcpYnPHY-285.webp 285w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/MVHcpYnPHY-285.png" alt="Go to Github.com as its accessible name in DevTools" width="285" height="137"></picture></p>
+<p>This approach works well across AT and browsers and is easy to localise if needed.</p>
+<h3 id="option-3-use-aria-label-on-the-link">Option 3 - Use <code>aria-label</code> on the link</h3>
+<p><code>aria-label</code> adds a <em>programmatic</em> label (i.e. it exists in code but not visually) to elements and works well for <strong>short</strong> amounts of text.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+    Img<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'images/bootstrap/github.svg'</span><span class="token punctuation">,</span> alt<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span><span class="token punctuation">,</span> 
+    aria_label<span class="token operator">=</span><span class="token string">'Visit My GitHub profile'</span>
+<span class="token punctuation">)</span></code></pre>
+<p>The accName will come now from the <code>aria-label</code> text. Some screen readers will announce the <code>&lt;a&gt;</code> as a &quot;link&quot; when announcing the text therefore to avoid confusing repetition - e.g. &quot;Link go to github.com link&quot; or &quot;Go to github.com link link&quot; - don't include &quot;Link&quot; in the <code>aria-label</code> text.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/OvsmH2uZDH-298.avif 298w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/OvsmH2uZDH-298.webp 298w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/OvsmH2uZDH-298.png" alt="aria-label in DevTools that reads Go to Github.com" width="298" height="195"></picture></p>
+<p><strong>Note:</strong> There are known issues with the translation of text in <code>aria-label</code>. For a detailed explanation see <a href="https://adrianroselli.com/2019/11/aria-label-does-not-translate.html#Update06">Adrian Roselli's &quot;aria-label Does Not Translate&quot;</a>.</p>
+<h3 id="when-using-inline-svg-images">When using inline <code>&lt;svg&gt;</code> images</h3>
+<p>There are many benefits to using inline <code>&lt;svg&gt;</code> such as they are exposed to CSS styling (e.g. theme based colour changes using 'currentColor') and JavaScript interaction (e.g. animation). The overall result is the same as using <code>&lt;img&gt;</code> but there are more steps in the process of making them accessible.</p>
+<h4 id="option-1-use-visually-hidden-text">Option 1 - Use 'visually hidden' text</h4>
+<ol>
+<li>Add the <code>&lt;span&gt;</code> with the text you want to visually hide.</li>
+<li>Add <code>role=&quot;img&quot;</code> to the <code>&lt;svg&gt;</code> to ensure AT treats it as one image and not as a group of graphic elements.</li>
+<li>Add <code>aria-hidden=&quot;true&quot;</code> to hide the <code>&lt;svg&gt;</code> from screen readers to prevent any potential double announcements.</li>
+<li>Add <code>focusable=&quot;false&quot;</code> to prevent issues with some versions of browsers where users could confusingly TAB to the SVG itself.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+  Svg<span class="token punctuation">(</span>
+      Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span><span class="token punctuation">,</span>
+      width<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+      height<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+      fill<span class="token operator">=</span><span class="token string">'currentColor'</span><span class="token punctuation">,</span>
+      viewbox<span class="token operator">=</span><span class="token string">'0 0 16 16'</span><span class="token punctuation">,</span>
+      cls<span class="token operator">=</span><span class="token string">'bi bi-github'</span><span class="token punctuation">,</span>
+      role<span class="token operator">=</span><span class="token string">'img'</span><span class="token punctuation">,</span>
+      aria_hidden<span class="token operator">=</span><span class="token string">'true'</span><span class="token punctuation">,</span>
+      focusable<span class="token operator">=</span><span class="token string">'false'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Span<span class="token punctuation">(</span><span class="token string">'Visit my GitHub profile'</span><span class="token punctuation">,</span> cls<span class="token operator">=</span><span class="token string">'visually-hidden'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span>
+<span class="token punctuation">)</span></code></pre>
+<h4 id="option-2-use-aria-label">Option 2 - Use <code>aria-label</code></h4>
+<ol>
+<li>Add an <code>aria-label</code> to the <code>&lt;a&gt;</code> with the text you to expose to AT.</li>
+<li>Add <code>role=&quot;img&quot;</code> to the <code>&lt;svg&gt;</code> to ensure AT treats it as one image and not as a group of graphic elements.</li>
+<li>Add <code>aria-hidden=&quot;true&quot;</code> to the <code>&lt;svg&gt;</code> to hide it from screen readers and prevent any potential double announcements.</li>
+<li>Add <code>focusable=&quot;false&quot;</code> to prevent issues with some versions of browsers where users could confusingly TAB to the SVG itself.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+  Svg<span class="token punctuation">(</span>
+      Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span><span class="token punctuation">,</span>
+      width<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+      height<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+      fill<span class="token operator">=</span><span class="token string">'currentColor'</span><span class="token punctuation">,</span>
+      viewbox<span class="token operator">=</span><span class="token string">'0 0 16 16'</span><span class="token punctuation">,</span>
+      cls<span class="token operator">=</span><span class="token string">'bi bi-github'</span><span class="token punctuation">,</span>
+      role<span class="token operator">=</span><span class="token string">'img'</span><span class="token punctuation">,</span>
+      aria_hidden<span class="token operator">=</span><span class="token string">'true'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+  href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span><span class="token punctuation">,</span>
+  aria_label<span class="token operator">=</span><span class="token string">'Visit My GitHub profile'</span>
+<span class="token punctuation">)</span></code></pre>
+<h2 id="a-more-inclusive-option-image-and-text">A More Inclusive Option - Image and Text</h2>
+<p>While there are legitimate design reasons for not including both, a more inclusive approach is to pair the image or icon with visible link text. The link's accName will come from the text (as seen in the very first example), and the image can be hidden from ATs. This avoids relying on hidden labels and improves clarity for all users.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-links/KDXs5gNFGE-345.avif 345w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-links/KDXs5gNFGE-345.webp 345w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-links/KDXs5gNFGE-345.png" alt="A link with the GitHub Logo and text that reads My GitHub Profile" width="345" height="77"></picture></p>
+<p><strong>Note:</strong> Additional CSS is often needed to align icons and text, especially for spacing and vertical alignment. Styling details will vary depending on your chosen images and CSS framework.</p>
+<h3 id="for-img">For <code>&lt;img&gt;</code></h3>
+<ol>
+<li>Set the <code>alt=''</code> as the icon is now considered &quot;decorative&quot; i.e. providing no useful information requiring an alternate description.</li>
+<li>Add <code>aria-hidden='true'</code> to make sure it is ignored by screen readers.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+    Img<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'images/bootstrap/github.svg'</span><span class="token punctuation">,</span> alt<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">,</span> aria_hidden<span class="token operator">=</span><span class="token string">'true'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">'My GitHub profile'</span>
+    href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span>
+<span class="token punctuation">)</span></code></pre>
+<h3 id="for-inline-svg">For inline <code>&lt;svg&gt;</code></h3>
+<ol>
+<li>Add <code>aria-hidden='true'</code> to hide the SVG from screen readers.</li>
+<li>Add <code>focusable='false'</code> to prevent the user from TAB-ing to the SVG itself.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">A<span class="token punctuation">(</span>
+  Svg<span class="token punctuation">(</span>
+      Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">'M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span><span class="token punctuation">,</span>
+      width<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+      height<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+      fill<span class="token operator">=</span><span class="token string">'currentColor'</span><span class="token punctuation">,</span>
+      viewbox<span class="token operator">=</span><span class="token string">'0 0 16 16'</span><span class="token punctuation">,</span>
+      cls<span class="token operator">=</span><span class="token string">'bi bi-github'</span><span class="token punctuation">,</span>
+      role<span class="token operator">=</span><span class="token string">'img'</span><span class="token punctuation">,</span>
+      aria_hidden<span class="token operator">=</span><span class="token string">'true'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token string">'My GitHub profile'</span><span class="token punctuation">,</span>
+  href<span class="token operator">=</span><span class="token string">'https://github.com/your-username'</span>
+<span class="token punctuation">)</span></code></pre>
+<h2 id="check-the-framework-or-library-providers-advice">Check the framework or library provider's advice</h2>
+<p>As more frameworks and libraries become serious about their accessiblity many of them will offer guidance on the best ways to use their icons. For example, and to their credit, sites like Bootstrap Icons provide <a href="https://icons.getbootstrap.com/#accessibility">accessibility advice</a>. As with everything, it is important to perform your own testing and verify things work as desired.</p>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html">1.1.1 Non-text Content (Level A)</a></strong> - Any content that isn't text, such as images, icons, or buttons, must have a text alternative so assistive technologies can understand its purpose.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html">2.4.4 Link Purpose (In Context) (Level A)</a></strong> - Users should be able to understand what a link does from its text and surrounding context.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only.html">2.4.9 Link Purpose (Link Only) (Level AAA)</a></strong> - Users should be able to understand what a link does from the link's text alone.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html">4.1.2 Name, Role, Value (Level A)</a></strong> - Every interactive element must have a name and role that assistive technologies can detect via the accessibility tree.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/empty-buttons/">Don&#39;t Create Empty Buttons</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/focus-indicators/">Focus Indicators Are the Keyboard User&#39;s Cursor</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/do-not-rely-on-colour-alone/">Don&#39;t Rely on Colour Alone</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/empty-buttons/">Don&#39;t Create Empty Buttons</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/empty-links/` was built on 2025-11-15T17:47:07.372Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

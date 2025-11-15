@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="pretty-atom-feed.xsl" type="text/xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>Blog Title</title>
+  <subtitle>This is a longer description about your blog.</subtitle>
+  <link href="https://example.com/feed/feed.xml" rel="self" />
+  <link href="https://example.com/" />
+  <updated>2025-11-15T00:00:00Z</updated>
+  <id>https://example.com/</id>
+  <author>
+    <name>Your Name</name>
+  </author>
+  <entry>
+    <title>Web Content Accessibility Guideline Basics</title>
+    <link href="https://example.com/fasthtml-web-a11y/wcag-basics/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/wcag-basics/</id>
+    <content type="html">&lt;p&gt;Web accessibility (or &amp;quot;web a11y&amp;quot;) is guided by the &lt;strong&gt;&lt;a href=&quot;https://www.w3.org/TR/WCAG22/&quot;&gt;Web Content Accessibility Guidelines (WCAG)&lt;/a&gt;&lt;/strong&gt;, created by the World Wide Web Consortium (W3C). &lt;a href=&quot;https://www.w3.org/TR/WCAG22/&quot;&gt;WCAG 2.2&lt;/a&gt; is the latest recommended version with &lt;a href=&quot;https://www.w3.org/TR/wcag-3.0/&quot;&gt;WCAG 3.0&lt;/a&gt; currently &amp;quot;working draft&amp;quot; status. New versions build on previous versions refining and expanding the guidelines to address changing technologies and user needs.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;pour-the-four-principles&quot;&gt;POUR - the four principles&lt;/h2&gt;
+&lt;p&gt;At its core, WCAG follows the &lt;strong&gt;POUR&lt;/strong&gt; principles - &lt;a href=&quot;https://www.w3.org/TR/WCAG22/#perceivable&quot;&gt;&lt;strong&gt;Perceivable&lt;/strong&gt;&lt;/a&gt;, &lt;a href=&quot;https://www.w3.org/TR/WCAG22/#operable&quot;&gt;&lt;strong&gt;Operable&lt;/strong&gt;&lt;/a&gt;, &lt;a href=&quot;https://www.w3.org/TR/WCAG22/#understandable&quot;&gt;&lt;strong&gt;Understandable&lt;/strong&gt;&lt;/a&gt;, and &lt;a href=&quot;https://www.w3.org/TR/WCAG22/#robust&quot;&gt;&lt;strong&gt;Robust&lt;/strong&gt;&lt;/a&gt; - ensuring content can be accessed in multiple ways, navigated effectively, understood easily, and is compatible with assistive technologies (AT) (e.g. screen readers, braille displays, screen magnifiers, high contrast modes).&lt;/p&gt;
+&lt;p&gt;Here is a simplified breakdown of the principles:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Perceivable&lt;/strong&gt; - Web content should be accessible via at least one of our senses - sight, hearing, or touch - and that may be through AT.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Operable&lt;/strong&gt; - People must be able to navigate and interact with a site regardless of the input method they use. For example, all interactive elements should be &lt;strong&gt;keyboard-accessible&lt;/strong&gt; for those who cannot use a mouse.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Understandable&lt;/strong&gt; - Content and interactions should be easy to understand and predictable. For instance, form fields should have clear labels and helpful error messages to guide users.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Robust&lt;/strong&gt; - Content must be compatible with various technologies - browsers, computer systems, and AT. The site should work or fail gracefully without negatively impacting accessibility.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;guidelines-and-success-criteria&quot;&gt;Guidelines and success criteria&lt;/h2&gt;
+&lt;p&gt;WCAG breaks down into 13 guidelines grouped under the relevant POUR principle. Each guideline contains one or more testable success criteria, with a total of 86 success criteria as of WCAG 2.2.&lt;/p&gt;
+&lt;p&gt;Success criteria are technical, measurable statements that define what must be true for content to be considered accessible. Each success criterion addresses a specific issue, such as keyboard access or text contrast, and is assigned a conformance level: A, AA, or AAA.&lt;/p&gt;
+&lt;p&gt;Below is a brief overview of the guidelines and related success criteria:&lt;/p&gt;
+&lt;h4 id=&quot;perceivable-making-content-available-to-the-senses&quot;&gt;Perceivable (Making content available to the senses)&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Text Alternatives&lt;/strong&gt; – Provide text alternatives for non-text content.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html&quot;&gt;Success Criterion 1.1.1 (A)&lt;/a&gt;&lt;/strong&gt;: Images need alt text; videos need captions or transcripts.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Time-based Media&lt;/strong&gt; – Offer alternatives for audio and video content (e.g., captions, transcripts, sign language interpretation).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Adaptable&lt;/strong&gt; – Ensure content is adaptable for different presentations without losing meaning (e.g., semantic HTML structure).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Distinguishable&lt;/strong&gt; – Make content easier to see and hear.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html&quot;&gt;Success Criterion 1.4.1 (A)&lt;/a&gt;&lt;/strong&gt;: Colour should not be the sole method of conveying meaning. Example: A form field with an error should have both &lt;strong&gt;colour and an error message or icon&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html&quot;&gt;Success Criterion 1.4.3 (AA)&lt;/a&gt;&lt;/strong&gt;: Text contrast must be at least &lt;strong&gt;4.5:1&lt;/strong&gt; against its background to ensure readability.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;operable-ensuring-users-can-interact-with-the-content&quot;&gt;Operable (Ensuring users can interact with the content)&lt;/h4&gt;
+&lt;ol start=&quot;5&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Keyboard Accessible&lt;/strong&gt; – Ensure all functionality is available via keyboard.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html&quot;&gt;Success Criterion 2.1.1 (A)&lt;/a&gt;&lt;/strong&gt;: All functionality must work using a keyboard alone. Example: Users can navigate your entire website using just the Tab key.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Enough Time&lt;/strong&gt; – Provide users with enough time to read and use content (e.g., adjustable time limits).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Seizures and Physical Reactions&lt;/strong&gt; – Avoid flashing content that can trigger seizures (e.g., flashing less than three times per second).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Navigable&lt;/strong&gt; – Help users navigate and find content efficiently (e.g., clear headings, consistent navigation).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Input Modalities&lt;/strong&gt; – Make interactions easier for users with disabilities (e.g., support for voice input and touch).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;understandable-making-content-clear-and-predictable&quot;&gt;Understandable (Making content clear and predictable)&lt;/h4&gt;
+&lt;ol start=&quot;10&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Readable&lt;/strong&gt; – Make text content easy to read and understand (e.g., using plain language, expandable abbreviations).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Predictable&lt;/strong&gt; – Ensure web pages operate predictably (e.g., consistent navigation and UI behaviour).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Input Assistance&lt;/strong&gt; – Help users avoid and correct mistakes.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html&quot;&gt;Success Criterion 3.3.1 (A)&lt;/a&gt;&lt;/strong&gt;: Forms should clearly identify errors when users input incorrect data. Example: Highlighting a missing required field and providing clear instructions on how to fix it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;robust-ensuring-content-is-compatible-with-at&quot;&gt;Robust (Ensuring content is compatible with AT)&lt;/h4&gt;
+&lt;ol start=&quot;13&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Compatible&lt;/strong&gt; – Maximize compatibility with AT and future tools.
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html&quot;&gt;Success Criterion 4.1.2 (A)&lt;/a&gt;&lt;/strong&gt;: Form fields and interactive elements need a name, role, and value so AT (like screen readers) can accurately tell users what each element is, what it does, and its current state.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;achieving-a-level-of-wcag-conformance&quot;&gt;Achieving a level of WCAG conformance&lt;/h2&gt;
+&lt;p&gt;To claim &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/conformance&quot;&gt;conformance&lt;/a&gt; at Level A, AA, or AAA, all requirements of the relevant success criteria at that level and below must be met. It&#39;s all-or-nothing. Partial conformance is not a thing.&lt;/p&gt;
+&lt;p&gt;A checklist like the &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/quickref/&quot;&gt;WCAG Quick Reference&lt;/a&gt; can help identify which criteria apply as you are not required to meet the criteria for content you don&#39;t have.&lt;/p&gt;
+&lt;h3 id=&quot;level-a&quot;&gt;Level A&lt;/h3&gt;
+&lt;p&gt;The lowest level of conformance defines the fundamental accessibility requirements. Such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html&quot;&gt;Success Criterion 2.1.1 Keyboard&lt;/a&gt; - All functionality must be operable via a keyboard.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;level-aa&quot;&gt;Level AA&lt;/h3&gt;
+&lt;p&gt;This is the level most commonly required by law or policy and the level most organisation aim for. It aims to strike a balance between meeting broad accessibility requirements while also being implementable. It is more nuanced than Level A with requirements like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum&quot;&gt;Success Criterion 1.4.3: Contrast (Minimum)&lt;/a&gt; – All text must have a contrast ratio of at least &lt;strong&gt;4.5:1&lt;/strong&gt; against its background, with a reduced requirement of 3:1 for &amp;quot;large text&amp;quot; - 18pt (~24px) or larger, or 14pt bold (~19px bold) or larger.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;level-aaa&quot;&gt;Level AAA&lt;/h3&gt;
+&lt;p&gt;Level AAA has the &lt;em&gt;strictest&lt;/em&gt; requirements. However, the &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/conformance#conformance-requirements&quot;&gt;W3C&lt;/a&gt; advises &lt;strong&gt;against&lt;/strong&gt; full Level AAA conformance for an entire site &amp;quot;because it is not possible to satisfy all Level AAA success criteria for some content.&amp;quot; For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/no-timing&quot;&gt;Success Criterion 2.2.3: No Timing &lt;/a&gt; - No time limits on any interactions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This should not be taken to mean that Level AAA should be avoided for every success criterion.&lt;/p&gt;
+&lt;p&gt;In some cases, the difference between Level AA and AAA is relatively small, and meeting the higher standard can meaningfully improve accessibility for some users. For example:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Link Purpose&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AA&lt;/strong&gt;: &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context&quot;&gt;Success Criterion 2.4.4: Link Purpose (In Context)&lt;/a&gt; – The purpose of a link must be clear from the link &lt;em&gt;or&lt;/em&gt; its surrounding context.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AAA&lt;/strong&gt;: &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only&quot;&gt;Success Criterion 2.4.9: Link Purpose (Link Only)&lt;/a&gt; – The purpose must be clear from the link text &lt;em&gt;alone&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This often just requires more descriptive link text. For example, instead of &amp;quot;Click here&amp;quot; in a sentence like &amp;quot;Our annual report is now available. Click here to download it,&amp;quot; use &amp;quot;Download the 2025 annual report&amp;quot; as the link text itself.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Headings and Labels&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AA&lt;/strong&gt;: &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels&quot;&gt;Success Criterion 2.4.6: Headings and Labels&lt;/a&gt; – Headings and labels must describe topic or purpose.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AAA&lt;/strong&gt;: &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/section-headings&quot;&gt;Success Criterion 2.4.10: Section Headings&lt;/a&gt; – Use section headings to organise content.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Many pages already have visual structure. Marking it up with semantic headings (like &lt;code&gt;&amp;lt;h2&amp;gt;&lt;/code&gt; or &lt;code&gt;&amp;lt;h3&amp;gt;&lt;/code&gt;) can satisfy this AAA criterion with minimal extra effort.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Colour Contrast&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AA&lt;/strong&gt;: &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum&quot;&gt;1.4.3: Contrast (Minimum)&lt;/a&gt; – All text must have a contrast ratio of at least &lt;strong&gt;4.5:1&lt;/strong&gt; against its background, with a reduced requirement of 3:1 for &amp;quot;large text&amp;quot; - 18pt (~24px) or larger, or 14pt bold (~19px bold) or larger.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AAA&lt;/strong&gt;: &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced&quot;&gt;1.4.6: Contrast (Enhanced)&lt;/a&gt; – Text must have a contrast ratio of at least &lt;strong&gt;7:1&lt;/strong&gt; (4.5:1 for large text).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Meeting AAA conformance in this instance can be as simple as a slight text colour adjustment.&lt;/p&gt;
+&lt;p&gt;Where feasible, meeting selected AAA criteria like these does not require major changes and can improve clarity, legibility, and navigation.&lt;/p&gt;
+&lt;h2 id=&quot;wcag-versus-real-world-usability&quot;&gt;WCAG versus real-world usability&lt;/h2&gt;
+&lt;p&gt;WCAG focuses on &lt;em&gt;technical accessibility&lt;/em&gt;, not overall user experience and so some gaps do exist.&lt;/p&gt;
+&lt;p&gt;It doesn&#39;t fully address neurodiversity, situational impairments (e.g. noisy environments, low lighting), or real-world usability testing. A site can meet every success criterion on the checklist and still be frustrating to use. WCAG also can&#39;t account for browser quirks, AT bugs, or unclear design patterns.&lt;/p&gt;
+&lt;p&gt;True accessibility goes beyond checklists. It requires &lt;strong&gt;inclusive design from the start&lt;/strong&gt; and &lt;strong&gt;usability testing with people who rely on AT&lt;/strong&gt; to ensure a site or app is usable in practice and not just in theory.&lt;/p&gt;
+&lt;p&gt;Think of WCAG as a &lt;strong&gt;minimum standard&lt;/strong&gt;, not a guarantee of a good experience. By building accessibility into your workflow from day one, it becomes part of how things are done. It should not be viewed as a chore or a bolt-on. The more it&#39;s practiced, the more natural and efficient it becomes.&lt;/p&gt;
+&lt;h2 id=&quot;legal-requirements&quot;&gt;Legal requirements&lt;/h2&gt;
+&lt;p&gt;Unfortunately, many organisations only prioritise accessibility when legally required. Laws and regulations often provide the push needed to help ensure minimum standards are met. While WCAG is not law; it is often used as a technical reference at WCAG 2.1 Level AA conformance in legislation. Enforcement and scope differ by country.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Always consult local laws or legal advisors for compliance requirements!&lt;/strong&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Skip Links: Shortcuts for Keyboard Users</title>
+    <link href="https://example.com/fasthtml-web-a11y/skip-links/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/skip-links/</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;The code to accompany this post is &amp;quot;&lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/skip_links&quot;&gt;Skip links&lt;/a&gt;&amp;quot;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Many people with &lt;a href=&quot;https://webaim.org/articles/motor/motordisabilities&quot;&gt;motor disabilities&lt;/a&gt; navigate the web using only a keyboard. Without skip links, reaching the main content means tabbing through the same navigation menus, logos, banner ads, and social media links on every page. Unlike screen reader users who can navigate by &lt;a href=&quot;https://example.com/content/blog/fasthtml-web-a11y/landmarks.md&quot;&gt;landmarks&lt;/a&gt;, sighted keyboard-only users need a different solution.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;navigating-without-a-skip-link&quot;&gt;Navigating without a skip link&lt;/h2&gt;
+&lt;p&gt;In the following demonstration, I &lt;em&gt;repeatedly&lt;/em&gt; tab through elements to reach the main content - showing what happens without a skip link. (The page has been deliberately zoomed out to 80% for demonstration purposes).&lt;/p&gt;
+&lt;lite-youtube videoid=&quot;AWHn9Z5__Ic&quot; title=&quot;No Skip Link Keyboard Navigation Example&quot; style=&quot;background-image: url(&#39;https://i.ytimg.com/vi/AWHn9Z5__Ic/hqdefault.jpg&#39;);&quot;&gt;
+  &lt;a href=&quot;https://youtu.be/AWHn9Z5__Ic&quot; class=&quot;lyt-playbtn&quot; title=&quot;Play Video&quot;&gt;
+    &lt;span class=&quot;lyt-visually-hidden&quot;&gt;Play Video: No Skip Link Keyboard Navigation Example&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/lite-youtube&gt;
+&lt;h2 id=&quot;what-is-a-skip-link&quot;&gt;What is a skip link?&lt;/h2&gt;
+&lt;p&gt;A skip link is an offscreen anchor link that becomes visible on keyboard focus. Skip links let keyboard users jump directly to the main content, bypassing repeated elements.&lt;/p&gt;
+&lt;h3 id=&quot;navigating-with-a-skip-link&quot;&gt;Navigating with a skip link&lt;/h3&gt;
+&lt;p&gt;In the following video, pressing &lt;code&gt;Tab&lt;/code&gt; brings the skip link into focus in the top left corner. Pressing &lt;code&gt;Enter&lt;/code&gt; &amp;quot;activates&amp;quot; (triggers it to navigate) the link and jumps directly to the main content. (The page has been deliberately zoomed out to 80% for demonstration purposes).&lt;/p&gt;
+&lt;lite-youtube videoid=&quot;uJtxcaUn8Cg&quot; title=&quot;Skip Link Keyboard Navigation Example&quot; style=&quot;background-image: url(&#39;https://i.ytimg.com/vi/uJtxcaUn8Cg/hqdefault.jpg&#39;);&quot;&gt;
+  &lt;a href=&quot;https://youtu.be/uJtxcaUn8Cg&quot; class=&quot;lyt-playbtn&quot; title=&quot;Play Video&quot;&gt;
+    &lt;span class=&quot;lyt-visually-hidden&quot;&gt;Play Video: Skip Link Keyboard Navigation Example&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/lite-youtube&gt;
+&lt;h3 id=&quot;skip-links-and-landmarks&quot;&gt;Skip links and landmarks&lt;/h3&gt;
+&lt;p&gt;Skip links and &lt;a href=&quot;https://example.com/content/blog/fasthtml-web-a11y/landmarks.md&quot;&gt;landmarks&lt;/a&gt; solve related but distinct problems: landmarks help screen reader users navigate page structure, while skip links provide a visible, efficient shortcut for sighted keyboard-only users.&lt;/p&gt;
+&lt;h2 id=&quot;the-key-features-of-a-skip-link&quot;&gt;The key features of a skip link&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Focusable anchor&lt;/strong&gt;: An &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; element with an &lt;code&gt;href&lt;/code&gt; pointing to the ID of the main content area. This is focusable and activates with the &lt;code&gt;Enter&lt;/code&gt; key.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;First in tab order&lt;/strong&gt;: Place the skip link as the &lt;strong&gt;first focusable element&lt;/strong&gt;, ideally the first child of &lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hidden until focused&lt;/strong&gt;: Use CSS to position the link off-screen and reveal it only when focused.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You may not have noticed them, but sites like the &lt;a href=&quot;https://www.bbc.com/&quot;&gt;BBC&lt;/a&gt; and &lt;a href=&quot;https://github.com/&quot;&gt;GitHub&lt;/a&gt; use skip links to support keyboard-only users.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/lppK-fHGLU-422.avif 422w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/lppK-fHGLU-422.webp 422w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/skip-links/lppK-fHGLU-422.png&quot; alt=&quot;A screenshot of BBC News skip link reading &#39;Skip to content&#39;.&quot; width=&quot;422&quot; height=&quot;209&quot;&gt;&lt;/picture&gt;&lt;br&gt;
+&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/6DJ1SMqOxU-342.avif 342w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/6DJ1SMqOxU-342.webp 342w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/skip-links/6DJ1SMqOxU-342.png&quot; alt=&quot;A screenshot of GitHub.com skip link reading &#39;Skip to content&#39;&quot; width=&quot;342&quot; height=&quot;220&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;an-fasthtml-example&quot;&gt;An FastHTML example&lt;/h2&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;Body&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    A&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        Strong&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Skip to main content&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 
+        href&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;#main-content&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 
+        cls&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;skip-link&#39;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+    Main&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;main-content&#39;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alternatively, the skip link&#39;s &lt;code&gt;href&lt;/code&gt; can be set to the page&#39;s main heading, typically a &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;Body&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    A&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        Strong&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Skip to main content&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 
+        href&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;#main-heading&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 
+        cls&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;skip-link&#39;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+    Main&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        H1&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Welcome!&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;main-heading&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;css-to-handle-keyboard-focus&quot;&gt;CSS to handle keyboard focus&lt;/h3&gt;
+&lt;p&gt;Skip links exist in the page&#39;s markup and are initially positioned off-screen. They become visible upon receiving &lt;strong&gt;keyboard focus&lt;/strong&gt; when the user presses &lt;code&gt;Tab&lt;/code&gt; which changes their position to be on the page. This is achieved using the keyboard specific &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible&quot;&gt;:focus-visible&lt;/a&gt; pseudo-class. For example:&lt;/p&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;.skip-link&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; absolute&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; -4.5rem&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;/* position off screen */&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;z-index&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 10000&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;/* ensure nothing is in front of it */&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;/* any additional styling ... */&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 1.5rem 1.5rem&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    ...
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;/* styling to apply upon keyboard focus */&lt;/span&gt;
+&lt;span class=&quot;token selector&quot;&gt;.skip-link:focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;/* bring into view */&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;/* any additional styling ... */&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; white 0.25rem solid&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    ...
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;provide-understandable-link-text&quot;&gt;Provide understandable link text&lt;/h2&gt;
+&lt;p&gt;The link&#39;s text should be self-explanatory. Phrases like &#39;Skip to main content&#39; or &#39;Jump to content&#39; clearly tell users what the link does without assuming they already know what a skip link is.&lt;/p&gt;
+&lt;h2 id=&quot;positioning-a-skip-link&quot;&gt;Positioning a skip link&lt;/h2&gt;
+&lt;p&gt;While styling and design are flexible, the essential point is that skip links become fully visible on &lt;strong&gt;keyboard focus&lt;/strong&gt;. A common pattern is for the skip link to become visible in or near the &lt;em&gt;top-left corner&lt;/em&gt; of the page. This keeps it easy to locate and interact with for keyboard users.&lt;/p&gt;
+&lt;p&gt;Some sites, like the Mozilla Developer Network (MDN) and The Guardian, opt for a more prominent approach with their skip links spanning the top of the page when they receive focus.&lt;/p&gt;
+&lt;p&gt;Below are examples of skip links from a variety of websites:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/ab_aycfZih-1179.avif 1179w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/ab_aycfZih-1179.webp 1179w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/skip-links/ab_aycfZih-1179.png&quot; alt=&quot;Mozilla Developer Network skip link reading &#39;Skip to main content&#39;&quot; width=&quot;1179&quot; height=&quot;217&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/IXJns6MyII-1240.avif 1240w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/IXJns6MyII-1240.webp 1240w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/skip-links/IXJns6MyII-1240.png&quot; alt=&quot;The Guardian.com skip link reading &#39;Skip to main content&#39;&quot; width=&quot;1240&quot; height=&quot;190&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/s5qOLYNGsG-353.avif 353w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/s5qOLYNGsG-353.webp 353w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/skip-links/s5qOLYNGsG-353.png&quot; alt=&quot;Reddit skip link reading &#39;Skip to main content&#39;&quot; width=&quot;353&quot; height=&quot;192&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/D_aJqWVoj8-1419.avif 1419w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/skip-links/D_aJqWVoj8-1419.webp 1419w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/skip-links/D_aJqWVoj8-1419.png&quot; alt=&quot;Google Search results skip link reading &#39;Skip to main content&#39;&quot; width=&quot;1419&quot; height=&quot;221&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;multiple-skip-links&quot;&gt;Multiple skip links&lt;/h2&gt;
+&lt;p&gt;It is acceptable to provide more than one skip link &lt;strong&gt;if&lt;/strong&gt; that functionality is deemed necessary. Each skip link should have a clear, distinct purpose, tied to a repeated content area.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://google.com&quot;&gt;Google Search&lt;/a&gt; has 3 skip links: &amp;quot;Skip to main content&amp;quot;, &amp;quot;Accessibility help&amp;quot;, &amp;quot;Accessibility feedback&amp;quot;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://theguardian.com&quot;&gt;The Guardian&lt;/a&gt; has 2 skip links: a &amp;quot;Skip to main content&amp;quot; and a &amp;quot;Skip to navigation&amp;quot;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/&quot;&gt;MDN&lt;/a&gt; has 2 skip links: a &amp;quot;Skip to main content&amp;quot; and a &amp;quot;Skip to search&amp;quot;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Remember the point of a skip link is to help users avoid repeated tabbing and content. Don&#39;t create a situation where you need a skip link to skip all your additional skip links!&lt;/p&gt;
+&lt;h2 id=&quot;always-visible-skip-links&quot;&gt;Always visible skip links&lt;/h2&gt;
+&lt;p&gt;While most sites hide skip links until focused, they can also be permanently visible. Either approach is OK. Hidden skip links preserve visual design and avoid confusion for users who don&#39;t need them, while permanently visible skip links ensure maximum discoverability. Choose based on your design requirements and user needs.&lt;/p&gt;
+&lt;h2 id=&quot;wcag-success-criteria&quot;&gt;WCAG Success Criteria&lt;/h2&gt;
+&lt;p&gt;These WCAG success criteria relate to the accessibility topics covered in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html&quot;&gt;2.1.1 Keyboard (Level A)&lt;/a&gt;&lt;/strong&gt; - All functionality must be operable using a keyboard or other assistive input, without requiring a mouse.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html&quot;&gt;2.4.1 Bypass Blocks (Level A)&lt;/a&gt;&lt;/strong&gt; - Users must have a way to skip repeated blocks of content, like navigation menus, so they can get to the main content quickly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html&quot;&gt;2.4.4 Link Purpose (In Context) (Level A)&lt;/a&gt;&lt;/strong&gt; - Users should be able to understand what a link does from its text and surrounding context.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only.html&quot;&gt;2.4.9 Link Purpose (Link Only) (Level AAA)&lt;/a&gt;&lt;/strong&gt; - Users should be able to understand what a link does from the link&#39;s text alone.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Set the Page Title</title>
+    <link href="https://example.com/fasthtml-web-a11y/set-the-page-title/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/set-the-page-title/</id>
+    <content type="html">&lt;p&gt;A well-crafted page title is one of the easiest ways to improve both accessibility and overall user experience (UX). It confirms to the user that they are on the page they intended to visit.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;why-titles-are-important&quot;&gt;Why titles are important&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; element in the &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; of an HTML document:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Is the first thing screen readers announce&lt;/strong&gt; when a new page or tab loads.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Appears in browser tabs&lt;/strong&gt;, helping users switch between them.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Labels bookmarks and history entries&lt;/strong&gt; so the right page can be found later.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Appears in search results&lt;/strong&gt;, improving discoverability and SEO.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If a page has no title, screen readers may announce the &lt;strong&gt;full URL&lt;/strong&gt; instead, which is poor UX or assistive technology (AT) users.&lt;/p&gt;
+&lt;h2 id=&quot;what-makes-an-accessible-page-title&quot;&gt;What makes an accessible page title?&lt;/h2&gt;
+&lt;p&gt;Accessibility checkers will identify that a title is &lt;em&gt;missing&lt;/em&gt; but cannot tell you if the title is &lt;em&gt;descriptive&lt;/em&gt;. When a page title is missing, most browsers fall back on the &lt;strong&gt;full URL of the current page&lt;/strong&gt;. There may be SEO concerns that will conflict with providing accessible page titles but that is outside the scope of this post.&lt;/p&gt;
+&lt;p&gt;Good accessible page titles should:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;State the page&#39;s primary purpose&lt;/strong&gt; – avoid vague wording or keyword stuffing.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Make sense out of context&lt;/strong&gt; – it should be clear in search results or site maps, and unique across the site.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Avoid decorative text or emojis&lt;/strong&gt; – AT may present them to users as a confusing Unicode sequence.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Be concise&lt;/strong&gt; – shorter titles are easier for everyone to understand.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;common-mistakes&quot;&gt;Common mistakes&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Generic titles like &amp;quot;Page&amp;quot;, &amp;quot;Untitled&amp;quot;, or &amp;quot;Document&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Titles that are identical across multiple pages of the same site.&lt;/li&gt;
+&lt;li&gt;Titles that don&#39;t match the actual content of the page.&lt;/li&gt;
+&lt;li&gt;Overly long or verbose titles that get cut off in browser tabs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;should-you-include-the-sites-name&quot;&gt;Should you include the site&#39;s name?&lt;/h2&gt;
+&lt;p&gt;Including the site name helps people recognise which site a tab belongs to and see how pages relate to each other. Put the unique page title first, then the site name.&lt;/p&gt;
+&lt;p&gt;Many sites use &#39;|&#39; (vertical bars) to separate a title from the site name. Some screen readers can confusingly announce these as &#39;vertical line&#39;, instead consider:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hyphens: e.g. &lt;code&gt;About Us - The Dunning-Kruger Dispatch&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Colons: e.g. &lt;code&gt;About Us: The Dunning-Kruger Dispatch&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Em dashes: e.g. &lt;code&gt;About Us — The Dunning-Kruger Dispatch&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;title-and-h1-should-match&quot;&gt;&lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; And &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; should match&lt;/h2&gt;
+&lt;p&gt;In most cases, a page&#39;s &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; should be identical or very similar. The unique part of the &lt;code&gt;&amp;lt;title&amp;gt;&lt;/code&gt; identifies the page within the site and sets the visitor&#39;s expectations, while the &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; states the main content of the page.&lt;/p&gt;
+&lt;p&gt;If they do not match, people may be unsure they are on the right page. Screen reader users who navigate by headings expect the main heading to reflect what was announced when the page loaded.&lt;/p&gt;
+&lt;h3 id=&quot;home-page-exceptions&quot;&gt;Home page exceptions&lt;/h3&gt;
+&lt;p&gt;A common exception is the home page, where the title might be &lt;code&gt;Home - &#39;Company&#39;s Name&#39;&lt;/code&gt; but the &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; could be &lt;code&gt;Welcome to &#39;Company&#39;s Name&#39;&lt;/code&gt; for example.&lt;/p&gt;
+&lt;h2 id=&quot;setting-titles-in-fasthtml&quot;&gt;Setting titles in FastHTML&lt;/h2&gt;
+&lt;p&gt;Here are some ways to set page titles in FastHTML:&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# set a default title at app initialization&lt;/span&gt;
+app &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; FastHTML&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;hdrs&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;picolink&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; htmlkw&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;html_options&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; title&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;The Dunning-Kruger Dispatch&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# set a title *after* app creation&lt;/span&gt;
+app&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;title &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;The Dunning-Kruger Dispatch&#39;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# set the title for a page / route&lt;/span&gt;
+&lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@app&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;home&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# returns a page with a matching &amp;lt;title&gt; and &amp;lt;h1&gt;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Titled&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;The Dunning-Kruger Dispatch&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;wcag-success-criteria&quot;&gt;WCAG Success Criteria&lt;/h2&gt;
+&lt;p&gt;This WCAG success criterion relates to the accessibility topics covered in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html&quot;&gt;2.4.2 Page Titled (Level A)&lt;/a&gt;&lt;/strong&gt; – Every page&#39;s title should clearly describe the page&#39;s purpose or the topic of its content.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Set the page&#39;s `lang` attribute</title>
+    <link href="https://example.com/fasthtml-web-a11y/set-the-language/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/set-the-language/</id>
+    <content type="html">&lt;p&gt;Setting the &lt;code&gt;lang&lt;/code&gt; attribute on page&#39;s &lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt; tag is an &lt;strong&gt;extremely simple&lt;/strong&gt; and impactful accessibility improvement you can make. It helps screen readers, translation tools, and other assistive technologies (AT) interpret your content correctly.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;why-set-the-page-language&quot;&gt;Why set the page language?&lt;/h2&gt;
+&lt;p&gt;Setting the &lt;code&gt;lang&lt;/code&gt; attribute ensures:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Screen readers that support speech synthesis use the correct pronunciation and accent.&lt;/li&gt;
+&lt;li&gt;Braille translation software handles special characters properly.&lt;/li&gt;
+&lt;li&gt;Browser-based translation tools work more accurately.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Without it, assistive tools must guess the language and often fall back on the user&#39;s system default setting, which can lead to mispronounced words and translation errors. According to the 2025 WebAIM Million project, nearly &lt;a href=&quot;https://webaim.org/projects/million/#languages&quot;&gt;15% of the top 1,000,000 home pages&lt;/a&gt; did &lt;strong&gt;not&lt;/strong&gt; set a language.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;lang&lt;/code&gt; attribute follows &lt;a href=&quot;https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes&quot;&gt;ISO 639 language codes&lt;/a&gt;, typically using a two-letter code like &lt;strong&gt;&lt;code&gt;en&lt;/code&gt;&lt;/strong&gt; (English), &lt;strong&gt;&lt;code&gt;zh&lt;/code&gt;&lt;/strong&gt; (Chinese), or &lt;strong&gt;&lt;code&gt;fr&lt;/code&gt;&lt;/strong&gt; (French). If needed, you can specify regional variations using subtags, such as &lt;strong&gt;&lt;code&gt;en-US&lt;/code&gt;&lt;/strong&gt; (American English), &lt;strong&gt;&lt;code&gt;fr-CA&lt;/code&gt;&lt;/strong&gt; (Canadian French) or &lt;strong&gt;&lt;code&gt;zh-CN&lt;/code&gt;&lt;/strong&gt; (Mandarin Chinese) but be aware that subtag support can vary across browsers and screen reader pairings.&lt;/p&gt;
+&lt;h2 id=&quot;how-to-set-the-lang-attribute&quot;&gt;How to set the &lt;code&gt;lang&lt;/code&gt; attribute&lt;/h2&gt;
+&lt;p&gt;There appear to be several ways to set the document language in FastHTML, here are some:&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# page language set to English&lt;/span&gt;
+html_options &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;lang&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;en&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+app &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; FastHTML&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;htmlkw&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;html_options&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+app &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; fast_app&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;htmlkw&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;lang&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# if you return Html() it will overwrite the html_options passed into fastHTML and fast_app&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Html&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    Head&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;Title&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Set the lang attribute&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    Body&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;H1&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Set the lang attribute!&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# but they can be passed in like this&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;**&lt;/span&gt;html_options&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;handling-multi-language-content&quot;&gt;Handling multi-language content&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;lang&lt;/code&gt; attribute can be applied to many elements but it is most commonly used on text-containing elements such as &lt;code&gt;&amp;lt;p&amp;gt;, &amp;lt;span&amp;gt;, &amp;lt;div&amp;gt;&lt;/code&gt;. For mixed-language content, the page&#39;s language can be overridden on the relevant elements. A way to achieve this in FastHTML is:&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# French&lt;/span&gt;
+P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Bonjour. 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;fr&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# German&lt;/span&gt;
+P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Guten Morgen. 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;de&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Chinese (Simplified)&lt;/span&gt;
+P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;早上好。0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;zh-CN&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# multiple languages in the same paragraph&lt;/span&gt;
+P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Greetings in different languages: &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Span&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Hello &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Span&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Salut &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;fr&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Span&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Hallo &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;de&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Span&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;你好 &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;zh-CN&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This ensures screen readers switch pronunciations appropriately as you will hear in the video below.&lt;/p&gt;
+&lt;lite-youtube videoid=&quot;2VaaddRF2r8&quot; title=&quot;Set the lang attribute on the html tag&quot; style=&quot;background-image: url(&#39;https://i.ytimg.com/vi/2VaaddRF2r8/hqdefault.jpg&#39;);&quot;&gt;
+  &lt;a href=&quot;https://youtu.be/2VaaddRF2r8&quot; class=&quot;lyt-playbtn&quot; title=&quot;Play Video&quot;&gt;
+    &lt;span class=&quot;lyt-visually-hidden&quot;&gt;Play Video: Set the lang attribute on the html tag&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/lite-youtube&gt;
+&lt;h2 id=&quot;additional-language-specific-benefits&quot;&gt;Additional language specific benefits&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;lang&lt;/code&gt; attribute also affects typographical conventions like quotation marks. Different languages use different styles and setting the correct &lt;code&gt;lang&lt;/code&gt; attribute ensures browsers format these properly. In FastHTML:&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;They said, &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Q&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Hello!&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# inherits default set on the page e.g. &amp;lt;html lang=&#39;en&#39;&gt;&lt;/span&gt;
+P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Ils ont dit: &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Q&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Bonjour!&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;fr&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+P&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Sie haben gesagt: &#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Q&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Hallo!&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lang&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;de&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The rendered HTML then looks like:
+&lt;code&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;They said, &lt;q&gt;Hello!&lt;/q&gt;&lt;/p&gt;
+&lt;p lang=&quot;fr&quot;&gt;Ils ont dit: &lt;q&gt;Bonjour!&lt;/q&gt;&lt;/p&gt;
+&lt;p lang=&quot;de&quot;&gt;Sie haben gesagt: &lt;q&gt;Hallo!&lt;/q&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;wcag-success-criteria&quot;&gt;WCAG success criteria&lt;/h2&gt;
+&lt;p&gt;These WCAG success criteria relate to the accessibility topics covered in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/language-of-page.html&quot;&gt;3.1.1 Language of Page (Level A)&lt;/a&gt;&lt;/strong&gt; – The &lt;strong&gt;main&lt;/strong&gt; language of a web page must be specified on the &lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt; element so assistive technologies, such as screen readers or braille displays, can present the content correctly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html&quot;&gt;3.1.2 Language of Parts (Level AA)&lt;/a&gt;&lt;/strong&gt; – If a page contains &lt;strong&gt;multiple&lt;/strong&gt; languages, each section or phrase must have the correct language specified in the relevant HTML so assistive technologies can present them correctly.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Creating a more accessible Pico CSS Focus Indicator</title>
+    <link href="https://example.com/fasthtml-web-a11y/picocss-focus-indicator/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/picocss-focus-indicator/</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;The code to accompany this post is &amp;quot;&lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/pico_css_focus_indicator&quot;&gt;Pico CSS Focus Indicator&amp;quot;&lt;/a&gt;&amp;quot;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;https://example.com/fasthtml-web-a11y/focus-indicators/#creating-a-more-accessible-focus-indicator&quot;&gt;&amp;quot;Creating a more accessible focus indicator&amp;quot;&lt;/a&gt;, we covered the accessibility requirements and techniques for improving upon browser default focus indicators. &lt;a href=&quot;https://picocss.com/&quot;&gt;Pico CSS&lt;/a&gt; is commonly used in &lt;a href=&quot;https://gallery.fastht.ml/&quot;&gt;FastHTML examples&lt;/a&gt; and provides very useful styling and layout defaults. However, its focus indicators could be improved for better accessibility.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;pico-css-focus-indicators&quot;&gt;Pico CSS focus indicators&lt;/h2&gt;
+&lt;p&gt;Pico CSS has theme switching functionality to let a user change the current page theme via an on page toggle that changes the &lt;code&gt;&amp;lt;html data-theme=&amp;quot;dark&amp;quot;&amp;gt;&lt;/code&gt;. As you can see from the below screen recordings of both themes, identifying which button is currently in focus is difficult.&lt;/p&gt;
+&lt;h3 id=&quot;light-theme-data-theme-light&quot;&gt;Light theme - &lt;code&gt;[data-theme=light]&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/hGCPUvu8hn-575.webp 575w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/hGCPUvu8hn-575.gif&quot; alt=&quot;Pico CSS light theme focus indicator on primary, secondary and contrast buttons&quot; width=&quot;575&quot; height=&quot;135&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h3 id=&quot;dark-theme-data-theme-dark&quot;&gt;Dark theme - &lt;code&gt;[data-theme=dark]&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/S8SqZxlpbr-575.webp 575w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/S8SqZxlpbr-575.gif&quot; alt=&quot;Pico CSS dark theme focus indicator on primary, secondary and contrast buttons&quot; width=&quot;575&quot; height=&quot;136&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;low-colour-contrast-ratios&quot;&gt;Low Colour Contrast Ratios&lt;/h2&gt;
+&lt;p&gt;For both the light and dark themes in PicoCSS, the colours used for focus indicators fall below the &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html&quot;&gt;3:1 contrast ratio required for non-text UI components&lt;/a&gt;. The examples below use the &lt;code&gt;primary&lt;/code&gt; button styles, but the same process applies to &lt;code&gt;secondary&lt;/code&gt; and &lt;code&gt;contrast&lt;/code&gt; variants. The CSS values were taken from the &lt;a href=&quot;https://picocss.com/docs&quot;&gt;current version 2.1.1&lt;/a&gt; (September 2025) of Pico CSS.&lt;/p&gt;
+&lt;h3 id=&quot;light-theme-contrast-ratios&quot;&gt;Light theme contrast ratios&lt;/h3&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token property&quot;&gt;--pico-background-color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #fff&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;--pico-primary-focus&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;2&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 154&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 232&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 0.5&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;--pico-primary-background&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #0172ad&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;/* primary button background-color when focused */&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;--pico-primary-hover-background&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #017fc0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Focus indicator vs. page background&lt;/strong&gt;: &lt;a href=&quot;https://colorcontrast.app/#fg=rgba(2%2C%20154%2C%20232%2C%200.5)&amp;amp;bg=%23fff&amp;amp;level=aa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;rgba(2,154,232,0.5) on #fff&lt;/a&gt; is &lt;strong&gt;1.76:1&lt;/strong&gt;, well below the required 3:1.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Focus indicator vs. button background (focused state)&lt;/strong&gt;: &lt;a href=&quot;https://colorcontrast.app/#fg=rgba(2%2C%20154%2C%20232%2C%200.5)&amp;amp;bg=%23017fc0&amp;amp;level=aa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;rgba(2,154,232,0.5) on #017fc0&lt;/a&gt; is &lt;strong&gt;1.19:1&lt;/strong&gt;, again below 3:1.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;dark-theme-contrast-ratios&quot;&gt;Dark theme contrast ratios&lt;/h3&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token property&quot;&gt;--pico-background-color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;rgb&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;19&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 22.5&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 30.5&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;--pico-primary-focus&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;1&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 170&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 255&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 0.375&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;--pico-primary-background&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #0172ad&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;/* primary button background-color when focused */&lt;/span&gt;
+&lt;span class=&quot;token property&quot;&gt;--pico-primary-hover-background&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #017fc0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Focus indicator vs. page background&lt;/strong&gt;: &lt;a href=&quot;https://colorcontrast.app/#fg=rgba(1%2C%20170%2C%20255%2C%200.375)&amp;amp;bg=rgb(19%2C%2022.5%2C%2030.5)&amp;amp;level=aa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;rgba(1,170,255,0.375) on rgb(19,22.5,30.5)&lt;/a&gt; is &lt;strong&gt;2.01:1&lt;/strong&gt;, below 3:1.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Focus indicator vs. button background (focused state)&lt;/strong&gt;: &lt;a href=&quot;https://colorcontrast.app/#fg=rgba(1%2C%20170%2C%20255%2C%200.375)&amp;amp;bg=%23017fc0&amp;amp;level=aa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;rgba(1,170,255,0.375) on #017fc0&lt;/a&gt; is &lt;strong&gt;1.23:1&lt;/strong&gt;, also fails.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;reducing-the-transparency-is-not-enough&quot;&gt;Reducing the transparency is not enough&lt;/h3&gt;
+&lt;p&gt;For the light theme, an increase in the alpha value from &lt;code&gt;0.5&lt;/code&gt; to &lt;code&gt;1.0&lt;/code&gt; is a ratio of &lt;a href=&quot;https://colorcontrast.app/#fg=rgba(2%2C%20154%2C%20232%2C%201)&amp;amp;bg=%23fff&amp;amp;level=aa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;3.09:1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For the dark theme, increasing &lt;code&gt;0.375&lt;/code&gt; to &lt;code&gt;1.0&lt;/code&gt; provides a high contrast of &lt;a href=&quot;https://colorcontrast.app/#fg=rgba(1%2C%20170%2C%20255)&amp;amp;bg=rgb(19%2C%2022.5%2C%2030.5)&amp;amp;level=aa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;7:1&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;These changes would need to be made and tested for each button (and possibly other controls) that your site uses to maintain at least a 3:1 contrast ratio. This does not resolve a larger underlying problem with how Pico CSS handles focus indicators.&lt;/p&gt;
+&lt;h2 id=&quot;the-problem-with-pico-csss-use-of-outline-none&quot;&gt;The problem with Pico CSS&#39;s use of &lt;code&gt;outline: none&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;A previous post, &lt;a href=&quot;https://example.com/fasthtml-web-a11y/focus-indicators/#built-in-browser-focus-indicators&quot;&gt;&amp;quot;Creating a more accessible focus indicator&amp;quot;&lt;/a&gt;, highlighted how the built-in browser focus indicators use the &lt;code&gt;outline&lt;/code&gt; CSS property to indicate which interactive element - buttons, inputs etc - currently has focus. And how to improve those defaults by overriding them with WCAG compliant values.&lt;/p&gt;
+&lt;p&gt;By default, Pico CSS &lt;strong&gt;removes&lt;/strong&gt; native focus indicators by setting &lt;code&gt;outline: none&lt;/code&gt; on interactive elements and uses &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow&quot;&gt;&lt;code&gt;box-shadow&lt;/code&gt;&lt;/a&gt;. In some cases (particularly with buttons as shown in the previous contrast ratio calculations), it slightly changes the &lt;code&gt;background-color&lt;/code&gt; of the element when in focus. While this provides a more styling options and effects, WCAG specifically advises &lt;strong&gt;against&lt;/strong&gt; doing this i.e. &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Techniques/css/C40&quot;&gt;&amp;quot;Avoid setting outline: none to use box-shadow on its own.&amp;quot;&lt;/a&gt; because in certain &amp;quot;forced-color modes&amp;quot; e.g. Windows High Contrast Mode the &lt;code&gt;box-shadow&lt;/code&gt; won&#39;t be rendered by the browser.&lt;/p&gt;
+&lt;h3 id=&quot;invisible-in-windows-high-contrast-mode&quot;&gt;Invisible in Windows High Contrast mode&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://support.microsoft.com/en-au/windows/change-color-contrast-in-windows-fedc744c-90ac-69df-aed5-c8a90125e696#:~:text=Save%20and%20apply.-,Turn%20high%20contrast%20mode%20on%20or%20off,under%20Turn%20on%20high%20contrast&quot;&gt;Windows High Contrast (Forced Colors)&lt;/a&gt; is an operating-system level setting that overrides site and application UI colour palettes with a limited, user-selected high-contrast theme. Its goal is to ensure maximum readability for the user.&lt;/p&gt;
+&lt;p&gt;The first example shows Pico CSS&#39;s default behaviour &lt;strong&gt;before&lt;/strong&gt; High Contrast mode is enabled. As focus is moved with the &lt;code&gt;Tab&lt;/code&gt; key, the text at the top updates to display the currently focused element.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/kiVm-2LKEo-588.webp 588w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/kiVm-2LKEo-588.gif&quot; alt=&quot;&quot; width=&quot;588&quot; height=&quot;451&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Now here is the same group of controls with Windows High Contrast mode enabled. Windows provides several high contrast themes; this example uses &lt;code&gt;High Contrast #1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Notice the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; still have visible borders, but that is their element &lt;code&gt;border&lt;/code&gt;, not a focus indicator.&lt;/li&gt;
+&lt;li&gt;The links - &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; - have &lt;strong&gt;no visible focus indicator at all&lt;/strong&gt;. Visually there is no way to tell where the focus is.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/F3-VKg4svX-588.webp 588w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/F3-VKg4svX-588.gif&quot; alt=&quot;&quot; width=&quot;588&quot; height=&quot;451&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;This happens because, as mentioned in the previous section, Pico CSS removes the default &lt;code&gt;outline&lt;/code&gt; and relies on a &lt;code&gt;box-shadow&lt;/code&gt;, which is suppressed in high contrast modes. While the CSS below applies to links, buttons and other inputs use a similar approach with different values for &lt;code&gt;box-shadow&lt;/code&gt; colours and &lt;code&gt;border&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;/* Pico CSS &amp;lt;a&gt; specific focus indicator */&lt;/span&gt;
+&lt;span class=&quot;token selector&quot;&gt;:where(a:not([role=button])):focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token property&quot;&gt;box-shadow&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0 0 0 &lt;span class=&quot;token function&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;--pico-outline-width&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;--pico-primary-focus&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The simplest and most robust fix is to reintroduce &lt;code&gt;outline&lt;/code&gt; (with &lt;code&gt;outline-offset&lt;/code&gt;), which works consistently across all elements and adapts automatically to high contrast themes.&lt;/p&gt;
+&lt;h2 id=&quot;restoring-the-outline&quot;&gt;Restoring the &lt;code&gt;outline&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;As covered in the &lt;a href=&quot;https://example.com/fasthtml-web-a11y/fasthtml-web-a11y/focus-indicators.md&quot;&gt;previous focus indicator post&lt;/a&gt;, using &lt;code&gt;outline&lt;/code&gt; with &lt;code&gt;outline-offset&lt;/code&gt; provides a &lt;strong&gt;clear and consistent&lt;/strong&gt; focus indicator around interactive elements. The &lt;code&gt;outline-offset&lt;/code&gt; creates separation from the element, making the focused area larger and easier to see.&lt;/p&gt;
+&lt;p&gt;This approach simplifies colour selection: a single high-contrast colour can be applied to all interactive elements, avoiding the need to choose separate colours for each button, link etc variant.&lt;/p&gt;
+&lt;h3 id=&quot;high-contrast-outline-colours&quot;&gt;High contrast outline colours&lt;/h3&gt;
+&lt;p&gt;Focus outlines must have a contrast ratio of at least 3:1 against their background. Choosing colours with higher contrast improves visibility and works better across different displays.&lt;/p&gt;
+&lt;p&gt;For example, the following colours provide strong contrast for Pico&#39;s themes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Dark theme: &lt;a href=&quot;https://colorcontrast.app/#fg=%2371a3d1&amp;amp;bg=%2313171f&amp;amp;level=aa&amp;amp;format=hex&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;#71a3d1 on #13171f&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Light theme: &lt;a href=&quot;https://colorcontrast.app/#fg=%231a5d86&amp;amp;bg=%23fff&amp;amp;level=aa&amp;amp;format=hex&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;#1a5d86 on #ffffff&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;[data-theme=dark]&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token selector&quot;&gt;:focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;outline&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.1875rem solid #71a3d1&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;/* 3px */&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;outline-offset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.125rem&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;/* 2px */&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token selector&quot;&gt;[data-theme=light]&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token selector&quot;&gt;:focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;outline&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.1875rem solid #1a5d86&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;/* 3px */&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;outline-offset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.125rem&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;/* 2px */&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;updated-light-theme&quot;&gt;Updated light theme&lt;/h4&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/lo54XXMI0S-575.webp 575w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/lo54XXMI0S-575.gif&quot; alt=&quot;Pico CSS light theme on primary, secondary and contrast buttons&quot; width=&quot;575&quot; height=&quot;136&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h4 id=&quot;updated-dark-theme&quot;&gt;Updated dark theme&lt;/h4&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/sKjiBc0fPr-575.webp 575w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/sKjiBc0fPr-575.gif&quot; alt=&quot;Pico CSS dark theme on primary, secondary and contrast buttons&quot; width=&quot;575&quot; height=&quot;136&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h4 id=&quot;windows-high-contrast-mode&quot;&gt;Windows High Contrast mode&lt;/h4&gt;
+&lt;p&gt;In &lt;strong&gt;forced colors&lt;/strong&gt; or &lt;strong&gt;high contrast mode&lt;/strong&gt;, the operating system overrides CSS colours with those of the predefined system-wide high contrast theme. That is why the browser renders the &lt;code&gt;outline&lt;/code&gt; based on the colours defined in the &lt;code&gt;High Contrast #1&lt;/code&gt; theme and not from the CSS above.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/sjZM3AOdSU-578.webp 578w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator/sjZM3AOdSU-578.gif&quot; alt=&quot;&quot; width=&quot;578&quot; height=&quot;471&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;With this method, all interactive elements receive a clear, accessible focus indicator that works in both normal and forced colors modes, solving the issues demonstrated in the previous section.&lt;/p&gt;
+&lt;h3 id=&quot;avoiding-css-repetition&quot;&gt;Avoiding CSS repetition&lt;/h3&gt;
+&lt;p&gt;Since the &lt;code&gt;outline&lt;/code&gt; style is the same across themes, you only need to change the &lt;code&gt;outline-colour&lt;/code&gt;. You can simplify the CSS by setting the common rules once and overriding just the colour per theme:&lt;/p&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;:focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;outline&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.1875rem solid&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;/* 3px */&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;outline-offset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 0.125rem&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;/* 2px */&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;/* Pico&#39;s theme attribute */&lt;/span&gt;
+&lt;span class=&quot;token selector&quot;&gt;[data-theme=dark] :focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;outline-color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #71a3d1&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token selector&quot;&gt;[data-theme=light] :focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token property&quot;&gt;outline-color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #1a5d86&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;/* If not using Pico&#39;s theme attribute */&lt;/span&gt;
+&lt;span class=&quot;token atrule&quot;&gt;&lt;span class=&quot;token rule&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token property&quot;&gt;prefers-color-scheme&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; dark&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token selector&quot;&gt;:focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;outline-color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #71a3d1&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token atrule&quot;&gt;&lt;span class=&quot;token rule&quot;&gt;@media&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token property&quot;&gt;prefers-color-scheme&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; light&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token selector&quot;&gt;:focus-visible&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token property&quot;&gt;outline-color&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; #1a5d86&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;removing-box-shadow&quot;&gt;Removing &lt;code&gt;box-shadow&lt;/code&gt;?&lt;/h3&gt;
+&lt;p&gt;An additional step might be to remove Pico CSS&#39;s &lt;code&gt;box-shadow&lt;/code&gt; indicators entirely (or override them with &lt;code&gt;box-shadow:none;&lt;/code&gt;) and rely on &lt;code&gt;outline&lt;/code&gt; and &lt;code&gt;outline-offset&lt;/code&gt;. Pico CSS applies different &lt;code&gt;box-shadow&lt;/code&gt; styles, colours and transitions across the various elements, removing them will require careful unpicking, replacing multiple rules and testing those changes. That level of work is outside the scope of this post.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Don&#39;t use Low Contrast Text and Colours</title>
+    <link href="https://example.com/fasthtml-web-a11y/low-contrast-text/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/low-contrast-text/</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;The code to accompany this post is &amp;quot;&lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/low_contrast_text&quot;&gt;Low Contrast Text&lt;/a&gt;&amp;quot;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Low contrast is the &lt;strong&gt;most commonly detected&lt;/strong&gt; yet easily avoidable accessibility issues. It affects page text, form controls, and the contrast between controls and their backgrounds. The 2025 &lt;a href=&quot;https://webaim.org/projects/million/#contrast&quot;&gt;WebAIM Million Report&lt;/a&gt; found that nearly 80% of the one million home pages failed to meet the minimum contrast ratio of &lt;strong&gt;4.5:1&lt;/strong&gt; between text colour and background colour. It has persisted as the top reported issue since 2019.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;what-is-contrast&quot;&gt;What is contrast?&lt;/h2&gt;
+&lt;p&gt;Contrast is a measure of the difference in perceived brightness (luminance) between foreground and background colours. It is measured as a &lt;strong&gt;contrast ratio&lt;/strong&gt; from &lt;strong&gt;1:1&lt;/strong&gt; (no contrast) to &lt;strong&gt;21:1&lt;/strong&gt; (maximum contrast).&lt;/p&gt;
+&lt;h2 id=&quot;why-low-contrast-is-a-serious-issue&quot;&gt;Why low contrast is a serious issue&lt;/h2&gt;
+&lt;p&gt;Low contrast text makes it difficult for people to perceive letterforms, which reduces reading speed and comprehension. This affects everyone to some degree but is especially problematic for people with low vision, colour vision deficiency, or those reading in suboptimal conditions.&lt;/p&gt;
+&lt;p&gt;The scale of the impact is huge. A &lt;a href=&quot;https://www.who.int/publications/i/item/world-report-on-vision&quot;&gt;World Health Organisation report in 2019&lt;/a&gt; estimated 2.2 billion people globally have some form of visual impairment. &lt;a href=&quot;https://www.colourblindawareness.org/colour-blindness/&quot;&gt;Colour Blind Awareness&lt;/a&gt; reports that &amp;quot;1 in 12 men (8%) and 1 in 200 women&amp;quot; are affected by colour blindness - an estimated 300 million people globally.&lt;/p&gt;
+&lt;h2 id=&quot;the-text-contrast-requirements&quot;&gt;The text contrast requirements&lt;/h2&gt;
+&lt;p&gt;The WCAG define &lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html&quot;&gt;&lt;em&gt;minimum&lt;/em&gt;&lt;/a&gt; contrast ratios between text and its background.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;quot;Normal&amp;quot; or &amp;quot;body&amp;quot; text must have a ratio of &lt;strong&gt;at least 4.5:1&lt;/strong&gt; (Level AA)&lt;/li&gt;
+&lt;li&gt;&amp;quot;Large&amp;quot; text must have &lt;strong&gt;at least a 3:1&lt;/strong&gt; ratio (Level AA) when:
+&lt;ul&gt;
+&lt;li&gt;24px or larger, e.g. a &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; header&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;bold&lt;/strong&gt; text that is 18.66px or larger&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/contrast-enhanced.html&quot;&gt;&lt;em&gt;enhanced&lt;/em&gt;&lt;/a&gt; - Level AAA - contrast ratios are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;quot;Normal&amp;quot; or &amp;quot;body&amp;quot; text is &lt;strong&gt;at least 7:1&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&amp;quot;Large&amp;quot; text is &lt;strong&gt;at least 4.5:1&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;the-ui-components-and-graphical-objects-contrast-requirements&quot;&gt;The UI components and graphical objects contrast requirements&lt;/h2&gt;
+&lt;p&gt;While the focus of this post is text contrast requirements, it is worth being aware that there is a &lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html&quot;&gt;non-text contrast ratio of 3:1&lt;/a&gt;. This ratio applies to non-disabled UI elements like buttons, form fields, borders, icons, and the text &lt;em&gt;within&lt;/em&gt; UI components.&lt;/p&gt;
+&lt;p&gt;And even though there is no &amp;quot;enhanced&amp;quot; Level AAA ratio for non-text contrast, in general aiming for higher contrast and better accessibility is still recommended.&lt;/p&gt;
+&lt;h3 id=&quot;exceptions&quot;&gt;Exceptions&lt;/h3&gt;
+&lt;p&gt;Some elements are exempt from contrast requirements:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Company Logos and brand names.&lt;/li&gt;
+&lt;li&gt;Decorative or incidental/placeholder text e.g. &amp;quot;lorem ipsum&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Disabled controls (however, be conscious that low contrast will still impact visibility).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;emulating-vision-impairments-with-devtools&quot;&gt;Emulating vision impairments with DevTools&lt;/h2&gt;
+&lt;p&gt;Visual impairments can be difficult to understand without first-hand experience. While emulation cannot replace lived experience, modern browsers can provide a degree of insight by simulating common vision conditions. This can also help challenge assumptions about design choices and their impact on visibility.&lt;/p&gt;
+&lt;p&gt;In Chromium based browsers (e.g. Chrome, Edge, Brave) you can emulate vision deficiencies using DevTools.&lt;/p&gt;
+&lt;p&gt;With your DevTools open:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open the Command Palette via &lt;code&gt;Ctrl + Shift + P&lt;/code&gt; (Windows) or &lt;code&gt;Cmd + Shift + P&lt;/code&gt; (MacOS).&lt;/li&gt;
+&lt;li&gt;Type &amp;quot;Rendering&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Press Enter or click on &amp;quot;Show Rendering&amp;quot;.&lt;/li&gt;
+&lt;li&gt;On on the &amp;quot;Rendering&amp;quot; panel scroll down to find the dropdown list titled &amp;quot;Emulate vision deficiencies&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Click an item in the list, e.g. &amp;quot;Reduced contrast&amp;quot;, to have it immediately applied to the rendering of the current web page.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Be aware that once the DevTools are closed the emulated vision deficiency will be stopped too.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/WQfxF96IBC-207.avif 207w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/WQfxF96IBC-207.webp 207w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/WQfxF96IBC-207.png&quot; alt=&quot;A dropdown list of the common vision deficiencies that Chrome DevTools can emulate&quot; width=&quot;207&quot; height=&quot;262&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;resolving-contrast-issues&quot;&gt;Resolving contrast issues&lt;/h2&gt;
+&lt;p&gt;It is easiest to address contrast during the design phase by selecting foreground and background colours that meet any branding constraints and required contrast ratios.&lt;/p&gt;
+&lt;p&gt;For those not involved in the design or those using 3rd party CSS libraries or frameworks, automated accessibility tools can identify low contrast issues. These include browser extensions such as WebAIM&#39;s WAVE or audit tools like Google&#39;s Lighthouse.&lt;/p&gt;
+&lt;p&gt;Some developer tools also allow for temporary adjustments of colours &lt;strong&gt;directly in the browser&lt;/strong&gt; for real time feedback.&lt;/p&gt;
+&lt;h3 id=&quot;automated-contrast-checkers&quot;&gt;Automated contrast checkers&lt;/h3&gt;
+&lt;p&gt;Automated tools do not detect &lt;strong&gt;all&lt;/strong&gt; issues, but they are effective for identifying low contrast without checking each element individually.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Always make sure to test with light and dark themes if you are using them!&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&quot;webaims-wave-tool&quot;&gt;WebAIM&#39;s WAVE Tool&lt;/h4&gt;
+&lt;p&gt;Available as a &lt;a href=&quot;https://chromewebstore.google.com/detail/jbbplnpkjmmeebjpijfedlgcdilocofh?utm_source=item-share-cb&quot;&gt;browser extension&lt;/a&gt; and launchable from the browser extension toolbar or, as shown below, the right click context menu &amp;quot;WAVE this page&amp;quot; option.&lt;/p&gt;
+&lt;p&gt;This example shows how two low contrast elements - a &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; containing text and a &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; - are identified and reported by WAVE:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/bftn0cykF9-791.webp 791w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/bftn0cykF9-791.gif&quot; alt=&quot;Low contrast text and button text identify by the WAVE tool&quot; width=&quot;791&quot; height=&quot;353&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h4 id=&quot;google-lighthouse&quot;&gt;Google Lighthouse&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.chrome.com/docs/lighthouse/overview#devtools&quot;&gt;Lighthouse&lt;/a&gt; in Chrome DevTools.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open the Command Palette &lt;code&gt;Ctrl + Shift + P&lt;/code&gt; (Windows) or &lt;code&gt;Cmd + Shift + P&lt;/code&gt; (MacOS).&lt;/li&gt;
+&lt;li&gt;Type &amp;quot;Lighthouse&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Press Enter or click on &amp;quot;Show Lighthouse&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Check the &amp;quot;Accessibility&amp;quot; checkbox under the &amp;quot;Categories&amp;quot; heading.&lt;/li&gt;
+&lt;li&gt;Click the &amp;quot;Analyze page load&amp;quot; button to begin generating the report.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/6YhGew8vVa-950.avif 950w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/6YhGew8vVa-950.webp 950w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/6YhGew8vVa-950.png&quot; alt=&quot;Lighthouse panel in Chrome DevTools with Accessiblity category checkbox checked&quot; width=&quot;950&quot; height=&quot;531&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;And this is how those same two low contrast elements are reported by Lighthouse:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/DqdXdtdJ3l-717.avif 717w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/DqdXdtdJ3l-717.webp 717w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/DqdXdtdJ3l-717.png&quot; alt=&quot;Low contrast text and button text identify by Lighthouse&quot; width=&quot;717&quot; height=&quot;407&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; A useful approach when evaluating CSS libraries is to run WAVE or Lighthouse on their demo pages to catch obvious issues. These tools can help identify basic problems before adopting a library. However, keep in mind that many of these projects may support legacy versions of browsers and older codebases, so some accessibility issues may reflect ongoing work rather than neglect.&lt;/p&gt;
+&lt;h3 id=&quot;in-browser-contrast-checking&quot;&gt;In browser contrast checking&lt;/h3&gt;
+&lt;p&gt;Chromium browsers (e.g. Chrome, Edge, Brave) and Firefox offer in-browser contrast tools. I have personally found the Chromium based ones to be currently more useful.&lt;/p&gt;
+&lt;p&gt;You can inspect an element in the DOM as shown below and see accessibility information related to it in the popup.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/chrT6jLjhG-416.webp 416w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/chrT6jLjhG-416.gif&quot; alt=&quot;Blue text on a white background with contrast ratio of 3.7 to 1&quot; width=&quot;416&quot; height=&quot;478&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;In the &amp;quot;Accessibility&amp;quot; section in the lower part of the popup, it has identified that the text&#39;s colour and the background colour have a contrast ratio of 3.7 (i.e. 3.7:1). There is a useful warning symbol beside it alerting you to the fact it fails the &lt;strong&gt;minimum&lt;/strong&gt; contrast ratio requirement of 4.5:1.&lt;/p&gt;
+&lt;h4 id=&quot;suggested-level-aa-and-level-aaa-contrast-ratios&quot;&gt;Suggested Level AA and Level AAA contrast ratios&lt;/h4&gt;
+&lt;p&gt;An incredibly useful feature are the suggested &lt;code&gt;color&lt;/code&gt; values that meet the 4.5:1 (Level AA) and 7:1 (Level AAA) contrast ratios and the ability to view them in-browser. &lt;strong&gt;This only works with a &lt;code&gt;color&lt;/code&gt; attribute&lt;/strong&gt;; it won&#39;t work on a &lt;code&gt;background-color&lt;/code&gt; for example. The same approach works for UI elements too like &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/JG7NWtmwBZ-773.webp 773w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/JG7NWtmwBZ-773.gif&quot; alt=&quot;Selecting WCAG AA and AAA suggested colours through Chrome DevTools&quot; width=&quot;773&quot; height=&quot;557&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;A useful combination for resolving contrast issues is to WAVE or Lighthouse a web page and then use the in-browser tools to choose compliant &lt;code&gt;color&lt;/code&gt; values.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Remember to copy the values and add them to your CSS file(s). The DevTools won&#39;t retain any in-browser changes.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;text-selection-styling-with-selection&quot;&gt;Text selection styling with &lt;code&gt;::selection&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/::selection&quot;&gt;&lt;code&gt;::selection&lt;/code&gt;&lt;/a&gt; pseudo-element allows you to customise how text appears when a user highlights it, either by double clicking on the text or by clicking and dragging across the text. Most browsers provide a default selection style of a blue background and white text, as shown below:&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/2ZsmCMR3e9-738.webp 738w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text/2ZsmCMR3e9-738.gif&quot; alt=&quot;&quot; width=&quot;738&quot; height=&quot;149&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;Some CSS frameworks override &lt;code&gt;::selection&lt;/code&gt; but fail to maintain sufficient minimum contrast between the selection background colour and the text colour. In general, when a default browser provided style is changed, &lt;strong&gt;the author of the change becomes responsible for ensuring accessibility&lt;/strong&gt;. Changing default behaviour can negatively affect users who may have cognitive difficulties or are less familiar with technology.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;quot;Fun&amp;quot; Fact&lt;/strong&gt;: In the &lt;em&gt;very&lt;/em&gt; early days of &lt;a href=&quot;https://html5boilerplate.com/&quot;&gt;html5boilerplate&lt;/a&gt;, Paul Irish styled &lt;a href=&quot;https://youtu.be/oDlsOyPKUTM?si=-YYy9oYLnutXiZ1X&amp;amp;t=1562&quot;&gt;&lt;code&gt;::selection&lt;/code&gt; to be &amp;quot;hot pink&amp;quot;&lt;/a&gt;. It kind of became an accidental signature of the template and led to a bit of a &amp;quot;game&amp;quot; to try to identify big name sites using the template by selecting text to see if it was &amp;quot;hot pink&amp;quot; (and extremely low contrast at 2.87:1!).&lt;/p&gt;
+&lt;h2 id=&quot;dont-rely-on-purely-black-and-white-for-high-contrast&quot;&gt;Don&#39;t rely on purely black and white for high contrast&lt;/h2&gt;
+&lt;p&gt;Black-on-white text combinations reach the maximum contrast ratio of 21:1, far exceeding WCAG requirements. However, pure black (&lt;code&gt;#000000&lt;/code&gt;) on pure white (&lt;code&gt;#ffffff&lt;/code&gt;) is known to contribute to visual fatigue and eye strain. Slightly softened &lt;code&gt;color&lt;/code&gt; values like &lt;code&gt;#1a1a1a&lt;/code&gt; on &lt;code&gt;#f8f8f8&lt;/code&gt; can still achieve &lt;a href=&quot;https://colorcontrast.app/#fg=%231a1a1a&amp;amp;bg=%23f8f8f8%20&amp;amp;level=aaa&amp;amp;format=rgb&amp;amp;algo=WCAG2&amp;amp;filter=none&quot;&gt;AAA contrast&lt;/a&gt; while reducing strain during extended reading. For more detailed breakdowns see: &lt;a href=&quot;https://uxplanet.org/basicdesign-never-use-pure-black-in-typography-36138a3327a6&quot;&gt;&amp;quot;Never use pure black in typography&amp;quot;&lt;/a&gt; and &lt;a href=&quot;https://uxplanet.org/alternatives-to-using-pure-black-000000-for-text-and-backgrounds-54ef0e733cdb&quot;&gt;&amp;quot;Alternatives to Using Pure Black (#000000) for Text and Backgrounds&amp;quot;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;wcag-success-criteria&quot;&gt;WCAG Success Criteria&lt;/h2&gt;
+&lt;p&gt;These WCAG success criteria relate to the accessibility topics covered in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html&quot;&gt;1.4.3 Contrast (Minimum) (Level AA)&lt;/a&gt;&lt;/strong&gt; - Text and images of text must have sufficient contrast with their background - at least 4.5:1 - so that they are readable.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/contrast-enhanced.html&quot;&gt;1.4.6 Contrast (Enhanced) (Level AAA)&lt;/a&gt;&lt;/strong&gt; - For maximum readability, text and images of text must have a contrast of at least 7:1 with their background.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html&quot;&gt;1.4.11 Non-text Contrast (Level AA)&lt;/a&gt;&lt;/strong&gt; - User interface components and graphical objects (e.g., charts, diagrams, icons) must have a contrast of at least 3:1 with nearby colours so they are easy to see and use.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Landmarks Help Screen Reader Users Navigate</title>
+    <link href="https://example.com/fasthtml-web-a11y/landmarks/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/landmarks/</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;The code to accompany this post is &amp;quot;&lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/landmarks&quot;&gt;Landmarks&lt;/a&gt;&amp;quot;. Screen reader required!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Landmarks provide key navigation points on a page. Screen reader users can jump to the main content, navigation, search areas, or other important regions quickly. Without landmarks, users may have to traverse &lt;strong&gt;every&lt;/strong&gt; menu item, social media icon, and advertisement before reaching the content they want, if they have not already left the website out of frustration.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;why-landmarks-matter&quot;&gt;Why landmarks matter&lt;/h2&gt;
+&lt;p&gt;Despite their importance, landmarks are underused. The &lt;a href=&quot;https://webaim.org/projects/million/#regions&quot;&gt;WebAIM Million project&lt;/a&gt; found that while 80% of home pages have at least one landmark, only 42.6% used a main content landmark. The &lt;a href=&quot;https://webaim.org/projects/screenreadersurvey10/#landmarks&quot;&gt;2024 WebAIM Screen Reader Survey&lt;/a&gt; shows that 31.8% of screen reader users frequently navigate by landmarks, highlighting a gap between user needs and current implementation.&lt;/p&gt;
+&lt;h3 id=&quot;a-real-world-example&quot;&gt;A real world example&lt;/h3&gt;
+&lt;p&gt;In the section of the below video (6:57 to 8:43), accessibility expert &lt;a href=&quot;https://tink.uk/&quot;&gt;Leonie Watson&lt;/a&gt; demonstrates how landmarks help a screen reader user to understand and navigate the structure of a page.&lt;/p&gt;
+&lt;lite-youtube videoid=&quot;OUDV1gqs9GA&quot; title=&quot;How A Screen Reader Users Surfs The Web&quot; params=&quot;start=417&amp;end=523&quot; style=&quot;background-image: url(&#39;https://i.ytimg.com/vi/OUDV1gqs9GA/hqdefault.jpg&#39;);&quot;&gt;
+  &lt;a href=&quot;https://youtu.be/OUDV1gqs9GA?si=DDa3Ofm0xZRO0j3k&quot; class=&quot;lyt-playbtn&quot; title=&quot;Play Video&quot;&gt;
+    &lt;span class=&quot;lyt-visually-hidden&quot;&gt;Play Video: Smashing TV: How A Screen Reader Users Surfs The Web. Video starts at 6 minutes and 57 seconds in.&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/lite-youtube&gt;
+&lt;h2 id=&quot;native-html-landmark-elements&quot;&gt;Native HTML landmark elements&lt;/h2&gt;
+&lt;p&gt;All major screen readers include keyboard shortcuts for moving between landmarks, making them one of the fastest ways to navigate page layouts. Most landmarks come directly from semantic HTML elements, giving screen readers built-in navigation points without extra coding. The key is to use them thoughtfully when structuring the page, but not so many that they overwhelm users. The following are the semantic HTML elements, their FastHTML counterparts and their associated landmark:&lt;/p&gt;
+&lt;h3 id=&quot;header-header-banner&quot;&gt;&lt;code&gt;&amp;lt;header&amp;gt;&lt;/code&gt; - &lt;code&gt;Header()&lt;/code&gt; - Banner&lt;/h3&gt;
+&lt;p&gt;Site-wide content like your logo and main navigation.&lt;/p&gt;
+&lt;h3 id=&quot;nav-nav-navigation&quot;&gt;&lt;code&gt;&amp;lt;nav&amp;gt;&lt;/code&gt; - &lt;code&gt;Nav()&lt;/code&gt; - Navigation&lt;/h3&gt;
+&lt;p&gt;Menus and navigation links.&lt;/p&gt;
+&lt;h3 id=&quot;main-main-main-content&quot;&gt;&lt;code&gt;&amp;lt;main&amp;gt;&lt;/code&gt; - &lt;code&gt;Main()&lt;/code&gt; - Main Content&lt;/h3&gt;
+&lt;p&gt;The page&#39;s primary content - there should only be one per page.&lt;/p&gt;
+&lt;h3 id=&quot;footer-footer-content-info&quot;&gt;&lt;code&gt;&amp;lt;footer&amp;gt;&lt;/code&gt; - &lt;code&gt;Footer()&lt;/code&gt; - Content Info&lt;/h3&gt;
+&lt;p&gt;Page footer with copyright, contact info, or company links.&lt;/p&gt;
+&lt;h3 id=&quot;aside-aside-complementary&quot;&gt;&lt;code&gt;&amp;lt;aside&amp;gt;&lt;/code&gt; - &lt;code&gt;Aside()&lt;/code&gt; - Complementary&lt;/h3&gt;
+&lt;p&gt;Related content like sidebars, author bios, or &amp;quot;related articles.&amp;quot;&lt;/p&gt;
+&lt;h3 id=&quot;form-form-form&quot;&gt;&lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt; - &lt;code&gt;Form&lt;/code&gt; - Form&lt;/h3&gt;
+&lt;p&gt;Any form for user input like contact forms.&lt;/p&gt;
+&lt;h3 id=&quot;form-role-search-or-search-form-role-search-or-search-search&quot;&gt;&lt;code&gt;&amp;lt;form role=&amp;quot;search&amp;quot;&amp;gt;&lt;/code&gt; or &lt;code&gt;&amp;lt;search&amp;gt;&lt;/code&gt; - &lt;code&gt;Form(role=&amp;quot;search&amp;quot;)&lt;/code&gt; or &lt;code&gt;Search()&lt;/code&gt; - Search&lt;/h3&gt;
+&lt;p&gt;Specifically for search functionality. &lt;code&gt;&amp;lt;search&amp;gt;&lt;/code&gt; is semantically correct and &lt;a href=&quot;https://caniuse.com/?search=%3Csearch%3E&quot;&gt;works across the latest browser versions&lt;/a&gt; but may not work on older devices or browsers.&lt;/p&gt;
+&lt;h3 id=&quot;section-section-region&quot;&gt;&lt;code&gt;&amp;lt;section&amp;gt;&lt;/code&gt; - &lt;code&gt;Section()&lt;/code&gt; - Region&lt;/h3&gt;
+&lt;p&gt;Generic sections that need to be provided with a heading or label to be useful landmarks.&lt;/p&gt;
+&lt;h2 id=&quot;giving-landmarks-clear-and-understandable-names&quot;&gt;Giving landmarks clear and understandable names&lt;/h2&gt;
+&lt;p&gt;Without a meaningful name, a screen reader may announce a landmark by its role, e.g. “navigation”, or not announce it at all. An unlabelled landmark can appear vague and leave a user unsure as to its purpose. The below screenshot shows how unlabelled landmarks appear to the NVDA screen reader.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/landmarks/6C-8a3W1jK-522.avif 522w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/landmarks/6C-8a3W1jK-522.webp 522w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/landmarks/6C-8a3W1jK-522.png&quot; alt=&quot;NVDA landmark list showing only landmark role information&quot; width=&quot;522&quot; height=&quot;477&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;It would be much clearer when trying to navigate a page if those elements were properly named as &amp;quot;Author Biography&amp;quot;, &amp;quot;Related Articles&amp;quot; and &amp;quot;Footer social media links&amp;quot; for example.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; Some screen readers announce the landmark &lt;strong&gt;type&lt;/strong&gt; along with its &lt;strong&gt;name&lt;/strong&gt;. Avoid repeating the type when naming landmarks, as this can result in redundant announcements such as “primary site navigation navigation.”&lt;/p&gt;
+&lt;h3 id=&quot;re-using-visible-on-page-text-as-a-label&quot;&gt;Re-using visible on-page text as a label&lt;/h3&gt;
+&lt;p&gt;If a landmark contains a visible heading, you can reference it with &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby&quot;&gt;&lt;code&gt;aria-labelledby&lt;/code&gt;&lt;/a&gt; so the heading serves as the landmark name.&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;Nav&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    H2&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Main Menu&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;main-nav-heading&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    aria_labelledby&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;main-nav-heading&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;when-no-visible-text-is-available&quot;&gt;When no visible text is available&lt;/h3&gt;
+&lt;p&gt;Some visual design choices will mean there are no visible headings to reference. In those instances, use &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-label&quot;&gt;&lt;code&gt;aria-label&lt;/code&gt;&lt;/a&gt; to provide a name for the landmark:&lt;/p&gt;
+&lt;pre class=&quot;language-python&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;Nav&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+  aria_label&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;Social Media Links&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;managing-multiple-landmarks-of-the-same-type&quot;&gt;Managing multiple landmarks of the same type&lt;/h3&gt;
+&lt;p&gt;If a page has more than one landmark of the &lt;strong&gt;same type&lt;/strong&gt; (e.g. a navigation menu at the top and another at the bottom) give each one a &lt;strong&gt;unique name&lt;/strong&gt;. For instance, you could label them “Primary site” and “Footer links.”&lt;/p&gt;
+&lt;p&gt;Without unique names, a user might hear the same landmark announced at the bottom of the page that they already heard at the top, which can be confusing.&lt;/p&gt;
+&lt;p&gt;As mentioned above, use &lt;code&gt;aria-labelledby&lt;/code&gt; if the landmark has an appropriate visible heading otherwise, use &lt;code&gt;aria-label&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;how-screen-readers-present-landmark-information&quot;&gt;How Screen Readers present landmark information&lt;/h3&gt;
+&lt;p&gt;Screen readers let users navigate landmarks jumping between them with keyboard shortcuts or via an &amp;quot;Elements&amp;quot; list. You can see in the sections below how the &lt;a href=&quot;https://www.nvaccess.org/download/&quot;&gt;NVDA&lt;/a&gt; and &lt;a href=&quot;https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1&quot;&gt;Windows Narrator&lt;/a&gt; screen readers present the landmarks to a user.&lt;/p&gt;
+&lt;h4 id=&quot;nvda&quot;&gt;NVDA&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;On page navigation:&lt;/strong&gt; Press the &lt;code&gt;D&lt;/code&gt; key to jump to the &lt;strong&gt;next&lt;/strong&gt; landmark. &lt;code&gt;Shift + D&lt;/code&gt; will jump to the &lt;strong&gt;previous&lt;/strong&gt; landmark.&lt;/p&gt;
+&lt;p&gt;Alternatively, using the &lt;strong&gt;Elements List&lt;/strong&gt; functionality:&lt;/p&gt;
+&lt;p&gt;Press &lt;code&gt;&amp;lt;NVDA Key&amp;gt; + F7&lt;/code&gt; and then &lt;code&gt;Alt + D&lt;/code&gt; to access the list of available landmarks.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/landmarks/KkPrTMqSbz-522.avif 522w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/landmarks/KkPrTMqSbz-522.webp 522w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/landmarks/KkPrTMqSbz-522.png&quot; alt=&quot;The landmarks list generated by the NVDA screen reader&quot; width=&quot;522&quot; height=&quot;477&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h4 id=&quot;windows-narrator&quot;&gt;Windows Narrator&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;On page navigation:&lt;/strong&gt; Press the &lt;code&gt;D&lt;/code&gt; key to jump to the &lt;strong&gt;next&lt;/strong&gt; landmark. &lt;code&gt;Shift + D&lt;/code&gt; to jump to the &lt;strong&gt;previous&lt;/strong&gt; landmark.&lt;/p&gt;
+&lt;p&gt;Alternatively, using the &lt;strong&gt;Elements List&lt;/strong&gt; functionality:&lt;/p&gt;
+&lt;p&gt;Press &lt;code&gt;Insert + F5&lt;/code&gt; to bring up the list of landmarks in Narrator.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/landmarks/aYjT0F9aMt-455.avif 455w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/landmarks/aYjT0F9aMt-455.webp 455w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/landmarks/aYjT0F9aMt-455.png&quot; alt=&quot;The landmarks list generated by the Narrator screen reader&quot; width=&quot;455&quot; height=&quot;450&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h2 id=&quot;wcag-success-criteria&quot;&gt;WCAG Success Criteria&lt;/h2&gt;
+&lt;p&gt;These WCAG success criteria relate to the accessibility topics covered in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html&quot;&gt;1.3.1 Info and Relationships (Level A)&lt;/a&gt;&lt;/strong&gt; - Information, structure and relationships must be clear in code or available as text so assistive technologies can understand them.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html&quot;&gt;2.4.1 Bypass Blocks (Level A)&lt;/a&gt;&lt;/strong&gt; - Users must have a way to skip repeated blocks of content, like navigation menus, so they can get to the main content quickly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html&quot;&gt;2.4.6 Headings and Labels (Level AA)&lt;/a&gt;&lt;/strong&gt; - Headings and labels should clearly describe the topic or purpose of the content they refer to.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/section-headings.html&quot;&gt;2.4.10 Section Headings (Level AAA)&lt;/a&gt;&lt;/strong&gt; - Headings should be used to organize sections of content so people can navigate and understand the page structure.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Keyboard Accessibility Basics</title>
+    <link href="https://example.com/fasthtml-web-a11y/keyboard-navigation/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/keyboard-navigation/</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;The code to accompany this post is &amp;quot;&lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/keyboard_navigation&quot;&gt;Keyboard Navigation&amp;quot;&lt;/a&gt;&amp;quot;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This post provides a high-level overview of keyboard accessibility and highlights common issues that can arise.&lt;/p&gt;
+&lt;p&gt;In an earlier post, we covered the &lt;a href=&quot;https://example.com/fasthtml-web-a11y/wcag-basics/#pour-the-four-principles&quot;&gt;four core principles&lt;/a&gt; for web accessibility: Perceivable, &lt;strong&gt;Operable&lt;/strong&gt;, Understandable, and Robust (POUR). Keyboard accessibility is essential for making the web &lt;strong&gt;operable&lt;/strong&gt;. It&#39;s a &lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html&quot;&gt;Level A&lt;/a&gt; - the lowest level - requirement because it&#39;s considered a &lt;strong&gt;basic&lt;/strong&gt; accessibility expectation.&lt;/p&gt;
+&lt;p&gt;Many people rely on keyboards due to &lt;a href=&quot;https://webaim.org/articles/motor/motordisabilities&quot;&gt;motor disabilities&lt;/a&gt;, temporary injury, or choose to use  them as a personal preference. These keyboard-only users need to navigate content and complete tasks without a mouse, making keyboard accessibility critical for inclusive web experiences.&lt;/p&gt;
+&lt;p&gt;The term &lt;em&gt;&amp;quot;keyboard-only users&amp;quot;&lt;/em&gt; is a broad term that includes people navigating with a traditional keyboard as well as those using alternative input methods like &lt;a href=&quot;https://www.24a11y.com/2018/i-used-a-switch-control-for-a-day/&quot;&gt;switch controls&lt;/a&gt;, &lt;a href=&quot;https://youtu.be/D_Siea79t4M?si=-e0aMqMyyjJSJXRE&quot;&gt;sip-and-puff&lt;/a&gt;, &lt;a href=&quot;https://webaim.org/articles/motor/assistive#headwand&quot;&gt;head wands&lt;/a&gt; or voice commands.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;an-important-note-for-macos-users&quot;&gt;An important note for MacOS users&lt;/h2&gt;
+&lt;p&gt;Keyboard accessibility &lt;em&gt;might not be enabled by default&lt;/em&gt;. Please see &lt;a href=&quot;https://dequeuniversity.com/mac/keyboard-access-mac&quot;&gt;Deque University&#39;s guide&lt;/a&gt; for instructions.&lt;/p&gt;
+&lt;h2 id=&quot;what-keyboard-users-expect&quot;&gt;What keyboard users expect&lt;/h2&gt;
+&lt;p&gt;Keyboard navigation is typically &lt;em&gt;linear&lt;/em&gt;. Pressing the &lt;code&gt;Tab&lt;/code&gt; key should move through the focusable elements on a page with predictable behaviour. Some common keyboard commands are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Tab&lt;/code&gt; or &lt;code&gt;Shift + Tab&lt;/code&gt;&lt;/strong&gt; - Move forwards or backwards through focusable elements.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Enter&lt;/code&gt;&lt;/strong&gt; - Activate links and buttons.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Space&lt;/code&gt;&lt;/strong&gt;-  Toggle checkboxes, activate buttons, or scroll the page.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Arrow keys&lt;/strong&gt; - Navigate within widgets like radiobutton groups, menus, tabs, or sliders.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Home&lt;/code&gt; / &lt;code&gt;End&lt;/code&gt; (Windows)&lt;/strong&gt; or &lt;strong&gt;&lt;code&gt;Fn + Left Arrow&lt;/code&gt; / &lt;code&gt;Fn + Right Arrow&lt;/code&gt; (MacOS)&lt;/strong&gt; - Move to first or last item within widgets.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Esc&lt;/code&gt;&lt;/strong&gt; - Close popups, modals, or menus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;WebAIM provides a &lt;a href=&quot;https://webaim.org/techniques/keyboard/#testing&quot;&gt;comprehensive list of the most common keyboard interactions&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Many of these behaviours are &lt;strong&gt;provided automatically by native HTML elements&lt;/strong&gt; such as &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;select&amp;gt;&lt;/code&gt;, and &lt;code&gt;&amp;lt;textarea&amp;gt;&lt;/code&gt;. When used correctly, these elements handle focus, activation, and keyboard interaction without extra code. Custom controls require additional work to replicate this functionality.&lt;/p&gt;
+&lt;h2 id=&quot;common-pitfalls&quot;&gt;Common pitfalls&lt;/h2&gt;
+&lt;h3 id=&quot;no-skip-link-s&quot;&gt;No Skip link(s)&lt;/h3&gt;
+&lt;p&gt;Users are forced to tab through repetitive content and navigation on every page. See &lt;a href=&quot;https://example.com/fasthtml-web-a11y/skip-links/&quot;&gt;Skip Links&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;h3 id=&quot;device-dependent-functionality&quot;&gt;Device dependent functionality&lt;/h3&gt;
+&lt;p&gt;This usually means requiring mouse input to complete a task or reveal information.&lt;/p&gt;
+&lt;h4 id=&quot;relying-on-the-title-attribute-to-reveal-information&quot;&gt;Relying on the &lt;code&gt;title&lt;/code&gt; attribute to reveal information&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;title&lt;/code&gt; attribute is often misused as a type of &amp;quot;tooltip&amp;quot; on &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; elements to show expected input or formatting. It may be announced by some screen readers, but inconsistently, and is not available to keyboard-only users. The Web Hypertext Application Technology Working Group (WHATWG)&#39;s HTML Spec states that &lt;a href=&quot;https://html.spec.whatwg.org/multipage/dom.html#the-title-attribute&quot;&gt;&amp;quot;relying on the title attribute is currently discouraged&amp;quot;&lt;/a&gt; due to poor accessibility.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Important information should be &lt;strong&gt;visible by default&lt;/strong&gt; and not depend on a specific or interaction to reveal it.&lt;/p&gt;
+&lt;h4 id=&quot;javascript-mouse-specific-event-handling&quot;&gt;JavaScript mouse-specific event handling&lt;/h4&gt;
+&lt;p&gt;Additional code may be written for keyboard-based events but consider if the necessary functionality can be provided using device-independent JavaScript event handlers.&lt;/p&gt;
+&lt;p&gt;Device-independent event handlers include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Element/focus_event&quot;&gt;&lt;code&gt;onfocus&lt;/code&gt;&lt;/a&gt; - triggers when an element receives focus.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event&quot;&gt;&lt;code&gt;onblur&lt;/code&gt;&lt;/a&gt; - triggers when an element loses focus.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event&quot;&gt;&lt;code&gt;onchange&lt;/code&gt;&lt;/a&gt; - triggers when an element&#39;s value changes and loses focus.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event&quot;&gt;&lt;code&gt;onclick&lt;/code&gt;&lt;/a&gt; - triggers when &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; elements are activated via keyboard or mouse.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/submit_event&quot;&gt;&lt;code&gt;onsubmit&lt;/code&gt;&lt;/a&gt; - triggers when forms are submitted.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&quot;css-rules-for-mouse-only-interactions&quot;&gt;CSS rules for mouse-only interactions&lt;/h4&gt;
+&lt;p&gt;As mentioned in the &lt;code&gt;title&lt;/code&gt; attribute section above, don&#39;t rely on device-specific interactions to reveal important information, &lt;strong&gt;make it visible by default&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Instead of relying solely on &lt;code&gt;:hover&lt;/code&gt;, consider including &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/:focus&quot;&gt;&lt;code&gt;:focus&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://example.com/fasthtml-web-a11y/keyboard-navigation/%5B%60:active%60%5D(https:/developer.mozilla.org/en-US/docs/Web/CSS/:active)&quot;&gt;&lt;code&gt;:active&lt;/code&gt;&lt;/a&gt; states so styles work for mouse, keyboard and touch. For example:&lt;/p&gt;
+&lt;pre class=&quot;language-css&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;/* Instead of hover-only */&lt;/span&gt;
+&lt;span class=&quot;token selector&quot;&gt;.tooltip:hover .tooltip-content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  ...
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;/* Use combined states */&lt;/span&gt;
+&lt;span class=&quot;token selector&quot;&gt;.tooltip:hover .tooltip-content,
+.tooltip:focus .tooltip-content,
+.tooltip:active .tooltip-content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;/* apply styling...*/&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;tab-order-does-not-follow-visual-order&quot;&gt;Tab order does not follow visual order&lt;/h3&gt;
+&lt;p&gt;When pressing &lt;code&gt;Tab&lt;/code&gt; or &lt;code&gt;Shift + Tab&lt;/code&gt; does not follow a logical visual sequence i.e. &lt;em&gt;next&lt;/em&gt; or &lt;em&gt;previous&lt;/em&gt; focusable element, navigation becomes confusing for keyboard users.&lt;/p&gt;
+&lt;p&gt;To prevent this, try to keep the HTML code in a logical reading order to ensure that the tab sequence matches the visual layout.&lt;/p&gt;
+&lt;p&gt;Be aware &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/order&quot;&gt;CSS Grid&#39;s &lt;code&gt;order&lt;/code&gt; property&lt;/a&gt; and &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Ordering_flex_items#the_order_property&quot;&gt;Flexbox&#39;s &lt;code&gt;order&lt;/code&gt; property&lt;/a&gt; can change the &lt;a href=&quot;https://gridbyexample.com/examples/example14/&quot;&gt;visual order of elements&lt;/a&gt; without changing the DOM. This can create mismatches between what the users see and how the keyboard focus moves through the page.&lt;/p&gt;
+&lt;p&gt;Avoid using &lt;em&gt;positive&lt;/em&gt; &lt;code&gt;tabindex&lt;/code&gt; values - e.g. &lt;code&gt;tabindex=&amp;quot;1&amp;quot;, tabindex=&amp;quot;2&amp;quot;&lt;/code&gt; - they can create unpredictable tab order. Use &lt;code&gt;tabindex=&amp;quot;0&amp;quot;&lt;/code&gt; to &lt;em&gt;add&lt;/em&gt; otherwise non-focusable elements to the natural tab order and &lt;code&gt;tabindex=&amp;quot;-1&amp;quot;&lt;/code&gt; to &lt;em&gt;remove&lt;/em&gt; elements from the tab order.&lt;/p&gt;
+&lt;h4 id=&quot;verifying-tab-order&quot;&gt;Verifying &lt;code&gt;Tab&lt;/code&gt; order&lt;/h4&gt;
+&lt;p&gt;The WebAIM WAVE extension can visually display the tab order of interactive elements. This helps to confirm that the sequence matches the expected reading order and avoids confusion for keyboard users.&lt;/p&gt;
+&lt;p&gt;WAVE is &lt;a href=&quot;https://chromewebstore.google.com/detail/jbbplnpkjmmeebjpijfedlgcdilocofh?utm_source=item-share-cb&quot;&gt;browser extension&lt;/a&gt; launched from the browser extension toolbar or the context menu &amp;quot;WAVE this page&amp;quot; option.&lt;/p&gt;
+&lt;p&gt;Below is a screenshot of WAVE showing the tab order and visual order of the &lt;a href=&quot;https://www.bbc.co.uk/rd&quot;&gt;BBC R&amp;amp;D homepage&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/keyboard-navigation/UUA6ERfFcF-960.avif 960w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/keyboard-navigation/UUA6ERfFcF-960.webp 960w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/keyboard-navigation/UUA6ERfFcF-960.png&quot; alt=&quot;WAVE tool displaying the tab order of elements on the BBC Research and Development homepage&quot; width=&quot;960&quot; height=&quot;540&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h3 id=&quot;low-contrast-or-no-visible-focus&quot;&gt;Low contrast or no visible focus&lt;/h3&gt;
+&lt;p&gt;Focus indicators for keyboard users serve the same purpose as the cursor for mouse users. If users cannot see where they are on a page, they cannot navigate or complete a task confidently.&lt;/p&gt;
+&lt;p&gt;This is often caused by removing outlines (e.g. &lt;code&gt;outline: none&lt;/code&gt;) or styling focus outlines with very low contrast making they difficult to see against the page&#39;s background. See &lt;a href=&quot;https://example.com/fasthtml-web-a11y/focus-indicators/&quot;&gt;post on creating accessible focus for keyboard users&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;keyboard-traps&quot;&gt;Keyboard traps&lt;/h3&gt;
+&lt;p&gt;Users can become stuck in controls they cannot &lt;code&gt;Esc&lt;/code&gt; or &lt;code&gt;Tab&lt;/code&gt; out of, e.g. modals requiring users to click on an icon to close them. Ensure modals and complex widgets allow exiting using keyboard commands.&lt;/p&gt;
+&lt;h3 id=&quot;custom-components-without-keyboard-support&quot;&gt;Custom components without keyboard support&lt;/h3&gt;
+&lt;p&gt;Replacing native buttons or links, often with divs or spans, without providing full keyboard functionality is a frequent accessibility failure.&lt;/p&gt;
+&lt;p&gt;As mentioned earlier, use native HTML elements (when possible) for their built-in keyboard support, or ensure custom components have proper focus management and ARIA attributes (will be covered in a future post).&lt;/p&gt;
+&lt;h2 id=&quot;wcag-success-criteria&quot;&gt;WCAG Success Criteria&lt;/h2&gt;
+&lt;p&gt;These WCAG success criteria relate to the accessibility topics covered in this post.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html&quot;&gt;2.1.1 Keyboard (Level A)&lt;/a&gt;&lt;/strong&gt; - All functionality must be operable using a keyboard or other assistive input, without requiring a mouse.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap&quot;&gt;2.1.2 No Keyboard Trap (Level A)&lt;/a&gt;&lt;/strong&gt; - Users must be able to navigate through and interact with a page without getting &amp;quot;stuck&amp;quot; on any element.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/focus-order&quot;&gt;2.4.3 Focus Order (Level A)&lt;/a&gt;&lt;/strong&gt; - The order in which users navigate through the interactive elements on a page must be logical and predictable.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus&quot;&gt;1.4.13 Content on Hover or Focus (Level AA)&lt;/a&gt;&lt;/strong&gt; - Content that appears when a user focuses or hovers over an element must be easy to close and remain visible as long as needed.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>A Brief Intro to the Accessibility Tree</title>
+    <link href="https://example.com/fasthtml-web-a11y/intro-accessibility-tree/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/intro-accessibility-tree/</id>
+    <content type="html">&lt;p&gt;&lt;strong&gt;The code to accompany this post is &amp;quot;&lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/intro_to_the_accessibility_tree&quot;&gt;Intro to the accessibility tree&amp;quot;&lt;/a&gt;&amp;quot;. Screen reader required!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Web accessibility, or “web a11y”, is about making websites and apps usable by everyone. For some people, this can mean removing barriers that make digital content difficult or impossible to use. Many rely on &lt;strong&gt;&lt;a href=&quot;https://webaim.org/articles/motor/assistive&quot;&gt;assistive technologies (AT)&lt;/a&gt;&lt;/strong&gt; to navigate and interact with content. For example, screen readers support people who are blind or have low vision, keyboard-only input or voice recognition software assist people with limited mobility, and braille displays help people who are deaf-blind. Some people may need to use more than one type of AT together.&lt;/p&gt;
+&lt;p&gt;These technologies depend on the &lt;strong&gt;accessibility tree&lt;/strong&gt; to convey information about the page and help people understand what they are interacting with.&lt;/p&gt;
+&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Overview&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;the-accessibility-tree&quot;&gt;The accessibility tree&lt;/h2&gt;
+&lt;p&gt;The &lt;strong&gt;Document Object Model&lt;/strong&gt; (DOM) is a structured representation of a web page created by the browser after parsing HTML, applying CSS and running any JavaScript. The accessibility tree is a &lt;strong&gt;subset&lt;/strong&gt; of the DOM, generated by the browser and mapped through the operating system&#39;s &lt;a href=&quot;https://www.w3.org/TR/core-aam-1.1/#intro_aapi&quot;&gt;Accessibility APIs (AAPIs)&lt;/a&gt; to the ATs.&lt;/p&gt;
+&lt;p&gt;The accessibility tree serves as the bridge between web content and ATs. This enables people to interact with web content based on their needs, whether through spoken feedback, tactile output, or alternative input methods.&lt;/p&gt;
+&lt;p&gt;Elements are excluded from the accessibility tree if they are removed from or hidden in the DOM using CSS (e.g., &lt;code&gt;display: none;&lt;/code&gt; or &lt;code&gt;visibility: hidden;&lt;/code&gt;),
+the &lt;code&gt;hidden&lt;/code&gt; HTML attribute, or &lt;code&gt;aria-hidden=&amp;quot;true&amp;quot;&lt;/code&gt;. An element is included only if it is determined that it provides meaningful information to the person. Since &lt;a href=&quot;https://www.w3.org/TR/core-aam-1.1/#comparing-accessibility-apis&quot;&gt;AAPIs are OS-specific&lt;/a&gt;, content representations may vary across different browser and AT pairings, e.g. different screen readers may announce content &lt;em&gt;slightly&lt;/em&gt; differently. These variations are expected and not considered a bug, as they depend on OS-level accessibility implementations.&lt;/p&gt;
+&lt;h2 id=&quot;aria&quot;&gt;ARIA&lt;/h2&gt;
+&lt;p&gt;ARIA (&lt;strong&gt;A&lt;/strong&gt;ccessible &lt;strong&gt;R&lt;/strong&gt;ich &lt;strong&gt;I&lt;/strong&gt;nternet &lt;strong&gt;A&lt;/strong&gt;pplications), part of the W3C&#39;s &lt;a href=&quot;https://www.w3.org/WAI/&quot;&gt;Web Accessibility Initiative (WAI)&lt;/a&gt;, provides additional semantic information when HTML alone isn&#39;t enough. It can be particularly useful for dynamic content and custom interactive components - when used correctly.&lt;/p&gt;
+&lt;p&gt;At the same time, ARIA is complex and has strict rules. Misuse can create serious accessibility barriers rather than removing them. The official &lt;a href=&quot;https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/&quot;&gt;ARIA Authoring Practices Guide&lt;/a&gt; even cautions: &lt;strong&gt;“No ARIA is better than Bad ARIA.”&lt;/strong&gt; Supporting this, the &lt;a href=&quot;https://webaim.org/projects/million/#errors&quot;&gt;2025 WebAIM Million study&lt;/a&gt; found that pages using ARIA tended to have &lt;em&gt;more&lt;/em&gt; accessibility errors than those without, likely due to the additional complexity it introduces.&lt;/p&gt;
+&lt;p&gt;ARIA is a complex topic that will get deeper exploration in a future post.&lt;/p&gt;
+&lt;p&gt;The following is a high-level overview focused on understanding how semantic HTML creates the foundation for accessibility and what ARIA can provide.&lt;/p&gt;
+&lt;h3 id=&quot;semantic-html&quot;&gt;Semantic HTML&lt;/h3&gt;
+&lt;p&gt;Semantics convey purpose. There are more than 100 semantic elements in HTML that represent various types of content and interactive controls. Semantic HTML indicates &lt;strong&gt;what an element is&lt;/strong&gt; and &lt;strong&gt;how it should be used&lt;/strong&gt;. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt; - the root element and top-level container of every valid HTML document.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;h2&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;h3&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;h4&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;h5&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; - represent 6 levels of page heading.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; is a button element.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; is for a paragraph of content.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;ul&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;ol&amp;gt;&lt;/code&gt; are both lists containing &lt;code&gt;&amp;lt;li&amp;gt;&lt;/code&gt; items, but differ semantically: &lt;code&gt;&amp;lt;ul&amp;gt;&lt;/code&gt; represents an unordered list while &lt;code&gt;&amp;lt;ol&amp;gt;&lt;/code&gt; indicates the order is meaningful.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When you use semantic HTML, you &lt;strong&gt;automatically&lt;/strong&gt; get accessibility benefits through &lt;strong&gt;implicit&lt;/strong&gt; roles. A &lt;strong&gt;role&lt;/strong&gt; defines the purpose or type of an element, communicating its meaning and function to assistive technologies.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;h2&amp;gt;&lt;/code&gt;, etc. get &lt;code&gt;role=&amp;quot;heading&amp;quot;&lt;/code&gt; with their corresponding number being an &lt;code&gt;aria-level&lt;/code&gt; attribute e.g. &lt;code&gt;&amp;lt;h2&amp;gt;&lt;/code&gt; would have an &lt;code&gt;aria-level=2&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; gets &lt;code&gt;role=&amp;quot;button&amp;quot;&lt;/code&gt; which communicates its interactive nature.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;nav&amp;gt;&lt;/code&gt; gets &lt;code&gt;role=&amp;quot;navigation&amp;quot;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Roles can be shared by more than one element e.g. &lt;code&gt;&amp;lt;ul&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;ol&amp;gt;&lt;/code&gt; both map to &lt;code&gt;role=&amp;quot;list&amp;quot;&lt;/code&gt;, &lt;code&gt;&amp;lt;input type=&amp;quot;text&amp;quot;&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;textarea&amp;gt;&lt;/code&gt; map to &lt;code&gt;role=&amp;quot;textbox&amp;quot;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Some elements, like &lt;code&gt;&amp;lt;span&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;, map to &lt;code&gt;role=&amp;quot;generic&amp;quot;&lt;/code&gt;, and text-level semantics like &lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt;, may be excluded from the accessibility tree. ATs like screen readers can be configured to apply text-level semantics, if present, to words in their text-to-speech.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This built-in accessibility information is passed to the AT through the accessibility tree, providing structure and meaning without any additional development work. For reference, here is the &lt;a href=&quot;https://www.w3.org/TR/html-aria/#docconformance&quot;&gt;full W3 list of HTML element ARIA role mappings&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;using-aria&quot;&gt;Using ARIA&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&quot;https://w3c.github.io/using-aria/#rule1&quot;&gt;&amp;quot;W3C&#39;s First Rule of ARIA Use&amp;quot;&lt;/a&gt; officially recommends using native HTML elements or attributes where possible instead of re-purposing an existing element - e.g. &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; as a button - and adding ARIA to it.&lt;/p&gt;
+&lt;p&gt;However, there are situations where HTML alone isn&#39;t sufficient for complex or dynamic content, ARIA allows developers to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Set explicit roles&lt;/strong&gt; to extend or override native semantics using the role attribute: e.g. &lt;code&gt;role=&amp;quot;dialog&amp;quot;&lt;/code&gt; on a custom modal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Communicate element state&lt;/strong&gt; such as &lt;code&gt;aria-expanded&lt;/code&gt; on a collapsible section, &lt;code&gt;aria-pressed&lt;/code&gt; on a toggle button, or &lt;code&gt;aria-current&lt;/code&gt; on the active page in a navigation menu.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Provide additional properties&lt;/strong&gt; to clarify relationships or visibility: e.g. &lt;code&gt;aria-label&lt;/code&gt; to name an icon button, &lt;code&gt;aria-labelledby&lt;/code&gt; to associate a control with its visible label, or &lt;code&gt;aria-hidden&lt;/code&gt; to hide decorative content from AT.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Note: ARIA states (e.g. aria-expanded, aria-pressed) and certain properties (e.g. aria-hidden), are meant to change as users interact with the page. JavaScript is usually needed to update their values so that AT and the person using them get the correct information.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;accessibility-tree-objects&quot;&gt;Accessibility tree objects&lt;/h2&gt;
+&lt;p&gt;Each element from the DOM included in the accessibility tree is represented as an object with attributes that help convey information - e.g. purpose, state, and context.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common attributes of accessibility tree objects:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Role&lt;/strong&gt; – What the element &lt;em&gt;is&lt;/em&gt; and how it should be &lt;em&gt;used&lt;/em&gt;. Derived from its implicit or explicit ARIA role.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Name&lt;/strong&gt; – Also known as the &amp;quot;accessible name&amp;quot; (accName). Identifies the element for AT e.g. a button labelled &amp;quot;Save Changes&amp;quot; will be announced as &amp;quot;Save Changes&amp;quot;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Description&lt;/strong&gt; – Provides additional context beyond the role and name e.g. explaining input format requirements.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;State&lt;/strong&gt; – Indicates status e.g. checkbox checked, button pressed, dropdown expanded.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Additional attributes (when relevant):&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Properties&lt;/strong&gt; – an element might be &lt;code&gt;required&lt;/code&gt;, &lt;code&gt;focusable&lt;/code&gt;, etc.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Relationships&lt;/strong&gt; – Some elements are only meaningful in relation to others: a label linked to an input, radio buttons grouped together, or descriptions associated with form fields.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Note: The details of how names and descriptions are calculated are outside the scope of this post. For more, see &lt;a href=&quot;https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_te&quot;&gt;Accessible Name and Description Computation&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;viewing-the-accessibility-tree-in-browser-devtools&quot;&gt;Viewing the accessibility tree in browser DevTools&lt;/h2&gt;
+&lt;p&gt;The accessibility tree is available to inspect, just like you might with elements in the DOM, in most modern browser DevTools.&lt;/p&gt;
+&lt;h3 id=&quot;the-accessibility-panel&quot;&gt;The Accessibility panel&lt;/h3&gt;
+&lt;p&gt;In &lt;strong&gt;Chromium&lt;/strong&gt; browsers (e.g. Chrome, Edge, Brave) the &amp;quot;Accessibility&amp;quot; Panel should be an option in your DevTools as shown in the image below.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/E4qkWzjT7U-729.avif 729w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/E4qkWzjT7U-729.webp 729w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/E4qkWzjT7U-729.png&quot; alt=&quot;The Accessibility Panel in Chromium DevTools&quot; width=&quot;729&quot; height=&quot;330&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;If you don&#39;t see it you can also try (with your DevTools open):&lt;br&gt;
+1. Pressing &lt;strong&gt;Ctrl&lt;/strong&gt;+&lt;strong&gt;Shift&lt;/strong&gt;+&lt;strong&gt;P&lt;/strong&gt; (on Windows/Linux) or &lt;strong&gt;Command&lt;/strong&gt;+&lt;strong&gt;Shift&lt;/strong&gt;+&lt;strong&gt;P&lt;/strong&gt; (on Mac) to open the &amp;quot;Command Menu&amp;quot;.&lt;br&gt;
+2. Start typing &amp;quot;Accessibility&amp;quot;.&lt;br&gt;
+3. Press &amp;quot;Enter&amp;quot; or click on the &amp;quot;Show Accessibility&amp;quot; option in the list.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/gCxwPbf3iG-599.avif 599w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/gCxwPbf3iG-599.webp 599w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/gCxwPbf3iG-599.png&quot; alt=&quot;Opening the DevTools Command Menu&quot; width=&quot;599&quot; height=&quot;116&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;You can then view the Accessibility tree object attributes of each element by clicking on them in the DOM tree view and any accessibility information will appear on the right hand side.&lt;/p&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/avif&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/ziK3VVr6xX-1190.avif 1190w&quot;&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/ziK3VVr6xX-1190.webp 1190w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/ziK3VVr6xX-1190.png&quot; alt=&quot;Viewing accessibility object properties&quot; width=&quot;1190&quot; height=&quot;573&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;h3 id=&quot;enabling-the-full-page-accessibility-tree-view&quot;&gt;Enabling the full-page accessibility tree view&lt;/h3&gt;
+&lt;p&gt;You can swap the DOM tree view with an easy-to-read hierarchical view of the Accessibility tree.&lt;/p&gt;
+&lt;p&gt;While on the Accessiblity Panel:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Check the box labeled &amp;quot;Enable full-page accessibility tree&amp;quot;.&lt;/li&gt;
+&lt;li&gt;You may be prompted with a message that a reload is required, click the &amp;quot;Reload DevTools&amp;quot; button.&lt;/li&gt;
+&lt;li&gt;After the reload, click on the accessibility icon that appears in the &amp;quot;Elements&amp;quot; section to switch to the Accessibility tree view.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;picture&gt;&lt;source type=&quot;image/webp&quot; srcset=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/ShVZwilJTa-848.webp 848w&quot;&gt;&lt;img loading=&quot;lazy&quot; decoding=&quot;async&quot; src=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree/ShVZwilJTa-848.gif&quot; alt=&quot;Enabling the full-page accessibility tree option in Chromium DevTools&quot; width=&quot;848&quot; height=&quot;292&quot;&gt;&lt;/picture&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE: Once you have enabled the full-page view you can toggle between it and the DOM view by pressing the &#39;a&#39; key on your keyboard.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Use either view to inspect the accessibility tree information in the code example to see what is and is &lt;em&gt;not&lt;/em&gt; included.&lt;/p&gt;
+&lt;h2 id=&quot;the-code-example-with-the-nvda-screen-reader&quot;&gt;The code example with the NVDA screen reader&lt;/h2&gt;
+&lt;p&gt;Below is a screen recording of how the &lt;a href=&quot;https://www.nvaccess.org/download/&quot;&gt;NVDA screen reader&lt;/a&gt; (on Windows 10) uses the accessibility tree to announce the content of the page.&lt;/p&gt;
+&lt;p&gt;NVDA announces the page content for the first 34 seconds, it displays the pink rectangle as it navigates the page. From roughly 35 seconds onward, I am using the keyboard to navigate and interact with the elements to highlight how they are announced. For the purposes of demonstration, I have greatly reduced the speed at which NVDA announces content.&lt;/p&gt;
+&lt;lite-youtube videoid=&quot;648Om4SaYKk&quot; title=&quot;Contact Us NVDA Screen Reader Demo&quot; style=&quot;background-image: url(&#39;https://i.ytimg.com/vi/648Om4SaYKk/hqdefault.jpg&#39;);&quot;&gt;
+  &lt;a href=&quot;https://youtu.be/648Om4SaYKk&quot; class=&quot;lyt-playbtn&quot; title=&quot;Play Video&quot;&gt;
+    &lt;span class=&quot;lyt-visually-hidden&quot;&gt;Play Video: Contact Us NVDA Screen Reader Demo&lt;/span&gt;
+  &lt;/a&gt;
+&lt;/lite-youtube&gt;
+&lt;p&gt;Some important things worth noting:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The telephone icon beside the phone number might look visually appealing but being announced as &#39;telephone receiver&#39; may be confusing to a non-sighted person.&lt;/li&gt;
+&lt;li&gt;Notice all the information announced every time the &amp;quot;Email Address&amp;quot; field is focused.&lt;/li&gt;
+&lt;li&gt;To a sighted person it may be safe to assume the large &lt;code&gt;textarea&lt;/code&gt; is where they should enter their comment and they should not include emojis. NVDA first announces all the page content it gets from the accessibility tree - when the pink focus indicators are visible. However, it does not announce any of the information that a sighted person would identify as relevant when the &lt;code&gt;textarea&lt;/code&gt; is subsequently focussed (the blue focus indicator).&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Web Accessibility with FastHTML</title>
+    <link href="https://example.com/fasthtml-web-a11y/" />
+    <updated>2025-11-15T00:00:00Z</updated>
+    <id>https://example.com/fasthtml-web-a11y/</id>
+    <content type="html">&lt;p&gt;&lt;table-of-contents selector=&quot;h2, h3, h4, h5&quot; summary=&quot;Table Of Contents&quot;&gt;&lt;/table-of-contents&gt;&lt;/p&gt;
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Web Accessibility (web a11y) can seem overwhelming. This ongoing series focuses on practical web a11y examples and real-world contexts to show how small changes can meaningfully improve accessibility for &lt;em&gt;everyone&lt;/em&gt;. It is not a full accessibility or legal compliance guide, but a starting point for building more inclusive experiences - whether you&#39;re working on a larger project, experimenting at home, or prompting your favourite LLM.&lt;/p&gt;
+&lt;h2 id=&quot;series-guide&quot;&gt;Series Guide&lt;/h2&gt;
+&lt;p&gt;Some people rely on &lt;a href=&quot;https://example.com/fasthtml-web-a11y/assistive-technologies&quot;&gt;assistive technologies&lt;/a&gt; (AT) to help them use the web. These tools use the &lt;a href=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree&quot;&gt;accessibility tree&lt;/a&gt; to understand what&#39;s on a page and how people can interact with it. The &lt;a href=&quot;https://example.com/fasthtml-web-a11y/wcag-basics&quot;&gt;Web Content Accessibility Guidelines (WCAG)&lt;/a&gt; detail what needs to be in place to make content accessible.&lt;/p&gt;
+&lt;p&gt;Set the &lt;a href=&quot;https://example.com/fasthtml-web-a11y/set-the-language&quot;&gt;page language&lt;/a&gt; so AT doesn&#39;t have to &lt;em&gt;guess&lt;/em&gt; and confusingly mispronounce things. Give each page a clear &lt;a href=&quot;https://example.com/fasthtml-web-a11y/set-the-page-title&quot;&gt;title&lt;/a&gt; so everyone knows where they are. Don&#39;t block people from &lt;a href=&quot;https://example.com/fasthtml-web-a11y/do-not-disable-zoom&quot;&gt;zooming or resizing&lt;/a&gt;; everyone should be able to read comfortably.&lt;/p&gt;
+&lt;p&gt;Structure your content clearly. Use proper &lt;a href=&quot;https://example.com/fasthtml-web-a11y/headings&quot;&gt;headings&lt;/a&gt; to help sighted users scan and AT users jump between sections. Add &lt;a href=&quot;https://example.com/fasthtml-web-a11y/landmarks&quot;&gt;landmarks&lt;/a&gt; to help AT users navigate the page and the site. Include a &lt;a href=&quot;https://example.com/fasthtml-web-a11y/skip-links&quot;&gt;skip link&lt;/a&gt; so people can bypass repeated content quickly.&lt;/p&gt;
+&lt;p&gt;Even with good structure, content can still be hard to read. Avoid &lt;a href=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text&quot;&gt;low-contrast text and colours&lt;/a&gt; so everyone can enjoy your content, and don&#39;t rely on &lt;a href=&quot;https://example.com/fasthtml-web-a11y/do-not-rely-on-colour-alone&quot;&gt;colour alone&lt;/a&gt; to convey information.&lt;/p&gt;
+&lt;p&gt;Sleek visual designs are great, but AT cannot guess what links or buttons do if the accessibility tree information isn&#39;t there. Avoid creating &lt;a href=&quot;https://example.com/fasthtml-web-a11y/empty-links&quot;&gt;empty links&lt;/a&gt; and &lt;a href=&quot;https://example.com/fasthtml-web-a11y/empty-buttons&quot;&gt;empty buttons&lt;/a&gt;; if people can&#39;t tell what something does, they won&#39;t click it.&lt;/p&gt;
+&lt;p&gt;Some people rely entirely on keyboards. They should be able to use your site &lt;a href=&quot;https://example.com/fasthtml-web-a11y/keyboard-navigation&quot;&gt;without a mouse&lt;/a&gt;, and it should always be clear where focus is by using accessible &lt;a href=&quot;https://example.com/fasthtml-web-a11y/focus-indicators&quot;&gt;focus indicators&lt;/a&gt;. If you use Pico CSS, you can improve its default &lt;a href=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator&quot;&gt;focus indicators&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;accompanying-code-examples&quot;&gt;Accompanying code examples&lt;/h2&gt;
+&lt;p&gt;To accompany the posts, where relevant, I&#39;ve created code examples using &lt;a href=&quot;https://fastht.ml/&quot;&gt;FastHTML&lt;/a&gt;. They&#39;re based on a fictional site called &amp;quot;The Dunning-Kruger Dispatch&amp;quot;, with some intentionally poor or contrived code to illustrate specific web accessibility problems (Some might say the attempts are humour are also &amp;quot;poor or contrived&amp;quot;), that readers can attempt to resolve.&lt;/p&gt;
+&lt;p&gt;The repository is &lt;a href=&quot;https://github.com/anthonycosgrave/fasthtml-web-a11y&quot;&gt;FastHTML-web-a11y&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;software-used&quot;&gt;Software used&lt;/h2&gt;
+&lt;p&gt;More details on screen readers is available in the &lt;a href=&quot;https://example.com/fasthtml-web-a11y/assistive-technologies&quot;&gt;assistive technologies&lt;/a&gt; post. For many examples in this series, I use &lt;a href=&quot;https://www.nvaccess.org/download/&quot;&gt;NonVisual Desktop Access (NVDA)&lt;/a&gt; and the &lt;a href=&quot;https://support.microsoft.com/en-us/windows/complete-guide-to-narrator-e4397a0d-ef4f-b386-d8ae-c172f109bdb1&quot;&gt;Narrator&lt;/a&gt; screen reader, as I am on working on Windows.&lt;/p&gt;
+&lt;p&gt;If you are using MacOS, &lt;a href=&quot;https://support.apple.com/en-ie/guide/voiceover/welcome/mac&quot;&gt;VoiceOver&lt;/a&gt; is the built-in screen reader on that platform.&lt;/p&gt;
+&lt;p&gt;NVDA, Narrator and VoiceOver are types of screen readers that &amp;quot;announce&amp;quot; content via Text-To-Speech and provide navigational aids.&lt;/p&gt;
+&lt;h2 id=&quot;series-index&quot;&gt;Series Index&lt;/h2&gt;
+&lt;p&gt;Here are the individual posts in the series. It is recommended to read them in order, as concepts build on each other.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/assistive-technologies&quot;&gt;An overview of Assistive Technologies&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/intro-accessibility-tree&quot;&gt;A brief introduction to the accessibility tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/wcag-basics&quot;&gt;The basics of the Web Content Accessiblity Guidelines (WCAG)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/set-the-language&quot;&gt;Set the page language&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/set-the-page-title&quot;&gt;Set the page title&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/do-not-disable-zoom&quot;&gt;Don&#39;t prevent users from zooming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/headings&quot;&gt;Headings create accessible page structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/landmarks&quot;&gt;Landmarks help screen reader users navigate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/skip-links&quot;&gt;Skip Links: Shortcuts for Keyboard Users&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/low-contrast-text&quot;&gt;Don&#39;t use low contrast text&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/do-not-rely-on-colour-alone&quot;&gt;Don&#39;t rely on colour alone&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/empty-links&quot;&gt;Don&#39;t create empty links&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/empty-buttons&quot;&gt;Don&#39;t create empty buttons&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/keyboard-navigation&quot;&gt;Keyboard Accessibility Basics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/focus-indicators&quot;&gt;Focus Indicators Are the Keyboard User&#39;s Cursor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://example.com/fasthtml-web-a11y/picocss-focus-indicator&quot;&gt;Creating a more accessible Pico CSS Focus Indicator&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+  </entry>
+</feed>

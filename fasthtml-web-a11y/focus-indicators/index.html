@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Focus Indicators Are the Keyboard User&#39;s Cursor</title>
+		<meta name="description" content="Best practices for visible focus indicators to help people who rely on keyboards navigate web pages effectively.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="focus-indicators-are-the-keyboard-users-cursor">Focus Indicators Are the Keyboard User&#39;s Cursor</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/focus-indicator/" class="post-tag">
+      focus-indicator
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/keyboard/" class="post-tag">
+      keyboard
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/navigation/" class="post-tag">
+      navigation
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/focus_indicators">Focus Indicators</a>&quot;</strong></p>
+<p>A focus indicator shows which element is currently active on the page, such as a link or form field. It helps users who navigate without a mouse (often referred to as &quot;keyboard-only users&quot;) know exactly where they are and what element will respond to their input.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="built-in-browser-focus-indicators">Built-in browser focus indicators</h2>
+<p>Most browsers have a built-in focus indicator, shown as an outline around the element that currently has focus. As you will see in the screen recordings below, the appearance varies across browsers and the indicators can be subtle or hard to see. Safari has its own default focus indicators but I do not currently have access to a Mac to demonstrate them.</p>
+<p><strong>Note</strong> For the purposes of demonstration, all the controls in the below examples are default elements (button, input, and anchor) but they have been slightly enlarged with CSS to be easier to see.</p>
+<h3 id="chromium-based-focus-indicator">Chromium-based focus indicator</h3>
+<p>This screen recording shows the default focus indicator in Chromium browsers such as Chrome and Edge. The default is black outline. Notice how its appearance changes: on the dark background, there is a second outline. There is technically only <strong>one</strong> focus indicator, Chromium adds an extra colour in certain cases to try to make it more visible.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/-hbpE9Mx-4-869.webp 869w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/-hbpE9Mx-4-869.gif" alt="Chrome's default focus indicator is a black outline on a white background and changes to a white and black outline on a black background as the focus moves from button to input elements" width="869" height="242"></picture></p>
+<h3 id="firefox-focus-indicator">Firefox focus indicator</h3>
+<p>Firefox's focus indicator is a blue outline. It also adds a secondary colour when needed, adapting to the background for better visibility.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/XTzD_P1WjD-869.webp 869w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/XTzD_P1WjD-869.gif" alt="Firefox's default focus indicator is a blue outline on a white background and changes to a white and blue outline on a black background as the focus moves from button to input elements" width="869" height="242"></picture></p>
+<h2 id="focus-visible-for-styling-keyboard-focus">:focus-visible for styling keyboard focus</h2>
+<p>You may remember <code>:focus-visible</code> from an earlier post about <a href="skip-links">skip links</a>.</p>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible"><code>:focus-visible</code></a> pseudo-class allows developers to apply styles <strong>specifically for keyboard focus</strong>. It is <a href="https://caniuse.com/?search=focus-visible">supported across all modern browsers</a>.</p>
+<p>In Chrome DevTools for example, you can force the <code>:focus-visible</code> state as shown below.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/JelHMxOW-e-438.webp 438w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/JelHMxOW-e-438.gif" alt="Chrome DevTools with the focus-visible selector checked" width="438" height="291"></picture></p>
+<p>The default styling across the browsers is essentially the same:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token comment">/* Chromium browsers */</span>
+<span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> -webkit-focus-ring-color 1px auto<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Firefox */</span>
+<span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 1px auto<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>In both cases it roughly translates to <em>&quot;when an element receives keyboard focus, draw a 1-pixel thick outline using the browser's built-in values for focus colour and style.&quot;</em>. Browsers sometimes add a second outline automatically (as you saw in the earlier screen recording examples), but that is done in software by the browser adapting it single default style.</p>
+<p>Outlines unlike borders, do not affect element size or layout, preventing the page from shifting in layout or appearing broken.</p>
+<p>As you can see from the earlier section, default focus indicators are inconsistent between browsers. They can often clash with a site's design or branding. This is why developers commonly override them to provide a consistent appearance but you should <strong>never remove outlines</strong> via <code>outline: none</code> or <code>outline: 0</code>. For a more in-depth explanation see <a href="https://www.outlinenone.com/">{ outline: none; } DON'T DO IT!</a>.</p>
+<h2 id="creating-a-more-accessible-focus-indicator">Creating a more accessible focus indicator</h2>
+<p>While technically WCAG compliant (they show a visible indicator when an element is focused), browser-provided focus indicators are in practice often too subtle or limited to reliably help users. It is important to be aware: <strong>once you override them, it becomes your responsibility to ensure your focus indicators meet WCAG requirements!</strong></p>
+<h3 id="the-wcag-requirements">The WCAG requirements</h3>
+<p>As part of the Level AA requirements, keyboard focus needs to be a <a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html">visible indicator</a> to the user whenever an element receives focus. There is also a colour contrast requirement that states the focus indicator <strong>must have a contrast ratio of <em>at least</em> <a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html">3:1 against nearby colours</a></strong>.</p>
+<p>As of the newer WCAG 2.2, there are <strong>specific</strong> requirements for the <a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html">appearance of the focus indicator</a>:</p>
+<ul>
+<li><strong>at least a 2px thick perimeter.</strong></li>
+<li><strong>contrast ratio of 3:1 compared to its unfocused state.</strong></li>
+</ul>
+<p>These additional requirements are at Level AAA, but the additional work is minimal for improved accessibility and usability.</p>
+<p>In short, <strong>make the focus indicator large enough and high contrast</strong>.</p>
+<h3 id="units-px-vs-rem">Units: <code>px</code> vs <code>rem</code></h3>
+<p>WCAG examples and browser defaults typically use <code>px</code> because pixels give a predictable <strong>minimum</strong> thickness. For extra flexibility (so indicators scale when users change default font sizes), consider using <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length#rem"><code>rem</code> units</a>. They are relative to the root <code>font-size</code> set on a page's <code>&lt;html&gt;</code> element, or if none is specified, most browsers default to <code>16px</code>.</p>
+<p>For example, to convert <code>2px</code> to <code>rem</code>: <code>2px / 'root font size' = 2px / 16px = 0.125rem</code>.</p>
+<p><strong>Note: all examples below use <code>rem</code> and show the pixel equivalent in comments.</strong></p>
+<h3 id="contrast-ratio-checkers">Contrast ratio checkers</h3>
+<p>There are many options available, here are ones I have used regularly:</p>
+<ul>
+<li>Polypane's <a href="https://colorcontrast.app/">Color Contrast</a> has the <strong>extremely useful</strong> colour suggestions feature when your chosen colours have too low a contrast level for AA or AAA.</li>
+<li>WebAIM's <a href="https://webaim.org/resources/contrastchecker">Contrast Checker</a> is reliable.</li>
+<li>TGPi's <a href="https://www.tpgi.com/color-contrast-checker/">The Colour Contrast Analyser (CCA)</a> if you would prefer an <strong>installable</strong> application.</li>
+</ul>
+<h3 id="example-1-using-outline">Example 1 using <code>outline</code></h3>
+<p>This creates a solid <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/outline"><code>outline</code></a> drawn directly around the element's border. The outline <code>color</code> must be checked for sufficient contrast against the element itself and surrounding UI. On heavily styled elements, adding thickness to the outline can sometimes reduce visual appeal or make the element look crowded.</p>
+<p>In this simplified example, we need a colour that has a 3:1 contrast ratio against both a white (#fff) background and the red (#f00) of the button.</p>
+<p>Black : White is 21:1 and Black : Red is 5.25:1.</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.125rem solid black<span class="token punctuation">;</span> <span class="token comment">/* 2px */</span>
+<span class="token punctuation">}</span></code></pre>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/ILXBTh2b-Z-400.webp 400w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/ILXBTh2b-Z-400.gif" alt="As focus changes between a button and other input elements the element currently in focus has a black outline of 2px thickness around it" width="400" height="235"></picture></p>
+<h3 id="example-2-enhancing-outline-with-outline-offset">Example 2 enhancing <code>outline</code> with <code>outline-offset</code></h3>
+<p>Adding an <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/outline-offset"><code>outline-offset</code></a> improves visibility by adding some visual space between the focus indicator and the focused element. This separation makes the focused area larger and easier to perceive. The contrast ratio is measured against the background colour (allowing for other colour options) and avoids clashing with element styles such as borders or shadows.</p>
+<p>We will also make increase the size to 0.1875rem (3px) for both the outline and the offset. And for demonstration use <code>#033c8c</code> as the outline's <code>color</code> (<a href="https://colorcontrast.app/#fg=%23033c8c&amp;bg=%23fff&amp;level=aaa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">10:35:1 contrast ratio</a>)</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.1875rem solid #033c8c<span class="token punctuation">;</span> <span class="token comment">/* 3px */</span>
+    <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.1875rem<span class="token punctuation">;</span>     <span class="token comment">/* 3px */</span>
+<span class="token punctuation">}</span></code></pre>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/JCYmB-E6_e-400.webp 400w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/JCYmB-E6_e-400.gif" alt="As focus changes between a button and other input elements the element currently in focus has a dark blue outline of 3px thickness offset by 3px around it" width="400" height="232"></picture></p>
+<h3 id="two-colour-indicators-with-outline-and-box-shadow">Two colour indicators with <code>outline</code> and <code>box-shadow</code></h3>
+<p>Single colour focus indicators are very useful and often sufficient, especially on sites with consistent backgrounds and reduced colour palettes. They are simple to implement and meet requirements so long as the chosen colour provides sufficient contrast.</p>
+<p>However, on sites with varied backgrounds, a single colour may not always be a reliable choice. Designing separate compliant styles and coherent CSS rules for every possible background would be time consuming. A more reliable option is to use <strong>two highly contrasting colours</strong>, typically one light and one dark. If the colours have a contrast ratio of at least 9:1 - e.g. black (<code>#000000</code>) and white (<code>#ffffff</code>) at 21:1 - then one is guaranteed to meet the 3:1 contrast requirement against any solid background. This cannot be assumed for backgrounds that contain images or gradients, and they must be thoroughly tested.</p>
+<p>In this approach, the inner outline contrasts with the element itself, while the outer box-shadow separates it from the background. Together, they make the focus state more robust and reliably perceptible across a wide range of colour combinations.</p>
+<h4 id="example-3-a-universal-focus-indicator">Example 3 a &quot;universal&quot; focus indicator</h4>
+<p><a href="https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator">Sara Soueidan's 'universal' focus indicator</a> is a practical example of the two colour high-contrast approach. As Sara notes, if most of your site's components are dark colours, you may want to flip the order of black and white so the white outline sits against the darker element, creating stronger contrast.</p>
+<p><strong>Note: I would really recommend reading Sara's <a href="https://www.sarasoueidan.com/blog/focus-indicators/">post</a> in full for a very detailed breakdown of focus indicators</strong></p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.1875rem solid black<span class="token punctuation">;</span>   <span class="token comment">/* 3px */</span>
+    <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 0 0.375rem white<span class="token punctuation">;</span> <span class="token comment">/* 6px */</span>
+<span class="token punctuation">}</span></code></pre>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/TukKdio75b-869.webp 869w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/TukKdio75b-869.gif" alt="As focus changes between a button and other input elements the element currently in focus has a black outline of 3px thickness with a white box shadow of 6px" width="869" height="242"></picture></p>
+<h4 id="example-4-the-oreo-indicator">Example 4 the &quot;Oreo&quot; indicator</h4>
+<p>Inspired by Erik Kroes <a href="https://www.erikkroes.nl/blog/the-universal-focus-state/#introducing-the-oreo-focus">'Oreo' inspired focus indicator</a> it uses a black <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/outline-style#double"><code>double</code></a> outline and fills the gap between the outlines with a white <code>box-shadow</code>. It looks like an <a href="https://www.oreo.com/collections/classics">Oreo cookie</a>.</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.375rem double black<span class="token punctuation">;</span>  <span class="token comment">/* 6px */</span>
+    <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 0 0.25rem white<span class="token punctuation">;</span>    <span class="token comment">/* 4px */</span>
+<span class="token punctuation">}</span></code></pre>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/CM39FcBOw8-869.webp 869w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/CM39FcBOw8-869.gif" alt="As focus changes between a button and other input elements the element currently in focus has a double black outline of 6px thickness with a white box shadow of 4px between the double outlines" width="869" height="242"></picture></p>
+<h5 id="rounding-edges-with-border-radius">Rounding edges with <code>border-radius</code></h5>
+<p>Erik Kroes' original “Oreo” focus indicator uses a small <code>border-radius</code> of <code>0.125rem</code> (CSS example below). You can also combine border-radius with outline-offset (CSS example below) so the indicator follows the shape of the focused element. Rounded edges are often more visually consistent with modern UI, but support may vary on native controls such as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/checkbox">checkbox</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/radio">radio buttons</a>. Many CSS frameworks replace these inputs with custom components, which is why the appearance can differ across projects.</p>
+<p>Erik Kroes full example:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.375rem double black<span class="token punctuation">;</span>  <span class="token comment">/* 6px */</span>
+    <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 0 0.25rem white<span class="token punctuation">;</span> <span class="token comment">/* 4px */</span>
+    <span class="token property">border-radius</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span>    <span class="token comment">/* 2px */</span>
+<span class="token punctuation">}</span></code></pre>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/F4pOrKNgW6-870.webp 870w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/F4pOrKNgW6-870.gif" alt="As the Oreo style focus changes a button and input element have rounded edges but a checkbox and radio buttons do not" width="870" height="118"></picture></p>
+<p>The <code>outline-offset</code> example with a <code>border-radius</code>:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.1875rem solid #033c8c<span class="token punctuation">;</span>   <span class="token comment">/* 3px */</span>
+    <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.1875rem<span class="token punctuation">;</span>       <span class="token comment">/* 3px */</span>
+    <span class="token property">border-radius</span><span class="token punctuation">:</span> 0.1875rem<span class="token punctuation">;</span>       <span class="token comment">/* 3px */</span>
+<span class="token punctuation">}</span></code></pre>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/focus-indicators/pW6Nssq6la-870.webp 870w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/focus-indicators/pW6Nssq6la-870.gif" alt="As the outline offset focus changes a button and input element have rounded edges but a checkbox and radio buttons do not" width="870" height="119"></picture></p>
+<h3 id="non-solid-outlines-dashed-or-dotted-indicators">Non-solid outlines: dashed or dotted indicators</h3>
+<p>WCAG allows non-solid indicators only if they are <strong>at least as large</strong> as a solid outline would be. Dashed/dotted lines include gaps, so the thickness of the outline must be increased to achieve a comparable visible area. These values may require tweaking depending on how different browsers render dotted or dashed outlines. For example:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span> 
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.125rem dashed black<span class="token punctuation">;</span>  <span class="token comment">/* 4px */</span>
+    <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span>        <span class="token comment">/* 2px */</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">:focus-visible</span> <span class="token punctuation">{</span> 
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.3125rem dotted black<span class="token punctuation">;</span> <span class="token comment">/* 5px */</span>
+    <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span>        <span class="token comment">/* 2px */</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="supporting-light-and-dark-schemes">Supporting light and dark schemes</h2>
+<p>Users can set a preference (at the operating system or browser level) for a preferred light or dark scheme. CSS exposes this preference through the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme">prefers-color-scheme</a> media query. If schemes are something you're supporting, it can be as simple as inverting the outline colour between light and dark modes:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">prefers-color-scheme</span><span class="token punctuation">:</span> light<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+    <span class="token selector">:focus-visible</span> <span class="token punctuation">{</span> 
+        <span class="token property">outline</span><span class="token punctuation">:</span> 0.125rem solid black<span class="token punctuation">;</span> 
+        <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">prefers-color-scheme</span><span class="token punctuation">:</span> dark<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+    <span class="token selector">:focus-visible</span> <span class="token punctuation">{</span> 
+        <span class="token property">outline</span><span class="token punctuation">:</span> 0.125rem solid white<span class="token punctuation">;</span> 
+        <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span> 
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="using-it-in-your-fasthtml-app">Using it in your FastHTML app</h2>
+<h3 id="if-you-are-not-using-pico-css">If you are not using Pico CSS</h3>
+<p>While it is possible to add inline styles using a <code>Style()</code> object, the more robust option is an <strong>external</strong> CSS file that you include in your FastHTML app's page headers using a <code>Link()</code> object (FastHTML's equivalent of the HTML <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/link"><code>&lt;link&gt;</code></a>). This keeps styles reusable and easier to maintain.</p>
+<p>Experiment with your own focus indicator styling this way using the &quot;Focus Indicators&quot; example.</p>
+<p>The same approach applies if you are using <code>fast_app()</code> instead of <code>FastHTML()</code>.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">app <span class="token operator">=</span> FastHTML<span class="token punctuation">(</span>
+    hdrs<span class="token operator">=</span><span class="token punctuation">(</span>
+        Link<span class="token punctuation">(</span>rel<span class="token operator">=</span><span class="token string">"stylesheet"</span><span class="token punctuation">,</span> href<span class="token operator">=</span><span class="token string">"&lt;insert-your-stylesheet-filename>.css"</span><span class="token punctuation">,</span> <span class="token builtin">type</span><span class="token operator">=</span><span class="token string">"text/css"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token comment"># other external file(s) and asset(s)...</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">)</span></code></pre>
+<h3 id="if-you-are-using-pico-css">If you are using Pico CSS</h3>
+<p>Pico CSS handles focus indicators differently: it removes the default outlines  (using <code>outline: none</code>) and replaces them with <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow"><code>box-shadow</code></a> styles which can introduce accessibility issues. It also manages light and dark themes via a <code>[data-theme]</code> rather than <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme"><code>prefers-color-scheme</code></a> media queries.</p>
+<p>The <a href="/fasthtml-web-a11y/picocss-focus-indicator/">next post</a> is dedicated to demonstrating the accessibility issues and showing how to provide fully accessible focus indicators in Pico CSS.</p>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html">2.4.7 Focus Visible (Level AA)</a></strong> - Any interactive elements that can used by a keyboard must show a visible focus indicator so users always know which element is selected.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html">1.4.11 Non-Text Color Contrast (Level AA)</a></strong> - User interface components and graphical objects (e.g., charts, diagrams, icons) must have a contrast of at least 3:1 with nearby colours so they are easy to see and use.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html">2.4.13 Focus Appearance (Level AAA)</a></strong> - Keyboard focus indicators must be easy to see, at least 2 CSS pixels thick, and have a contrast ratio of at least 3:1 between focused and unfocused states.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/empty-links/">Don&#39;t Create Empty Links</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/headings/">Use Proper Headings To Create Accessible Page Structures</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/keyboard-navigation/">Keyboard Accessibility Basics</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/picocss-focus-indicator/">Creating a more accessible Pico CSS Focus Indicator</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/focus-indicators/` was built on 2025-11-15T17:47:07.372Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Web Content Accessibility Guideline Basics</title>
+		<meta name="description" content="An introduction to WCAG principles and success criteria for building accessible web content.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="web-content-accessibility-guideline-basics">Web Content Accessibility Guideline Basics</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/web-accessibility/" class="post-tag">
+      web-accessibility
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/wcag/" class="post-tag">
+      WCAG
+    </a>
+  </li>
+
+</ul>
+
+<p>Web accessibility (or &quot;web a11y&quot;) is guided by the <strong><a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG)</a></strong>, created by the World Wide Web Consortium (W3C). <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> is the latest recommended version with <a href="https://www.w3.org/TR/wcag-3.0/">WCAG 3.0</a> currently &quot;working draft&quot; status. New versions build on previous versions refining and expanding the guidelines to address changing technologies and user needs.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="pour-the-four-principles">POUR - the four principles</h2>
+<p>At its core, WCAG follows the <strong>POUR</strong> principles - <a href="https://www.w3.org/TR/WCAG22/#perceivable"><strong>Perceivable</strong></a>, <a href="https://www.w3.org/TR/WCAG22/#operable"><strong>Operable</strong></a>, <a href="https://www.w3.org/TR/WCAG22/#understandable"><strong>Understandable</strong></a>, and <a href="https://www.w3.org/TR/WCAG22/#robust"><strong>Robust</strong></a> - ensuring content can be accessed in multiple ways, navigated effectively, understood easily, and is compatible with assistive technologies (AT) (e.g. screen readers, braille displays, screen magnifiers, high contrast modes).</p>
+<p>Here is a simplified breakdown of the principles:</p>
+<ol>
+<li><strong>Perceivable</strong> - Web content should be accessible via at least one of our senses - sight, hearing, or touch - and that may be through AT.</li>
+<li><strong>Operable</strong> - People must be able to navigate and interact with a site regardless of the input method they use. For example, all interactive elements should be <strong>keyboard-accessible</strong> for those who cannot use a mouse.</li>
+<li><strong>Understandable</strong> - Content and interactions should be easy to understand and predictable. For instance, form fields should have clear labels and helpful error messages to guide users.</li>
+<li><strong>Robust</strong> - Content must be compatible with various technologies - browsers, computer systems, and AT. The site should work or fail gracefully without negatively impacting accessibility.</li>
+</ol>
+<h2 id="guidelines-and-success-criteria">Guidelines and success criteria</h2>
+<p>WCAG breaks down into 13 guidelines grouped under the relevant POUR principle. Each guideline contains one or more testable success criteria, with a total of 86 success criteria as of WCAG 2.2.</p>
+<p>Success criteria are technical, measurable statements that define what must be true for content to be considered accessible. Each success criterion addresses a specific issue, such as keyboard access or text contrast, and is assigned a conformance level: A, AA, or AAA.</p>
+<p>Below is a brief overview of the guidelines and related success criteria:</p>
+<h4 id="perceivable-making-content-available-to-the-senses">Perceivable (Making content available to the senses)</h4>
+<ol>
+<li><strong>Text Alternatives</strong> – Provide text alternatives for non-text content.
+<ul>
+<li><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html">Success Criterion 1.1.1 (A)</a></strong>: Images need alt text; videos need captions or transcripts.</li>
+</ul>
+</li>
+<li><strong>Time-based Media</strong> – Offer alternatives for audio and video content (e.g., captions, transcripts, sign language interpretation).</li>
+<li><strong>Adaptable</strong> – Ensure content is adaptable for different presentations without losing meaning (e.g., semantic HTML structure).</li>
+<li><strong>Distinguishable</strong> – Make content easier to see and hear.
+<ul>
+<li><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html">Success Criterion 1.4.1 (A)</a></strong>: Colour should not be the sole method of conveying meaning. Example: A form field with an error should have both <strong>colour and an error message or icon</strong>.</li>
+<li><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">Success Criterion 1.4.3 (AA)</a></strong>: Text contrast must be at least <strong>4.5:1</strong> against its background to ensure readability.</li>
+</ul>
+</li>
+</ol>
+<h4 id="operable-ensuring-users-can-interact-with-the-content">Operable (Ensuring users can interact with the content)</h4>
+<ol start="5">
+<li><strong>Keyboard Accessible</strong> – Ensure all functionality is available via keyboard.
+<ul>
+<li><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html">Success Criterion 2.1.1 (A)</a></strong>: All functionality must work using a keyboard alone. Example: Users can navigate your entire website using just the Tab key.</li>
+</ul>
+</li>
+<li><strong>Enough Time</strong> – Provide users with enough time to read and use content (e.g., adjustable time limits).</li>
+<li><strong>Seizures and Physical Reactions</strong> – Avoid flashing content that can trigger seizures (e.g., flashing less than three times per second).</li>
+<li><strong>Navigable</strong> – Help users navigate and find content efficiently (e.g., clear headings, consistent navigation).</li>
+<li><strong>Input Modalities</strong> – Make interactions easier for users with disabilities (e.g., support for voice input and touch).</li>
+</ol>
+<h4 id="understandable-making-content-clear-and-predictable">Understandable (Making content clear and predictable)</h4>
+<ol start="10">
+<li><strong>Readable</strong> – Make text content easy to read and understand (e.g., using plain language, expandable abbreviations).</li>
+<li><strong>Predictable</strong> – Ensure web pages operate predictably (e.g., consistent navigation and UI behaviour).</li>
+<li><strong>Input Assistance</strong> – Help users avoid and correct mistakes.
+<ul>
+<li><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html">Success Criterion 3.3.1 (A)</a></strong>: Forms should clearly identify errors when users input incorrect data. Example: Highlighting a missing required field and providing clear instructions on how to fix it.</li>
+</ul>
+</li>
+</ol>
+<h4 id="robust-ensuring-content-is-compatible-with-at">Robust (Ensuring content is compatible with AT)</h4>
+<ol start="13">
+<li><strong>Compatible</strong> – Maximize compatibility with AT and future tools.
+<ul>
+<li><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html">Success Criterion 4.1.2 (A)</a></strong>: Form fields and interactive elements need a name, role, and value so AT (like screen readers) can accurately tell users what each element is, what it does, and its current state.</li>
+</ul>
+</li>
+</ol>
+<h2 id="achieving-a-level-of-wcag-conformance">Achieving a level of WCAG conformance</h2>
+<p>To claim <a href="https://www.w3.org/WAI/WCAG22/Understanding/conformance">conformance</a> at Level A, AA, or AAA, all requirements of the relevant success criteria at that level and below must be met. It's all-or-nothing. Partial conformance is not a thing.</p>
+<p>A checklist like the <a href="https://www.w3.org/WAI/WCAG22/quickref/">WCAG Quick Reference</a> can help identify which criteria apply as you are not required to meet the criteria for content you don't have.</p>
+<h3 id="level-a">Level A</h3>
+<p>The lowest level of conformance defines the fundamental accessibility requirements. Such as:</p>
+<ul>
+<li><a href="https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html">Success Criterion 2.1.1 Keyboard</a> - All functionality must be operable via a keyboard.</li>
+</ul>
+<h3 id="level-aa">Level AA</h3>
+<p>This is the level most commonly required by law or policy and the level most organisation aim for. It aims to strike a balance between meeting broad accessibility requirements while also being implementable. It is more nuanced than Level A with requirements like:</p>
+<ul>
+<li><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum">Success Criterion 1.4.3: Contrast (Minimum)</a> – All text must have a contrast ratio of at least <strong>4.5:1</strong> against its background, with a reduced requirement of 3:1 for &quot;large text&quot; - 18pt (~24px) or larger, or 14pt bold (~19px bold) or larger.</li>
+</ul>
+<h3 id="level-aaa">Level AAA</h3>
+<p>Level AAA has the <em>strictest</em> requirements. However, the <a href="https://www.w3.org/WAI/WCAG22/Understanding/conformance#conformance-requirements">W3C</a> advises <strong>against</strong> full Level AAA conformance for an entire site &quot;because it is not possible to satisfy all Level AAA success criteria for some content.&quot; For example:</p>
+<ul>
+<li><a href="https://www.w3.org/WAI/WCAG21/Understanding/no-timing">Success Criterion 2.2.3: No Timing </a> - No time limits on any interactions.</li>
+</ul>
+<p>This should not be taken to mean that Level AAA should be avoided for every success criterion.</p>
+<p>In some cases, the difference between Level AA and AAA is relatively small, and meeting the higher standard can meaningfully improve accessibility for some users. For example:</p>
+<p><strong>Link Purpose</strong></p>
+<ul>
+<li><strong>AA</strong>: <a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context">Success Criterion 2.4.4: Link Purpose (In Context)</a> – The purpose of a link must be clear from the link <em>or</em> its surrounding context.</li>
+<li><strong>AAA</strong>: <a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-link-only">Success Criterion 2.4.9: Link Purpose (Link Only)</a> – The purpose must be clear from the link text <em>alone</em>.</li>
+</ul>
+<p>This often just requires more descriptive link text. For example, instead of &quot;Click here&quot; in a sentence like &quot;Our annual report is now available. Click here to download it,&quot; use &quot;Download the 2025 annual report&quot; as the link text itself.</p>
+<p><strong>Headings and Labels</strong></p>
+<ul>
+<li><strong>AA</strong>: <a href="https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels">Success Criterion 2.4.6: Headings and Labels</a> – Headings and labels must describe topic or purpose.</li>
+<li><strong>AAA</strong>: <a href="https://www.w3.org/WAI/WCAG22/Understanding/section-headings">Success Criterion 2.4.10: Section Headings</a> – Use section headings to organise content.</li>
+</ul>
+<p>Many pages already have visual structure. Marking it up with semantic headings (like <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code>) can satisfy this AAA criterion with minimal extra effort.</p>
+<p><strong>Colour Contrast</strong></p>
+<ul>
+<li><strong>AA</strong>: <a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum">1.4.3: Contrast (Minimum)</a> – All text must have a contrast ratio of at least <strong>4.5:1</strong> against its background, with a reduced requirement of 3:1 for &quot;large text&quot; - 18pt (~24px) or larger, or 14pt bold (~19px bold) or larger.</li>
+<li><strong>AAA</strong>: <a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced">1.4.6: Contrast (Enhanced)</a> – Text must have a contrast ratio of at least <strong>7:1</strong> (4.5:1 for large text).</li>
+</ul>
+<p>Meeting AAA conformance in this instance can be as simple as a slight text colour adjustment.</p>
+<p>Where feasible, meeting selected AAA criteria like these does not require major changes and can improve clarity, legibility, and navigation.</p>
+<h2 id="wcag-versus-real-world-usability">WCAG versus real-world usability</h2>
+<p>WCAG focuses on <em>technical accessibility</em>, not overall user experience and so some gaps do exist.</p>
+<p>It doesn't fully address neurodiversity, situational impairments (e.g. noisy environments, low lighting), or real-world usability testing. A site can meet every success criterion on the checklist and still be frustrating to use. WCAG also can't account for browser quirks, AT bugs, or unclear design patterns.</p>
+<p>True accessibility goes beyond checklists. It requires <strong>inclusive design from the start</strong> and <strong>usability testing with people who rely on AT</strong> to ensure a site or app is usable in practice and not just in theory.</p>
+<p>Think of WCAG as a <strong>minimum standard</strong>, not a guarantee of a good experience. By building accessibility into your workflow from day one, it becomes part of how things are done. It should not be viewed as a chore or a bolt-on. The more it's practiced, the more natural and efficient it becomes.</p>
+<h2 id="legal-requirements">Legal requirements</h2>
+<p>Unfortunately, many organisations only prioritise accessibility when legally required. Laws and regulations often provide the push needed to help ensure minimum standards are met. While WCAG is not law; it is often used as a technical reference at WCAG 2.1 Level AA conformance in legislation. Enforcement and scope differ by country.</p>
+<p><strong>Always consult local laws or legal advisors for compliance requirements!</strong></p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/skip-links/">Skip Links: Shortcuts for Keyboard Users</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/intro-accessibility-tree/">A Brief Intro to the Accessibility Tree</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/set-the-language/">Set the page&#39;s `lang` attribute</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/wcag-basics/` was built on 2025-11-15T17:47:07.375Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

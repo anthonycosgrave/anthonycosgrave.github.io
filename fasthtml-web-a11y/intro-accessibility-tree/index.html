@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>A Brief Intro to the Accessibility Tree</title>
+		<meta name="description" content="Web development focused on accessibility, with practical examples exploring FastHTML and other web technologies.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="a-brief-intro-to-the-accessibility-tree">A Brief Intro to the Accessibility Tree</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/accessibility-tree/" class="post-tag">
+      accessibility-tree
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/aria/" class="post-tag">
+      aria
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/screen-reader/" class="post-tag">
+      screen-reader
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/intro_to_the_accessibility_tree">Intro to the accessibility tree&quot;</a>&quot;. Screen reader required!</strong></p>
+<p>Web accessibility, or “web a11y”, is about making websites and apps usable by everyone. For some people, this can mean removing barriers that make digital content difficult or impossible to use. Many rely on <strong><a href="https://webaim.org/articles/motor/assistive">assistive technologies (AT)</a></strong> to navigate and interact with content. For example, screen readers support people who are blind or have low vision, keyboard-only input or voice recognition software assist people with limited mobility, and braille displays help people who are deaf-blind. Some people may need to use more than one type of AT together.</p>
+<p>These technologies depend on the <strong>accessibility tree</strong> to convey information about the page and help people understand what they are interacting with.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="the-accessibility-tree">The accessibility tree</h2>
+<p>The <strong>Document Object Model</strong> (DOM) is a structured representation of a web page created by the browser after parsing HTML, applying CSS and running any JavaScript. The accessibility tree is a <strong>subset</strong> of the DOM, generated by the browser and mapped through the operating system's <a href="https://www.w3.org/TR/core-aam-1.1/#intro_aapi">Accessibility APIs (AAPIs)</a> to the ATs.</p>
+<p>The accessibility tree serves as the bridge between web content and ATs. This enables people to interact with web content based on their needs, whether through spoken feedback, tactile output, or alternative input methods.</p>
+<p>Elements are excluded from the accessibility tree if they are removed from or hidden in the DOM using CSS (e.g., <code>display: none;</code> or <code>visibility: hidden;</code>),
+the <code>hidden</code> HTML attribute, or <code>aria-hidden=&quot;true&quot;</code>. An element is included only if it is determined that it provides meaningful information to the person. Since <a href="https://www.w3.org/TR/core-aam-1.1/#comparing-accessibility-apis">AAPIs are OS-specific</a>, content representations may vary across different browser and AT pairings, e.g. different screen readers may announce content <em>slightly</em> differently. These variations are expected and not considered a bug, as they depend on OS-level accessibility implementations.</p>
+<h2 id="aria">ARIA</h2>
+<p>ARIA (<strong>A</strong>ccessible <strong>R</strong>ich <strong>I</strong>nternet <strong>A</strong>pplications), part of the W3C's <a href="https://www.w3.org/WAI/">Web Accessibility Initiative (WAI)</a>, provides additional semantic information when HTML alone isn't enough. It can be particularly useful for dynamic content and custom interactive components - when used correctly.</p>
+<p>At the same time, ARIA is complex and has strict rules. Misuse can create serious accessibility barriers rather than removing them. The official <a href="https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/">ARIA Authoring Practices Guide</a> even cautions: <strong>“No ARIA is better than Bad ARIA.”</strong> Supporting this, the <a href="https://webaim.org/projects/million/#errors">2025 WebAIM Million study</a> found that pages using ARIA tended to have <em>more</em> accessibility errors than those without, likely due to the additional complexity it introduces.</p>
+<p>ARIA is a complex topic that will get deeper exploration in a future post.</p>
+<p>The following is a high-level overview focused on understanding how semantic HTML creates the foundation for accessibility and what ARIA can provide.</p>
+<h3 id="semantic-html">Semantic HTML</h3>
+<p>Semantics convey purpose. There are more than 100 semantic elements in HTML that represent various types of content and interactive controls. Semantic HTML indicates <strong>what an element is</strong> and <strong>how it should be used</strong>. For example:</p>
+<ul>
+<li><code>&lt;html&gt;</code> - the root element and top-level container of every valid HTML document.</li>
+<li><code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;h4&gt;</code>, <code>&lt;h5&gt;</code>, <code>&lt;h6&gt;</code> - represent 6 levels of page heading.</li>
+<li><code>&lt;button&gt;</code> is a button element.</li>
+<li><code>&lt;p&gt;</code> is for a paragraph of content.</li>
+<li><code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> are both lists containing <code>&lt;li&gt;</code> items, but differ semantically: <code>&lt;ul&gt;</code> represents an unordered list while <code>&lt;ol&gt;</code> indicates the order is meaningful.</li>
+</ul>
+<p>When you use semantic HTML, you <strong>automatically</strong> get accessibility benefits through <strong>implicit</strong> roles. A <strong>role</strong> defines the purpose or type of an element, communicating its meaning and function to assistive technologies.</p>
+<ul>
+<li><code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, etc. get <code>role=&quot;heading&quot;</code> with their corresponding number being an <code>aria-level</code> attribute e.g. <code>&lt;h2&gt;</code> would have an <code>aria-level=2</code>.</li>
+<li><code>&lt;button&gt;</code> gets <code>role=&quot;button&quot;</code> which communicates its interactive nature.</li>
+<li><code>&lt;nav&gt;</code> gets <code>role=&quot;navigation&quot;</code>.</li>
+<li>Roles can be shared by more than one element e.g. <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> both map to <code>role=&quot;list&quot;</code>, <code>&lt;input type=&quot;text&quot;&gt;</code> and <code>&lt;textarea&gt;</code> map to <code>role=&quot;textbox&quot;</code>.</li>
+<li>Some elements, like <code>&lt;span&gt;</code> and <code>&lt;div&gt;</code>, map to <code>role=&quot;generic&quot;</code>, and text-level semantics like <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code>, may be excluded from the accessibility tree. ATs like screen readers can be configured to apply text-level semantics, if present, to words in their text-to-speech.</li>
+</ul>
+<p>This built-in accessibility information is passed to the AT through the accessibility tree, providing structure and meaning without any additional development work. For reference, here is the <a href="https://www.w3.org/TR/html-aria/#docconformance">full W3 list of HTML element ARIA role mappings</a>.</p>
+<h3 id="using-aria">Using ARIA</h3>
+<p>The <a href="https://w3c.github.io/using-aria/#rule1">&quot;W3C's First Rule of ARIA Use&quot;</a> officially recommends using native HTML elements or attributes where possible instead of re-purposing an existing element - e.g. <code>&lt;div&gt;</code> as a button - and adding ARIA to it.</p>
+<p>However, there are situations where HTML alone isn't sufficient for complex or dynamic content, ARIA allows developers to:</p>
+<ul>
+<li><strong>Set explicit roles</strong> to extend or override native semantics using the role attribute: e.g. <code>role=&quot;dialog&quot;</code> on a custom modal.</li>
+<li><strong>Communicate element state</strong> such as <code>aria-expanded</code> on a collapsible section, <code>aria-pressed</code> on a toggle button, or <code>aria-current</code> on the active page in a navigation menu.</li>
+<li><strong>Provide additional properties</strong> to clarify relationships or visibility: e.g. <code>aria-label</code> to name an icon button, <code>aria-labelledby</code> to associate a control with its visible label, or <code>aria-hidden</code> to hide decorative content from AT.</li>
+</ul>
+<p><strong>Note: ARIA states (e.g. aria-expanded, aria-pressed) and certain properties (e.g. aria-hidden), are meant to change as users interact with the page. JavaScript is usually needed to update their values so that AT and the person using them get the correct information.</strong></p>
+<h2 id="accessibility-tree-objects">Accessibility tree objects</h2>
+<p>Each element from the DOM included in the accessibility tree is represented as an object with attributes that help convey information - e.g. purpose, state, and context.</p>
+<p><strong>Common attributes of accessibility tree objects:</strong></p>
+<ul>
+<li><strong>Role</strong> – What the element <em>is</em> and how it should be <em>used</em>. Derived from its implicit or explicit ARIA role.</li>
+<li><strong>Name</strong> – Also known as the &quot;accessible name&quot; (accName). Identifies the element for AT e.g. a button labelled &quot;Save Changes&quot; will be announced as &quot;Save Changes&quot;.</li>
+<li><strong>Description</strong> – Provides additional context beyond the role and name e.g. explaining input format requirements.</li>
+<li><strong>State</strong> – Indicates status e.g. checkbox checked, button pressed, dropdown expanded.</li>
+</ul>
+<p><strong>Additional attributes (when relevant):</strong></p>
+<ul>
+<li><strong>Properties</strong> – an element might be <code>required</code>, <code>focusable</code>, etc.</li>
+<li><strong>Relationships</strong> – Some elements are only meaningful in relation to others: a label linked to an input, radio buttons grouped together, or descriptions associated with form fields.</li>
+</ul>
+<p><strong>Note: The details of how names and descriptions are calculated are outside the scope of this post. For more, see <a href="https://www.w3.org/TR/accname-1.1/#mapping_additional_nd_te">Accessible Name and Description Computation</a>.</strong></p>
+<h2 id="viewing-the-accessibility-tree-in-browser-devtools">Viewing the accessibility tree in browser DevTools</h2>
+<p>The accessibility tree is available to inspect, just like you might with elements in the DOM, in most modern browser DevTools.</p>
+<h3 id="the-accessibility-panel">The Accessibility panel</h3>
+<p>In <strong>Chromium</strong> browsers (e.g. Chrome, Edge, Brave) the &quot;Accessibility&quot; Panel should be an option in your DevTools as shown in the image below.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/intro-accessibility-tree/E4qkWzjT7U-729.avif 729w"><source type="image/webp" srcset="/fasthtml-web-a11y/intro-accessibility-tree/E4qkWzjT7U-729.webp 729w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/intro-accessibility-tree/E4qkWzjT7U-729.png" alt="The Accessibility Panel in Chromium DevTools" width="729" height="330"></picture></p>
+<p>If you don't see it you can also try (with your DevTools open):<br>
+1. Pressing <strong>Ctrl</strong>+<strong>Shift</strong>+<strong>P</strong> (on Windows/Linux) or <strong>Command</strong>+<strong>Shift</strong>+<strong>P</strong> (on Mac) to open the &quot;Command Menu&quot;.<br>
+2. Start typing &quot;Accessibility&quot;.<br>
+3. Press &quot;Enter&quot; or click on the &quot;Show Accessibility&quot; option in the list.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/intro-accessibility-tree/gCxwPbf3iG-599.avif 599w"><source type="image/webp" srcset="/fasthtml-web-a11y/intro-accessibility-tree/gCxwPbf3iG-599.webp 599w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/intro-accessibility-tree/gCxwPbf3iG-599.png" alt="Opening the DevTools Command Menu" width="599" height="116"></picture></p>
+<p>You can then view the Accessibility tree object attributes of each element by clicking on them in the DOM tree view and any accessibility information will appear on the right hand side.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/intro-accessibility-tree/ziK3VVr6xX-1190.avif 1190w"><source type="image/webp" srcset="/fasthtml-web-a11y/intro-accessibility-tree/ziK3VVr6xX-1190.webp 1190w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/intro-accessibility-tree/ziK3VVr6xX-1190.png" alt="Viewing accessibility object properties" width="1190" height="573"></picture></p>
+<h3 id="enabling-the-full-page-accessibility-tree-view">Enabling the full-page accessibility tree view</h3>
+<p>You can swap the DOM tree view with an easy-to-read hierarchical view of the Accessibility tree.</p>
+<p>While on the Accessiblity Panel:</p>
+<ol>
+<li>Check the box labeled &quot;Enable full-page accessibility tree&quot;.</li>
+<li>You may be prompted with a message that a reload is required, click the &quot;Reload DevTools&quot; button.</li>
+<li>After the reload, click on the accessibility icon that appears in the &quot;Elements&quot; section to switch to the Accessibility tree view.</li>
+</ol>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/intro-accessibility-tree/ShVZwilJTa-848.webp 848w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/intro-accessibility-tree/ShVZwilJTa-848.gif" alt="Enabling the full-page accessibility tree option in Chromium DevTools" width="848" height="292"></picture></p>
+<p><strong>NOTE: Once you have enabled the full-page view you can toggle between it and the DOM view by pressing the 'a' key on your keyboard.</strong></p>
+<p>Use either view to inspect the accessibility tree information in the code example to see what is and is <em>not</em> included.</p>
+<h2 id="the-code-example-with-the-nvda-screen-reader">The code example with the NVDA screen reader</h2>
+<p>Below is a screen recording of how the <a href="https://www.nvaccess.org/download/">NVDA screen reader</a> (on Windows 10) uses the accessibility tree to announce the content of the page.</p>
+<p>NVDA announces the page content for the first 34 seconds, it displays the pink rectangle as it navigates the page. From roughly 35 seconds onward, I am using the keyboard to navigate and interact with the elements to highlight how they are announced. For the purposes of demonstration, I have greatly reduced the speed at which NVDA announces content.</p>
+<lite-youtube videoid="648Om4SaYKk" title="Contact Us NVDA Screen Reader Demo" style="background-image: url('https://i.ytimg.com/vi/648Om4SaYKk/hqdefault.jpg');">
+  <a href="https://youtu.be/648Om4SaYKk" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Contact Us NVDA Screen Reader Demo</span>
+  </a>
+</lite-youtube>
+<p>Some important things worth noting:</p>
+<ol>
+<li>The telephone icon beside the phone number might look visually appealing but being announced as 'telephone receiver' may be confusing to a non-sighted person.</li>
+<li>Notice all the information announced every time the &quot;Email Address&quot; field is focused.</li>
+<li>To a sighted person it may be safe to assume the large <code>textarea</code> is where they should enter their comment and they should not include emojis. NVDA first announces all the page content it gets from the accessibility tree - when the pink focus indicators are visible. However, it does not announce any of the information that a sighted person would identify as relevant when the <code>textarea</code> is subsequently focussed (the blue focus indicator).</li>
+</ol>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/">Web Accessibility with FastHTML</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/keyboard-navigation/">Keyboard Accessibility Basics</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/assistive-technologies/">Assistive Technologies</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/wcag-basics/">Web Content Accessibility Guideline Basics</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/intro-accessibility-tree/` was built on 2025-11-15T17:47:07.373Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

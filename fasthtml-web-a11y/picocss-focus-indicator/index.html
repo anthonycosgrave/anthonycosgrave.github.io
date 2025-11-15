@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Creating a more accessible Pico CSS Focus Indicator</title>
+		<meta name="description" content="Improving default PicoCSS focus indicators for better accessibility and keyboard navigation.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="creating-a-more-accessible-pico-css-focus-indicator">Creating a more accessible Pico CSS Focus Indicator</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/focus-indicator/" class="post-tag">
+      focus-indicator
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/pico-css/" class="post-tag">
+      pico-css
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/keyboard/" class="post-tag">
+      keyboard
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/navigation/" class="post-tag">
+      navigation
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/pico_css_focus_indicator">Pico CSS Focus Indicator&quot;</a>&quot;</strong></p>
+<p>In <a href="/fasthtml-web-a11y/focus-indicators/#creating-a-more-accessible-focus-indicator">&quot;Creating a more accessible focus indicator&quot;</a>, we covered the accessibility requirements and techniques for improving upon browser default focus indicators. <a href="https://picocss.com/">Pico CSS</a> is commonly used in <a href="https://gallery.fastht.ml/">FastHTML examples</a> and provides very useful styling and layout defaults. However, its focus indicators could be improved for better accessibility.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="pico-css-focus-indicators">Pico CSS focus indicators</h2>
+<p>Pico CSS has theme switching functionality to let a user change the current page theme via an on page toggle that changes the <code>&lt;html data-theme=&quot;dark&quot;&gt;</code>. As you can see from the below screen recordings of both themes, identifying which button is currently in focus is difficult.</p>
+<h3 id="light-theme-data-theme-light">Light theme - <code>[data-theme=light]</code></h3>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/hGCPUvu8hn-575.webp 575w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/hGCPUvu8hn-575.gif" alt="Pico CSS light theme focus indicator on primary, secondary and contrast buttons" width="575" height="135"></picture></p>
+<h3 id="dark-theme-data-theme-dark">Dark theme - <code>[data-theme=dark]</code></h3>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/S8SqZxlpbr-575.webp 575w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/S8SqZxlpbr-575.gif" alt="Pico CSS dark theme focus indicator on primary, secondary and contrast buttons" width="575" height="136"></picture></p>
+<h2 id="low-colour-contrast-ratios">Low Colour Contrast Ratios</h2>
+<p>For both the light and dark themes in PicoCSS, the colours used for focus indicators fall below the <a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html">3:1 contrast ratio required for non-text UI components</a>. The examples below use the <code>primary</code> button styles, but the same process applies to <code>secondary</code> and <code>contrast</code> variants. The CSS values were taken from the <a href="https://picocss.com/docs">current version 2.1.1</a> (September 2025) of Pico CSS.</p>
+<h3 id="light-theme-contrast-ratios">Light theme contrast ratios</h3>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token property">--pico-background-color</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+<span class="token property">--pico-primary-focus</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>2<span class="token punctuation">,</span> 154<span class="token punctuation">,</span> 232<span class="token punctuation">,</span> 0.5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">--pico-primary-background</span><span class="token punctuation">:</span> #0172ad<span class="token punctuation">;</span>
+<span class="token comment">/* primary button background-color when focused */</span>
+<span class="token property">--pico-primary-hover-background</span><span class="token punctuation">:</span> #017fc0<span class="token punctuation">;</span></code></pre>
+<ul>
+<li>
+<p><strong>Focus indicator vs. page background</strong>: <a href="https://colorcontrast.app/#fg=rgba(2%2C%20154%2C%20232%2C%200.5)&amp;bg=%23fff&amp;level=aa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">rgba(2,154,232,0.5) on #fff</a> is <strong>1.76:1</strong>, well below the required 3:1.</p>
+</li>
+<li>
+<p><strong>Focus indicator vs. button background (focused state)</strong>: <a href="https://colorcontrast.app/#fg=rgba(2%2C%20154%2C%20232%2C%200.5)&amp;bg=%23017fc0&amp;level=aa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">rgba(2,154,232,0.5) on #017fc0</a> is <strong>1.19:1</strong>, again below 3:1.</p>
+</li>
+</ul>
+<h3 id="dark-theme-contrast-ratios">Dark theme contrast ratios</h3>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token property">--pico-background-color</span><span class="token punctuation">:</span> <span class="token function">rgb</span><span class="token punctuation">(</span>19<span class="token punctuation">,</span> 22.5<span class="token punctuation">,</span> 30.5<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">--pico-primary-focus</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>1<span class="token punctuation">,</span> 170<span class="token punctuation">,</span> 255<span class="token punctuation">,</span> 0.375<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token property">--pico-primary-background</span><span class="token punctuation">:</span> #0172ad<span class="token punctuation">;</span>
+<span class="token comment">/* primary button background-color when focused */</span>
+<span class="token property">--pico-primary-hover-background</span><span class="token punctuation">:</span> #017fc0<span class="token punctuation">;</span></code></pre>
+<ul>
+<li>
+<p><strong>Focus indicator vs. page background</strong>: <a href="https://colorcontrast.app/#fg=rgba(1%2C%20170%2C%20255%2C%200.375)&amp;bg=rgb(19%2C%2022.5%2C%2030.5)&amp;level=aa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">rgba(1,170,255,0.375) on rgb(19,22.5,30.5)</a> is <strong>2.01:1</strong>, below 3:1.</p>
+</li>
+<li>
+<p><strong>Focus indicator vs. button background (focused state)</strong>: <a href="https://colorcontrast.app/#fg=rgba(1%2C%20170%2C%20255%2C%200.375)&amp;bg=%23017fc0&amp;level=aa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">rgba(1,170,255,0.375) on #017fc0</a> is <strong>1.23:1</strong>, also fails.</p>
+</li>
+</ul>
+<h3 id="reducing-the-transparency-is-not-enough">Reducing the transparency is not enough</h3>
+<p>For the light theme, an increase in the alpha value from <code>0.5</code> to <code>1.0</code> is a ratio of <a href="https://colorcontrast.app/#fg=rgba(2%2C%20154%2C%20232%2C%201)&amp;bg=%23fff&amp;level=aa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">3.09:1</a></p>
+<p>For the dark theme, increasing <code>0.375</code> to <code>1.0</code> provides a high contrast of <a href="https://colorcontrast.app/#fg=rgba(1%2C%20170%2C%20255)&amp;bg=rgb(19%2C%2022.5%2C%2030.5)&amp;level=aa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">7:1</a>.</p>
+<p>These changes would need to be made and tested for each button (and possibly other controls) that your site uses to maintain at least a 3:1 contrast ratio. This does not resolve a larger underlying problem with how Pico CSS handles focus indicators.</p>
+<h2 id="the-problem-with-pico-csss-use-of-outline-none">The problem with Pico CSS's use of <code>outline: none</code></h2>
+<p>A previous post, <a href="/fasthtml-web-a11y/focus-indicators/#built-in-browser-focus-indicators">&quot;Creating a more accessible focus indicator&quot;</a>, highlighted how the built-in browser focus indicators use the <code>outline</code> CSS property to indicate which interactive element - buttons, inputs etc - currently has focus. And how to improve those defaults by overriding them with WCAG compliant values.</p>
+<p>By default, Pico CSS <strong>removes</strong> native focus indicators by setting <code>outline: none</code> on interactive elements and uses <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow"><code>box-shadow</code></a>. In some cases (particularly with buttons as shown in the previous contrast ratio calculations), it slightly changes the <code>background-color</code> of the element when in focus. While this provides a more styling options and effects, WCAG specifically advises <strong>against</strong> doing this i.e. <a href="https://www.w3.org/WAI/WCAG22/Techniques/css/C40">&quot;Avoid setting outline: none to use box-shadow on its own.&quot;</a> because in certain &quot;forced-color modes&quot; e.g. Windows High Contrast Mode the <code>box-shadow</code> won't be rendered by the browser.</p>
+<h3 id="invisible-in-windows-high-contrast-mode">Invisible in Windows High Contrast mode</h3>
+<p><a href="https://support.microsoft.com/en-au/windows/change-color-contrast-in-windows-fedc744c-90ac-69df-aed5-c8a90125e696#:~:text=Save%20and%20apply.-,Turn%20high%20contrast%20mode%20on%20or%20off,under%20Turn%20on%20high%20contrast">Windows High Contrast (Forced Colors)</a> is an operating-system level setting that overrides site and application UI colour palettes with a limited, user-selected high-contrast theme. Its goal is to ensure maximum readability for the user.</p>
+<p>The first example shows Pico CSS's default behaviour <strong>before</strong> High Contrast mode is enabled. As focus is moved with the <code>Tab</code> key, the text at the top updates to display the currently focused element.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/kiVm-2LKEo-588.webp 588w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/kiVm-2LKEo-588.gif" alt="" width="588" height="451"></picture></p>
+<p>Now here is the same group of controls with Windows High Contrast mode enabled. Windows provides several high contrast themes; this example uses <code>High Contrast #1</code>.</p>
+<p>Notice the following:</p>
+<ul>
+<li>The <code>&lt;input&gt;</code> and <code>&lt;button&gt;</code> still have visible borders, but that is their element <code>border</code>, not a focus indicator.</li>
+<li>The links - <code>&lt;a&gt;</code> - have <strong>no visible focus indicator at all</strong>. Visually there is no way to tell where the focus is.</li>
+</ul>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/F3-VKg4svX-588.webp 588w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/F3-VKg4svX-588.gif" alt="" width="588" height="451"></picture></p>
+<p>This happens because, as mentioned in the previous section, Pico CSS removes the default <code>outline</code> and relies on a <code>box-shadow</code>, which is suppressed in high contrast modes. While the CSS below applies to links, buttons and other inputs use a similar approach with different values for <code>box-shadow</code> colours and <code>border</code>:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token comment">/* Pico CSS &lt;a> specific focus indicator */</span>
+<span class="token selector">:where(a:not([role=button])):focus-visible</span> <span class="token punctuation">{</span>
+  <span class="token property">box-shadow</span><span class="token punctuation">:</span> 0 0 0 <span class="token function">var</span><span class="token punctuation">(</span>--pico-outline-width<span class="token punctuation">)</span> <span class="token function">var</span><span class="token punctuation">(</span>--pico-primary-focus<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>The simplest and most robust fix is to reintroduce <code>outline</code> (with <code>outline-offset</code>), which works consistently across all elements and adapts automatically to high contrast themes.</p>
+<h2 id="restoring-the-outline">Restoring the <code>outline</code></h2>
+<p>As covered in the <a href="../fasthtml-web-a11y/focus-indicators.md#">previous focus indicator post</a>, using <code>outline</code> with <code>outline-offset</code> provides a <strong>clear and consistent</strong> focus indicator around interactive elements. The <code>outline-offset</code> creates separation from the element, making the focused area larger and easier to see.</p>
+<p>This approach simplifies colour selection: a single high-contrast colour can be applied to all interactive elements, avoiding the need to choose separate colours for each button, link etc variant.</p>
+<h3 id="high-contrast-outline-colours">High contrast outline colours</h3>
+<p>Focus outlines must have a contrast ratio of at least 3:1 against their background. Choosing colours with higher contrast improves visibility and works better across different displays.</p>
+<p>For example, the following colours provide strong contrast for Pico's themes:</p>
+<ul>
+<li>Dark theme: <a href="https://colorcontrast.app/#fg=%2371a3d1&amp;bg=%2313171f&amp;level=aa&amp;format=hex&amp;algo=WCAG2&amp;filter=none">#71a3d1 on #13171f</a></li>
+<li>Light theme: <a href="https://colorcontrast.app/#fg=%231a5d86&amp;bg=%23fff&amp;level=aa&amp;format=hex&amp;algo=WCAG2&amp;filter=none">#1a5d86 on #ffffff</a></li>
+</ul>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">[data-theme=dark]</span> <span class="token punctuation">{</span>
+    <span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+        <span class="token property">outline</span><span class="token punctuation">:</span> 0.1875rem solid #71a3d1<span class="token punctuation">;</span>  <span class="token comment">/* 3px */</span>
+        <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span> <span class="token comment">/* 2px */</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">[data-theme=light]</span> <span class="token punctuation">{</span>
+    <span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+        <span class="token property">outline</span><span class="token punctuation">:</span> 0.1875rem solid #1a5d86<span class="token punctuation">;</span>  <span class="token comment">/* 3px */</span>
+        <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span> <span class="token comment">/* 2px */</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="updated-light-theme">Updated light theme</h4>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/lo54XXMI0S-575.webp 575w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/lo54XXMI0S-575.gif" alt="Pico CSS light theme on primary, secondary and contrast buttons" width="575" height="136"></picture></p>
+<h4 id="updated-dark-theme">Updated dark theme</h4>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/sKjiBc0fPr-575.webp 575w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/sKjiBc0fPr-575.gif" alt="Pico CSS dark theme on primary, secondary and contrast buttons" width="575" height="136"></picture></p>
+<h4 id="windows-high-contrast-mode">Windows High Contrast mode</h4>
+<p>In <strong>forced colors</strong> or <strong>high contrast mode</strong>, the operating system overrides CSS colours with those of the predefined system-wide high contrast theme. That is why the browser renders the <code>outline</code> based on the colours defined in the <code>High Contrast #1</code> theme and not from the CSS above.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/picocss-focus-indicator/sjZM3AOdSU-578.webp 578w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/picocss-focus-indicator/sjZM3AOdSU-578.gif" alt="" width="578" height="471"></picture></p>
+<p>With this method, all interactive elements receive a clear, accessible focus indicator that works in both normal and forced colors modes, solving the issues demonstrated in the previous section.</p>
+<h3 id="avoiding-css-repetition">Avoiding CSS repetition</h3>
+<p>Since the <code>outline</code> style is the same across themes, you only need to change the <code>outline-colour</code>. You can simplify the CSS by setting the common rules once and overriding just the colour per theme:</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline</span><span class="token punctuation">:</span> 0.1875rem solid<span class="token punctuation">;</span>   <span class="token comment">/* 3px */</span>
+    <span class="token property">outline-offset</span><span class="token punctuation">:</span> 0.125rem<span class="token punctuation">;</span> <span class="token comment">/* 2px */</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* Pico's theme attribute */</span>
+<span class="token selector">[data-theme=dark] :focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline-color</span><span class="token punctuation">:</span> #71a3d1<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector">[data-theme=light] :focus-visible</span> <span class="token punctuation">{</span>
+    <span class="token property">outline-color</span><span class="token punctuation">:</span> #1a5d86<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">/* If not using Pico's theme attribute */</span>
+<span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">prefers-color-scheme</span><span class="token punctuation">:</span> dark<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+    <span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #71a3d1<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">prefers-color-scheme</span><span class="token punctuation">:</span> light<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+    <span class="token selector">:focus-visible</span> <span class="token punctuation">{</span>
+        <span class="token property">outline-color</span><span class="token punctuation">:</span> #1a5d86<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="removing-box-shadow">Removing <code>box-shadow</code>?</h3>
+<p>An additional step might be to remove Pico CSS's <code>box-shadow</code> indicators entirely (or override them with <code>box-shadow:none;</code>) and rely on <code>outline</code> and <code>outline-offset</code>. Pico CSS applies different <code>box-shadow</code> styles, colours and transitions across the various elements, removing them will require careful unpicking, replacing multiple rules and testing those changes. That level of work is outside the scope of this post.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/low-contrast-text/">Don&#39;t use Low Contrast Text and Colours</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/set-the-language/">Set the page&#39;s `lang` attribute</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/focus-indicators/">Focus Indicators Are the Keyboard User&#39;s Cursor</a></li>
+    
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/picocss-focus-indicator/` was built on 2025-11-15T17:47:07.374Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

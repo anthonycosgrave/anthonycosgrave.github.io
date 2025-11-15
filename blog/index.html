@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Web Dev and Web a11y</title>
+		<meta name="description" content="Web development focused on accessibility, with practical examples exploring FastHTML and other web technologies.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/" aria-current="page">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				<h1 id="archive">Archive</h1>
+
+<!--
+<ol reversed class="postlist" style="--postlist-index: 18">
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/wcag-basics/" class="postlist-link">Web Content Accessibility Guideline Basics</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/skip-links/" class="postlist-link">Skip Links: Shortcuts for Keyboard Users</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/set-the-page-title/" class="postlist-link">Set the Page Title</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/set-the-language/" class="postlist-link">Set the page&#39;s `lang` attribute</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/picocss-focus-indicator/" class="postlist-link">Creating a more accessible Pico CSS Focus Indicator</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/low-contrast-text/" class="postlist-link">Don&#39;t use Low Contrast Text and Colours</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/landmarks/" class="postlist-link">Landmarks Help Screen Reader Users Navigate</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/keyboard-navigation/" class="postlist-link">Keyboard Accessibility Basics</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/intro-accessibility-tree/" class="postlist-link">A Brief Intro to the Accessibility Tree</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/" class="postlist-link">Web Accessibility with FastHTML</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/headings/" class="postlist-link">Use Proper Headings To Create Accessible Page Structures</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/focus-indicators/" class="postlist-link">Focus Indicators Are the Keyboard User&#39;s Cursor</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/empty-links/" class="postlist-link">Don&#39;t Create Empty Links</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/empty-buttons/" class="postlist-link">Don&#39;t Create Empty Buttons</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/do-not-rely-on-colour-alone/" class="postlist-link">Don&#39;t Rely on Colour Alone</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/do-not-disable-zoom/" class="postlist-link">Don&#39;t Disable Zoom</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+	<li class="postlist-item">
+		<a href="/fasthtml-web-a11y/assistive-technologies/" class="postlist-link">Assistive Technologies</a>
+		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
+	</li>
+</ol>
+-->
+
+
+  <p><a href="/fasthtml-web-a11y/" data-order="0">Web Accessibility with FastHTML</a></p>
+
+  <p><a href="/fasthtml-web-a11y/assistive-technologies/" data-order="1">Assistive Technologies</a></p>
+
+  <p><a href="/fasthtml-web-a11y/intro-accessibility-tree/" data-order="2">A Brief Intro to the Accessibility Tree</a></p>
+
+  <p><a href="/fasthtml-web-a11y/wcag-basics/" data-order="3">Web Content Accessibility Guideline Basics</a></p>
+
+  <p><a href="/fasthtml-web-a11y/set-the-language/" data-order="4">Set the page&#39;s `lang` attribute</a></p>
+
+  <p><a href="/fasthtml-web-a11y/set-the-page-title/" data-order="5">Set the Page Title</a></p>
+
+  <p><a href="/fasthtml-web-a11y/do-not-disable-zoom/" data-order="6">Don&#39;t Disable Zoom</a></p>
+
+  <p><a href="/fasthtml-web-a11y/headings/" data-order="7">Use Proper Headings To Create Accessible Page Structures</a></p>
+
+  <p><a href="/fasthtml-web-a11y/landmarks/" data-order="8">Landmarks Help Screen Reader Users Navigate</a></p>
+
+  <p><a href="/fasthtml-web-a11y/skip-links/" data-order="9">Skip Links: Shortcuts for Keyboard Users</a></p>
+
+  <p><a href="/fasthtml-web-a11y/low-contrast-text/" data-order="10">Don&#39;t use Low Contrast Text and Colours</a></p>
+
+  <p><a href="/fasthtml-web-a11y/do-not-rely-on-colour-alone/" data-order="11">Don&#39;t Rely on Colour Alone</a></p>
+
+  <p><a href="/fasthtml-web-a11y/empty-links/" data-order="12">Don&#39;t Create Empty Links</a></p>
+
+  <p><a href="/fasthtml-web-a11y/empty-buttons/" data-order="13">Don&#39;t Create Empty Buttons</a></p>
+
+  <p><a href="/fasthtml-web-a11y/keyboard-navigation/" data-order="14">Keyboard Accessibility Basics</a></p>
+
+  <p><a href="/fasthtml-web-a11y/focus-indicators/" data-order="15">Focus Indicators Are the Keyboard User&#39;s Cursor</a></p>
+
+  <p><a href="/fasthtml-web-a11y/picocss-focus-indicator/" data-order="16">Creating a more accessible Pico CSS Focus Indicator</a></p>
+
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/blog/` was built on 2025-11-15T17:47:07.368Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

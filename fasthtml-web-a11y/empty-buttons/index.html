@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Don&#39;t Create Empty Buttons</title>
+		<meta name="description" content="How to fix empty buttons to ensure they are understandable and accessible to everyone.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="dont-create-empty-buttons">Don&#39;t Create Empty Buttons</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/empty-buttons/" class="post-tag">
+      empty-buttons
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/buttons/" class="post-tag">
+      buttons
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/screen-reader/" class="post-tag">
+      screen-reader
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/empty_buttons">Empty Buttons</a>&quot;. Screen reader required!</strong>.</p>
+<p>Like <a href="/fasthtml-web-a11y/empty-links/">empty links</a>, empty buttons lack an &quot;accessible name&quot; (accName). They are commonly the result of using images or icons - often referred to as &quot;icon buttons&quot; - to communicate the button's purpose to sighted users without providing an alternative for assitive technology (AT) users. If the user does not know what a button does, they are unlikely to want to interact with it.</p>
+<p>According to the Web AIM Millions project, empty buttons have been in the <strong>Top 6 accessibility issues since 2019</strong>, with <a href="https://webaim.org/projects/million/#wcag">29.6% of homepages</a> having at least one empty button in 2025.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="a-standard-button-with-text-example">A standard button with text example</h2>
+<p>A standard button with visible text uses that text as its accName.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span><span class="token string">'Send Message'</span><span class="token punctuation">)</span></code></pre>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/3bpGR_ReaL-292.avif 292w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/3bpGR_ReaL-292.webp 292w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/3bpGR_ReaL-292.png" alt="A blue button with send message text in white" width="292" height="124"></picture></p>
+<p>This is exposed in the browser's accessibility tree. It is clear to both sighted users and AT users what the result of interacting with the button will be.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/7kB-R6SK0W-320.avif 320w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/7kB-R6SK0W-320.webp 320w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/7kB-R6SK0W-320.png" alt="Accessibility information for a button showing accessible name is 'Send Message'" width="320" height="190"></picture></p>
+<h2 id="an-empty-button-example">An empty button example</h2>
+<p>This button uses an image to convey its purpose.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>Img<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'/bootstrap/icons/send.svg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/Ap-b7cj_Xl-260.avif 260w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/Ap-b7cj_Xl-260.webp 260w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/Ap-b7cj_Xl-260.png" alt="A blue button with a white paper aeroplane icon" width="260" height="123"></picture></p>
+<p>But no accName is exposed in the accessibility tree. A <code>role</code> is available because <code>&lt;button&gt;</code> is a native HTML element and that accessible information is provided automatically.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/vTqk84WEA6-408.avif 408w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/vTqk84WEA6-408.webp 408w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/vTqk84WEA6-408.png" alt="Accessibility information for 'Send' empty button showing accessible name is missing'" width="408" height="186"></picture></p>
+<h2 id="how-they-appear-to-a-screen-reader-user">How they appear to a screen reader user</h2>
+<p>The differences between the buttons becomes clearer when announced by screen readers.</p>
+<h3 id="firefox-and-nvda">Firefox and NVDA</h3>
+<p>NVDA announces the text button using its accName, <em>&quot;Send Message button&quot;</em>, while the empty button is announced simply as <em>&quot;button&quot;</em>.</p>
+<lite-youtube videoid="YUSY5VHMjRM" title="Empty Button Example With Firefox and NVDA" style="background-image: url('https://i.ytimg.com/vi/YUSY5VHMjRM/hqdefault.jpg');">
+  <a href="https://youtu.be/YUSY5VHMjRM" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Empty Button Example With Firefox and NVDA</span>
+  </a>
+</lite-youtube>
+<p>Here is how the buttons present themselves in NVDA's Elements list via <code>NVDA Key + F7</code>, <code>Alt + B</code>:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/XZXenMfcxl-522.avif 522w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/XZXenMfcxl-522.webp 522w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/XZXenMfcxl-522.png" alt="A button with an accessible name and an empty button with no accesible name in NVDA's &quot;Buttons&quot; element list" width="522" height="478"></picture></p>
+<h3 id="edge-and-narrator">Edge and Narrator</h3>
+<p>Windows Narrator is the same, the first button is announced as <em>&quot;Send Message button&quot;</em> while the second one is only <em>&quot;button&quot;</em>.</p>
+<lite-youtube videoid="F_KhKsFq-r4" title="Empty Button Example with Edge and Windows Narrator" style="background-image: url('https://i.ytimg.com/vi/F_KhKsFq-r4/hqdefault.jpg');">
+  <a href="https://youtu.be/F_KhKsFq-r4" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Empty Button Example with Edge and Windows Narrator</span>
+  </a>
+</lite-youtube>
+<p>And only the labelled button appears in Narrator's Element list via <code>Insert + F7</code>:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/kWn6u8U7kW-394.avif 394w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/kWn6u8U7kW-394.webp 394w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/kWn6u8U7kW-394.png" alt="A list containing only the send message button" width="394" height="316"></picture></p>
+<h2 id="how-to-fix-empty-buttons-by-providing-an-accessible-name">How to fix empty buttons by providing an accessible name</h2>
+<p>The <a href="https://www.w3.org/TR/accname-1.1/">Accessible Name and Description Algorithm</a> is used to determine an element's accName. The list of properties used by the algorithm is visible in most browser's DevTools in the &quot;Accessibility&quot; panel in the &quot;Name&quot; section.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/vTqk84WEA6-408.avif 408w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/vTqk84WEA6-408.webp 408w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/vTqk84WEA6-408.png" alt="List of properties in Chome DevTools for determining an accessible name" width="408" height="186"></picture></p>
+<p>In the spirit of the <a href="https://www.w3.org/TR/using-aria/#rule1">first rule of ARIA</a> - use native HTML and attributes before turning to ARIA - these solutions will follow a similar approach.</p>
+<h3 id="an-accessible-button-with-nvda">An accessible button with NVDA</h3>
+<lite-youtube videoid="6UBBa8G93bQ" title="Accessible Button with Image Example with NVDA" style="background-image: url('https://i.ytimg.com/vi/6UBBa8G93bQ/hqdefault.jpg');">
+  <a href="https://youtu.be/6UBBa8G93bQ" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Accessible Button with Image Example with NVDA</span>
+  </a>
+</lite-youtube>
+<h3 id="an-accessible-button-with-narrator">An accessible button with Narrator</h3>
+<lite-youtube videoid="2SpiJoM9neo" title="Accessible Button with Image Example with Narrator" style="background-image: url('https://i.ytimg.com/vi/2SpiJoM9neo/hqdefault.jpg');">
+  <a href="https://youtu.be/2SpiJoM9neo" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Accessible Button with Image Example with Narrator</span>
+  </a>
+</lite-youtube>
+<h3 id="option-1-use-the-img-alt-text-attribute">Option 1 - Use the <code>&lt;img&gt;</code> <code>alt</code> text attribute</h3>
+<p>Technically, the <a href="http://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/alt"><code>alt</code></a> text is intended as an <strong>alternate text description</strong> of an image for the accessibility tree. With icon buttons the <code>alt</code> attribute is an acceptable way to provide an accName that tells an AT user what the purpose of the button is.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>Img<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'/bootstrap/icons/send.svg'</span><span class="token punctuation">,</span> alt<span class="token operator">=</span><span class="token string">'Send Message'</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<p>The button now has an accName that will be in the accessibility tree, and is viewable in browser DevTools.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/oxiFvSITuM-278.avif 278w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/oxiFvSITuM-278.webp 278w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/oxiFvSITuM-278.png" alt="Contents property populated with 'Send Message' accessible name in Chrome DevTools" width="278" height="154"></picture></p>
+<h4 id="alt-text-tips"><code>alt</code> text tips</h4>
+<p>Buttons should be used for <strong>triggering actions</strong>, tell the user what will happen if they activate the button.</p>
+<ol>
+<li>Use short, functional terms e.g. &quot;Delete&quot;, &quot;Edit&quot;, or &quot;Send Message&quot;.</li>
+<li>Don't mention actions like &quot;click&quot;, &quot;tap&quot; or &quot;press&quot;.</li>
+<li>Don't include the element e.g. &quot;Delete&quot; not &quot;Delete Button&quot;</li>
+</ol>
+<h3 id="option-2-use-visually-hidden-text">Option 2 - Use 'visually hidden' text</h3>
+<p>Also known as 'sr-only' or 'screen reader only' in other CSS libraries like older versions of Bootstrap and the current version of <a href="https://tailwindcss.com/docs/display#screen-reader-only">Tailwind</a> it is a way to hide text while still making it accessible to AT.</p>
+<p>As mentioned in the <a href="/fasthtml-web-a11y/intro-accessibility-tree/">&quot;Intro to the Accessibility Tree&quot; post</a>, elements that are hidden from the DOM do not become part of the accessibility tree. In this case, the content is made invisible to sighted users while keeping it in the DOM and therefore available to the accessibility tree.</p>
+<p>For a thoroughly detailed breakdown of the technique please read <a href="https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html">Scott O'Hara's &quot;Inclusively Hidden&quot;</a> post. It can be used to hide a lot of other content, not just button related text, in an accessible way.</p>
+<pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">.visually-hidden</span> <span class="token punctuation">{</span>
+    <span class="token property">clip</span><span class="token punctuation">:</span> <span class="token function">rect</span><span class="token punctuation">(</span>0 0 0 0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">clip-path</span><span class="token punctuation">:</span> <span class="token function">inset</span><span class="token punctuation">(</span>50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span>
+    <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+    <span class="token property">white-space</span><span class="token punctuation">:</span> nowrap<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 1px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>To prevent screen readers from a &quot;double announcement&quot; of <strong>both</strong> the <code>alt</code> text and the visually hidden text, set <code>alt</code> to an <strong>empty string</strong>.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>
+    Img<span class="token punctuation">(</span>
+      src<span class="token operator">=</span><span class="token string">'/bootstrap/icons/send.svg'</span><span class="token punctuation">,</span> 
+      alt<span class="token operator">=</span><span class="token string">''</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    Span<span class="token punctuation">(</span>
+        <span class="token string">'Send Message'</span><span class="token punctuation">,</span> 
+        cls<span class="token operator">=</span><span class="token string">'visually-hidden'</span>
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span></code></pre>
+<p>And now button's accName will be derived from it's &quot;Contents&quot; as shown in the screenshot below.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/oxiFvSITuM-278.avif 278w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/oxiFvSITuM-278.webp 278w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/oxiFvSITuM-278.png" alt="visually hidden span in DevTools accessiblity panel that reads 'Send Message'" width="278" height="154"></picture></p>
+<h3 id="option-3-use-aria-label-on-the-button">Option 3 - Use <code>aria-label</code> on the <code>&lt;button&gt;</code></h3>
+<p><code>aria-label</code> adds a <em>programmatic</em> label (it exists in code but not visually) to the button.</p>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>
+  Img<span class="token punctuation">(</span>
+    src<span class="token operator">=</span><span class="token string">'/bootstrap/icons/send.svg'</span><span class="token punctuation">,</span> 
+    alt<span class="token operator">=</span><span class="token string">''</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    aria_label<span class="token operator">=</span><span class="token string">'Send Message'</span>
+  <span class="token punctuation">)</span></code></pre>
+<p>The accName will come now from the <code>aria-label</code> text. The tips mentioned above for writing <code>alt</code> text also apply for aria-labels in this instance.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/_fCFQKb2NQ-365.avif 365w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/_fCFQKb2NQ-365.webp 365w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/_fCFQKb2NQ-365.png" alt="aria-label in DevTools accessibility panel that reads 'Send Message'" width="365" height="274"></picture></p>
+<p><strong>Note:</strong> There are known issues with the translation of text in <code>aria-label</code>. For a detailed explanation see <a href="https://adrianroselli.com/2019/11/aria-label-does-not-translate.html#Update06">Adrian Roselli's &quot;aria-label Does Not Translate&quot;</a>.</p>
+<h2 id="when-using-inline-svg">When using inline <code>&lt;svg&gt;</code></h2>
+<p>There are many benefits to using inline <code>&lt;svg&gt;</code> such they are exposed to CSS styling (e.g. theme based colour changes using 'currentColor') and JavaScript interaction (e.g. animation). There are some additional steps required when using them with buttons.</p>
+<h3 id="option-1-use-visually-hidden-text">Option 1 - Use 'visually hidden' text</h3>
+<ol>
+<li>Add the <code>&lt;span&gt;</code> with the text you want to visually hide.</li>
+<li>Add <code>role=&quot;img&quot;</code> to the <code>&lt;svg&gt;</code> to ensure AT treats it as one image and not as a group of graphic elements.</li>
+<li>Add <code>aria-hidden=&quot;true&quot;</code> to hide the <code>&lt;svg&gt;</code> from screen readers to prevent any potential double announcements.</li>
+<li>Add <code>focusable=&quot;false&quot;</code> to prevent issues with some versions of browsers where users could confusingly TAB to the SVG itself inside the button.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>
+    Span<span class="token punctuation">(</span><span class="token string">'Send Message'</span><span class="token punctuation">,</span> cls<span class="token operator">=</span><span class="token string">'visually-hidden'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Svg<span class="token punctuation">(</span>
+        Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">'M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span><span class="token punctuation">,</span>
+        width<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+        height<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+        fill<span class="token operator">=</span><span class="token string">'currentColor'</span><span class="token punctuation">,</span>
+        viewbox<span class="token operator">=</span><span class="token string">'0 0 16 16'</span><span class="token punctuation">,</span>
+        cls<span class="token operator">=</span><span class="token string">'bi bi-send'</span><span class="token punctuation">,</span>
+        role<span class="token operator">=</span><span class="token string">'img'</span><span class="token punctuation">,</span>
+        aria_hidden<span class="token operator">=</span><span class="token string">'true'</span><span class="token punctuation">,</span>
+        focusable<span class="token operator">=</span><span class="token string">'false'</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">)</span></code></pre>
+<h3 id="option-2-use-aria-label">Option 2 - Use <code>aria-label</code></h3>
+<ol>
+<li>Add an <code>aria-label</code> to the <code>&lt;button&gt;</code> with the text you to use for the accName.</li>
+<li>Add <code>role=&quot;img&quot;</code> to the <code>&lt;svg&gt;</code> to ensure AT treats it as one image and not as a group of graphic elements.</li>
+<li>Add <code>aria-hidden=&quot;true&quot;</code> to the <code>&lt;svg&gt;</code> to hide it from screen readers and prevent any potential double announcements.</li>
+<li>Add <code>focusable=&quot;false&quot;</code> to prevent issues with some versions of browsers where users could confusingly TAB to the SVG itself inside the button.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>
+    Svg<span class="token punctuation">(</span>
+        Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">'M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span><span class="token punctuation">,</span>
+        width<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+        height<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+        fill<span class="token operator">=</span><span class="token string">'currentColor'</span><span class="token punctuation">,</span>
+        viewbox<span class="token operator">=</span><span class="token string">'0 0 16 16'</span><span class="token punctuation">,</span>
+        cls<span class="token operator">=</span><span class="token string">'bi bi-send'</span><span class="token punctuation">,</span>
+        role<span class="token operator">=</span><span class="token string">'img'</span><span class="token punctuation">,</span>
+        aria_hidden<span class="token operator">=</span><span class="token string">'true'</span><span class="token punctuation">,</span>
+        focusable<span class="token operator">=</span><span class="token string">'false'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    aria_label<span class="token operator">=</span><span class="token string">'Send Message'</span>
+<span class="token punctuation">)</span></code></pre>
+<h2 id="a-more-inclusive-option-image-and-text">A More Inclusive Option - Image and Text</h2>
+<p>A more robust and overall inclusive approach would be to include <strong>both</strong> the image and the text in the button. As shown in the very first example, the button's accName will be derived from the text and the icon will be hidden from AT. However, there are valid reasons for not doing this such as a preferred design aesthetic or simply a lack of screen space.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/empty-buttons/rrLOYhmQQX-500.avif 500w"><source type="image/webp" srcset="/fasthtml-web-a11y/empty-buttons/rrLOYhmQQX-500.webp 500w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/empty-buttons/rrLOYhmQQX-500.png" alt="A blue button with a folded paper aeroplane icon and send message text in white" width="500" height="183"></picture></p>
+<p><strong>Note:</strong> Additional CSS is often needed to align icons and text, especially for spacing and vertical alignment. Styling details will vary depending on your chosen images and CSS framework.</p>
+<h3 id="for-img">For <code>&lt;img&gt;</code></h3>
+<ol>
+<li>Set the <code>alt=''</code> as the icon is now considered &quot;decorative&quot; i.e. providing no useful information requiring an alternate description.</li>
+<li>Add <code>aria-hidden='true'</code> to make sure it is ignored by screen readers.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>
+    Img<span class="token punctuation">(</span>
+      src<span class="token operator">=</span><span class="token string">'/bootstrap/icons/send.svg'</span><span class="token punctuation">,</span> 
+      alt<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">,</span> 
+      aria_hidden<span class="token operator">=</span><span class="token string">'true'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span> 
+    <span class="token string">'Send Message'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span></code></pre>
+<h3 id="for-inline-svg">For inline <code>&lt;svg&gt;</code></h3>
+<ol>
+<li>Add <code>aria-hidden='true'</code> to hide the SVG from screen readers.</li>
+<li>Add <code>focusable='false'</code> to prevent the user from TAB-ing to the SVG itself.</li>
+</ol>
+<pre class="language-python" tabindex="0"><code class="language-python">Button<span class="token punctuation">(</span>
+    Svg<span class="token punctuation">(</span>
+        Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">'M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span><span class="token punctuation">,</span>
+        width<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+        height<span class="token operator">=</span><span class="token string">'16'</span><span class="token punctuation">,</span>
+        fill<span class="token operator">=</span><span class="token string">'currentColor'</span><span class="token punctuation">,</span>
+        viewbox<span class="token operator">=</span><span class="token string">'0 0 16 16'</span><span class="token punctuation">,</span>
+        cls<span class="token operator">=</span><span class="token string">'bi bi-send'</span><span class="token punctuation">,</span>
+        aria_hidden<span class="token operator">=</span><span class="token string">'true'</span><span class="token punctuation">,</span>
+        focusable<span class="token operator">=</span><span class="token string">'false'</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">'Send Message'</span>
+<span class="token punctuation">)</span></code></pre>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html">1.1.1 Non-text Content (Level A)</a></strong> - Any content that isn't text, such as images, icons, or buttons, must have a text alternative so assistive technologies can understand its purpose.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html">4.1.2 Name, Role, Value (Level A)</a></strong> - Every interactive element must have a name and role that assistive technologies can detect via the accessibility tree.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/do-not-rely-on-colour-alone/">Don&#39;t Rely on Colour Alone</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/empty-links/">Don&#39;t Create Empty Links</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/empty-links/">Don&#39;t Create Empty Links</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/keyboard-navigation/">Keyboard Accessibility Basics</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/empty-buttons/` was built on 2025-11-15T17:47:07.371Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

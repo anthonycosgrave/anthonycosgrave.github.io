@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Don&#39;t use Low Contrast Text and Colours</title>
+		<meta name="description" content="Techniques to avoid low contrast text and maintain readability for people with visual impairments.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 120%;
+
+	/* 
+	@media (max-width: layoutVariables.$xxs) {
+    font-size: 100%;
+    line-height: 1.2;
+  }
+
+  @media (min-width: layoutVariables.$s) {
+    font-size: 130%;
+  }
+
+  @media (min-width: layoutVariables.$m) {
+    font-size: 150%;
+  }
+
+  @media (min-width: layoutVariables.$xl) {
+    font-size: 180%;
+  }
+	*/
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6) + .ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+ 
+.license-footer, .eleventy-footer {
+  font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="dont-use-low-contrast-text-and-colours">Don&#39;t use Low Contrast Text and Colours</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2025-11-15">15 November 2025</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/low-contrast/" class="post-tag">
+      low-contrast
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/low-vision/" class="post-tag">
+      low-vision
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/colour-blind/" class="post-tag">
+      colour-blind
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/low_contrast_text">Low Contrast Text</a>&quot;</strong></p>
+<p>Low contrast is the <strong>most commonly detected</strong> yet easily avoidable accessibility issues. It affects page text, form controls, and the contrast between controls and their backgrounds. The 2025 <a href="https://webaim.org/projects/million/#contrast">WebAIM Million Report</a> found that nearly 80% of the one million home pages failed to meet the minimum contrast ratio of <strong>4.5:1</strong> between text colour and background colour. It has persisted as the top reported issue since 2019.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="what-is-contrast">What is contrast?</h2>
+<p>Contrast is a measure of the difference in perceived brightness (luminance) between foreground and background colours. It is measured as a <strong>contrast ratio</strong> from <strong>1:1</strong> (no contrast) to <strong>21:1</strong> (maximum contrast).</p>
+<h2 id="why-low-contrast-is-a-serious-issue">Why low contrast is a serious issue</h2>
+<p>Low contrast text makes it difficult for people to perceive letterforms, which reduces reading speed and comprehension. This affects everyone to some degree but is especially problematic for people with low vision, colour vision deficiency, or those reading in suboptimal conditions.</p>
+<p>The scale of the impact is huge. A <a href="https://www.who.int/publications/i/item/world-report-on-vision">World Health Organisation report in 2019</a> estimated 2.2 billion people globally have some form of visual impairment. <a href="https://www.colourblindawareness.org/colour-blindness/">Colour Blind Awareness</a> reports that &quot;1 in 12 men (8%) and 1 in 200 women&quot; are affected by colour blindness - an estimated 300 million people globally.</p>
+<h2 id="the-text-contrast-requirements">The text contrast requirements</h2>
+<p>The WCAG define <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html"><em>minimum</em></a> contrast ratios between text and its background.</p>
+<ul>
+<li>&quot;Normal&quot; or &quot;body&quot; text must have a ratio of <strong>at least 4.5:1</strong> (Level AA)</li>
+<li>&quot;Large&quot; text must have <strong>at least a 3:1</strong> ratio (Level AA) when:
+<ul>
+<li>24px or larger, e.g. a <code>&lt;h1&gt;</code> header</li>
+<li><strong>bold</strong> text that is 18.66px or larger</li>
+</ul>
+</li>
+</ul>
+<p>The <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-enhanced.html"><em>enhanced</em></a> - Level AAA - contrast ratios are:</p>
+<ul>
+<li>&quot;Normal&quot; or &quot;body&quot; text is <strong>at least 7:1</strong></li>
+<li>&quot;Large&quot; text is <strong>at least 4.5:1</strong></li>
+</ul>
+<h2 id="the-ui-components-and-graphical-objects-contrast-requirements">The UI components and graphical objects contrast requirements</h2>
+<p>While the focus of this post is text contrast requirements, it is worth being aware that there is a <a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html">non-text contrast ratio of 3:1</a>. This ratio applies to non-disabled UI elements like buttons, form fields, borders, icons, and the text <em>within</em> UI components.</p>
+<p>And even though there is no &quot;enhanced&quot; Level AAA ratio for non-text contrast, in general aiming for higher contrast and better accessibility is still recommended.</p>
+<h3 id="exceptions">Exceptions</h3>
+<p>Some elements are exempt from contrast requirements:</p>
+<ol>
+<li>Company Logos and brand names.</li>
+<li>Decorative or incidental/placeholder text e.g. &quot;lorem ipsum&quot;.</li>
+<li>Disabled controls (however, be conscious that low contrast will still impact visibility).</li>
+</ol>
+<h2 id="emulating-vision-impairments-with-devtools">Emulating vision impairments with DevTools</h2>
+<p>Visual impairments can be difficult to understand without first-hand experience. While emulation cannot replace lived experience, modern browsers can provide a degree of insight by simulating common vision conditions. This can also help challenge assumptions about design choices and their impact on visibility.</p>
+<p>In Chromium based browsers (e.g. Chrome, Edge, Brave) you can emulate vision deficiencies using DevTools.</p>
+<p>With your DevTools open:</p>
+<ol>
+<li>Open the Command Palette via <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (MacOS).</li>
+<li>Type &quot;Rendering&quot;.</li>
+<li>Press Enter or click on &quot;Show Rendering&quot;.</li>
+<li>On on the &quot;Rendering&quot; panel scroll down to find the dropdown list titled &quot;Emulate vision deficiencies&quot;.</li>
+<li>Click an item in the list, e.g. &quot;Reduced contrast&quot;, to have it immediately applied to the rendering of the current web page.</li>
+</ol>
+<p><strong>Be aware that once the DevTools are closed the emulated vision deficiency will be stopped too.</strong></p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/low-contrast-text/WQfxF96IBC-207.avif 207w"><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/WQfxF96IBC-207.webp 207w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/WQfxF96IBC-207.png" alt="A dropdown list of the common vision deficiencies that Chrome DevTools can emulate" width="207" height="262"></picture></p>
+<h2 id="resolving-contrast-issues">Resolving contrast issues</h2>
+<p>It is easiest to address contrast during the design phase by selecting foreground and background colours that meet any branding constraints and required contrast ratios.</p>
+<p>For those not involved in the design or those using 3rd party CSS libraries or frameworks, automated accessibility tools can identify low contrast issues. These include browser extensions such as WebAIM's WAVE or audit tools like Google's Lighthouse.</p>
+<p>Some developer tools also allow for temporary adjustments of colours <strong>directly in the browser</strong> for real time feedback.</p>
+<h3 id="automated-contrast-checkers">Automated contrast checkers</h3>
+<p>Automated tools do not detect <strong>all</strong> issues, but they are effective for identifying low contrast without checking each element individually.</p>
+<p><em>Always make sure to test with light and dark themes if you are using them!</em></p>
+<h4 id="webaims-wave-tool">WebAIM's WAVE Tool</h4>
+<p>Available as a <a href="https://chromewebstore.google.com/detail/jbbplnpkjmmeebjpijfedlgcdilocofh?utm_source=item-share-cb">browser extension</a> and launchable from the browser extension toolbar or, as shown below, the right click context menu &quot;WAVE this page&quot; option.</p>
+<p>This example shows how two low contrast elements - a <code>&lt;p&gt;</code> containing text and a <code>&lt;button&gt;</code> - are identified and reported by WAVE:</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/bftn0cykF9-791.webp 791w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/bftn0cykF9-791.gif" alt="Low contrast text and button text identify by the WAVE tool" width="791" height="353"></picture></p>
+<h4 id="google-lighthouse">Google Lighthouse</h4>
+<p><a href="https://developer.chrome.com/docs/lighthouse/overview#devtools">Lighthouse</a> in Chrome DevTools.</p>
+<ol>
+<li>Open the Command Palette <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (MacOS).</li>
+<li>Type &quot;Lighthouse&quot;.</li>
+<li>Press Enter or click on &quot;Show Lighthouse&quot;.</li>
+<li>Check the &quot;Accessibility&quot; checkbox under the &quot;Categories&quot; heading.</li>
+<li>Click the &quot;Analyze page load&quot; button to begin generating the report.</li>
+</ol>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/low-contrast-text/6YhGew8vVa-950.avif 950w"><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/6YhGew8vVa-950.webp 950w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/6YhGew8vVa-950.png" alt="Lighthouse panel in Chrome DevTools with Accessiblity category checkbox checked" width="950" height="531"></picture></p>
+<p>And this is how those same two low contrast elements are reported by Lighthouse:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/low-contrast-text/DqdXdtdJ3l-717.avif 717w"><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/DqdXdtdJ3l-717.webp 717w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/DqdXdtdJ3l-717.png" alt="Low contrast text and button text identify by Lighthouse" width="717" height="407"></picture></p>
+<p><strong>Note:</strong> A useful approach when evaluating CSS libraries is to run WAVE or Lighthouse on their demo pages to catch obvious issues. These tools can help identify basic problems before adopting a library. However, keep in mind that many of these projects may support legacy versions of browsers and older codebases, so some accessibility issues may reflect ongoing work rather than neglect.</p>
+<h3 id="in-browser-contrast-checking">In browser contrast checking</h3>
+<p>Chromium browsers (e.g. Chrome, Edge, Brave) and Firefox offer in-browser contrast tools. I have personally found the Chromium based ones to be currently more useful.</p>
+<p>You can inspect an element in the DOM as shown below and see accessibility information related to it in the popup.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/chrT6jLjhG-416.webp 416w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/chrT6jLjhG-416.gif" alt="Blue text on a white background with contrast ratio of 3.7 to 1" width="416" height="478"></picture></p>
+<p>In the &quot;Accessibility&quot; section in the lower part of the popup, it has identified that the text's colour and the background colour have a contrast ratio of 3.7 (i.e. 3.7:1). There is a useful warning symbol beside it alerting you to the fact it fails the <strong>minimum</strong> contrast ratio requirement of 4.5:1.</p>
+<h4 id="suggested-level-aa-and-level-aaa-contrast-ratios">Suggested Level AA and Level AAA contrast ratios</h4>
+<p>An incredibly useful feature are the suggested <code>color</code> values that meet the 4.5:1 (Level AA) and 7:1 (Level AAA) contrast ratios and the ability to view them in-browser. <strong>This only works with a <code>color</code> attribute</strong>; it won't work on a <code>background-color</code> for example. The same approach works for UI elements too like <code>&lt;button&gt;</code>.</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/JG7NWtmwBZ-773.webp 773w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/JG7NWtmwBZ-773.gif" alt="Selecting WCAG AA and AAA suggested colours through Chrome DevTools" width="773" height="557"></picture></p>
+<p>A useful combination for resolving contrast issues is to WAVE or Lighthouse a web page and then use the in-browser tools to choose compliant <code>color</code> values.</p>
+<p><strong>Remember to copy the values and add them to your CSS file(s). The DevTools won't retain any in-browser changes.</strong></p>
+<h2 id="text-selection-styling-with-selection">Text selection styling with <code>::selection</code></h2>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::selection"><code>::selection</code></a> pseudo-element allows you to customise how text appears when a user highlights it, either by double clicking on the text or by clicking and dragging across the text. Most browsers provide a default selection style of a blue background and white text, as shown below:</p>
+<p><picture><source type="image/webp" srcset="/fasthtml-web-a11y/low-contrast-text/2ZsmCMR3e9-738.webp 738w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/low-contrast-text/2ZsmCMR3e9-738.gif" alt="" width="738" height="149"></picture></p>
+<p>Some CSS frameworks override <code>::selection</code> but fail to maintain sufficient minimum contrast between the selection background colour and the text colour. In general, when a default browser provided style is changed, <strong>the author of the change becomes responsible for ensuring accessibility</strong>. Changing default behaviour can negatively affect users who may have cognitive difficulties or are less familiar with technology.</p>
+<p><strong>&quot;Fun&quot; Fact</strong>: In the <em>very</em> early days of <a href="https://html5boilerplate.com/">html5boilerplate</a>, Paul Irish styled <a href="https://youtu.be/oDlsOyPKUTM?si=-YYy9oYLnutXiZ1X&amp;t=1562"><code>::selection</code> to be &quot;hot pink&quot;</a>. It kind of became an accidental signature of the template and led to a bit of a &quot;game&quot; to try to identify big name sites using the template by selecting text to see if it was &quot;hot pink&quot; (and extremely low contrast at 2.87:1!).</p>
+<h2 id="dont-rely-on-purely-black-and-white-for-high-contrast">Don't rely on purely black and white for high contrast</h2>
+<p>Black-on-white text combinations reach the maximum contrast ratio of 21:1, far exceeding WCAG requirements. However, pure black (<code>#000000</code>) on pure white (<code>#ffffff</code>) is known to contribute to visual fatigue and eye strain. Slightly softened <code>color</code> values like <code>#1a1a1a</code> on <code>#f8f8f8</code> can still achieve <a href="https://colorcontrast.app/#fg=%231a1a1a&amp;bg=%23f8f8f8%20&amp;level=aaa&amp;format=rgb&amp;algo=WCAG2&amp;filter=none">AAA contrast</a> while reducing strain during extended reading. For more detailed breakdowns see: <a href="https://uxplanet.org/basicdesign-never-use-pure-black-in-typography-36138a3327a6">&quot;Never use pure black in typography&quot;</a> and <a href="https://uxplanet.org/alternatives-to-using-pure-black-000000-for-text-and-backgrounds-54ef0e733cdb">&quot;Alternatives to Using Pure Black (#000000) for Text and Backgrounds&quot;</a></p>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html">1.4.3 Contrast (Minimum) (Level AA)</a></strong> - Text and images of text must have sufficient contrast with their background - at least 4.5:1 - so that they are readable.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-enhanced.html">1.4.6 Contrast (Enhanced) (Level AAA)</a></strong> - For maximum readability, text and images of text must have a contrast of at least 7:1 with their background.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html">1.4.11 Non-text Contrast (Level AA)</a></strong> - User interface components and graphical objects (e.g., charts, diagrams, icons) must have a contrast of at least 3:1 with nearby colours so they are easy to see and use.</p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/fasthtml-web-a11y/landmarks/">Landmarks Help Screen Reader Users Navigate</a></li><li class="links-nextprev-next">Next →<br><a href="/fasthtml-web-a11y/picocss-focus-indicator/">Creating a more accessible Pico CSS Focus Indicator</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/skip-links/">Skip Links: Shortcuts for Keyboard Users</a></li>
+    
+    
+      <li class="links-nextprev-next">Next → <br><a href="/fasthtml-web-a11y/do-not-rely-on-colour-alone/">Don&#39;t Rely on Colour Alone</a></li>
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/low-contrast-text/` was built on 2025-11-15T17:47:07.374Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>
