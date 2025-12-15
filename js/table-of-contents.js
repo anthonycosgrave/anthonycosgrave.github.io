@@ -5,20 +5,20 @@ SOLVES A CURRENT PROBLEM, MAY NOT BE PERFECT!
 Table of Contents Web Component
 
 Usage:
-  <table-of-contents></table-of-contents>
-  <table-of-contents selector="h1,h2,h3"></table-of-contents>
+    <table-of-contents></table-of-contents>
+    <table-of-contents selector="h1,h2,h3"></table-of-contents>
 
 Attributes:
-  selector - CSS selector for headings (default: "h2,h3,h4,h5,h6")
+    selector - CSS selector for headings (default: "h2,h3,h4,h5,h6")
 
 Features:
-  - Generates hierarchical numbered TOC (1, 1.1, 1.2, 2, 2.1, etc.)
-  - Only includes headings within <main> element
-  - Exclude headings with data-toc-exclude attribute
-  - Semantic <nav> wrapper with ARIA labels
+    - Generates hierarchical numbered TOC (1, 1.1, 1.2, 2, 2.1, etc.)
+    - Only includes headings within <main> element
+    - Exclude headings with data-toc-exclude attribute
+    - Semantic <nav> wrapper with ARIA labels
 
 Example exclusion:
-  <h2 data-toc-exclude>Skip this heading</h2>
+    <h2 data-toc-exclude>Skip this heading</h2>
 */
 
 class TableOfContents extends HTMLElement {
@@ -45,12 +45,13 @@ class TableOfContents extends HTMLElement {
             .toc li::before { content: attr(data-number) ". "; font-weight: bold; }
             nav details { border: 1px solid #000; border-radius: 4px; padding: 0.5em; margin: 1em 0; }
             nav summary { font-weight: bold; cursor: pointer; padding: 0.25em 0; }
-			@media (prefers-color-scheme: dark) {
+            @media (prefers-color-scheme: dark) {
         		nav details { border-color: #fff; }
     		}
         `;
 			document.head.appendChild(style);
-		}
+        }
+
 	}
 
 	connectedCallback() {
@@ -60,7 +61,6 @@ class TableOfContents extends HTMLElement {
 
 		const nav = document.createElement('nav');
 		const root = document.createElement('ol');
-		nav.setAttribute('aria-label', 'Table of contents');
 		root.className = 'toc';
 		let currentLevel = 2;
 		let currentParent = root;
@@ -117,6 +117,7 @@ class TableOfContents extends HTMLElement {
 		const details = document.createElement('details');
 		const summary = document.createElement('summary');
 		const summaryText = this.getAttribute('summary') || 'Table of Contents'
+        nav.setAttribute('aria-label', summaryText);
 		summary.textContent = summaryText
 		details.appendChild(summary);
 		details.appendChild(root);
@@ -124,8 +125,7 @@ class TableOfContents extends HTMLElement {
 		this.appendChild(nav);
 	}
 }
-// customElements.define('table-of-contents', TableOfContents);, or,
+// customElements.define('table-of-contents', TableOfContents);, or, 
 if (!customElements.get('table-of-contents')) {
 	TableOfContents.register();
 }
-
