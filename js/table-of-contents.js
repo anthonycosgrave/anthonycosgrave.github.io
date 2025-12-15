@@ -15,7 +15,6 @@ Features:
   - Generates hierarchical numbered TOC (1, 1.1, 1.2, 2, 2.1, etc.)
   - Only includes headings within <main> element
   - Exclude headings with data-toc-exclude attribute
-  - Self-contained styling via adoptedStyleSheets
   - Semantic <nav> wrapper with ARIA labels
 
 Example exclusion:
@@ -36,24 +35,6 @@ class TableOfContents extends HTMLElement {
 
 	constructor() {
 		super();
-		/* share one stylesheet */
-		// if (!document.adoptedStyleSheets.find(sheet => sheet._tocStyles)) {
-		// 	let sheet = new CSSStyleSheet();
-		// 	sheet.replaceSync(`
-		// 	.toc details { border: 1px solid #ccc; border-radius: 4px; padding: 0.5em; margin: 1em 0; }
-		// 	.toc summary { font-weight: bold; cursor: pointer; padding: 0.25em 0; list-style: none; }
-		// 	.toc summary::-webkit-details-marker { display: none; }
-		//     .toc { list-style: none; padding-left: 0; }
-		//     .toc ol { list-style: none; padding-left: 1.5em; }
-		//     .toc li { display: block; margin-bottom: 0.5em; }
-		//     .toc li::before { content: attr(data-number) ". "; font-weight: bold; }`);
-		// 	sheet._tocStyles = true;
-		// 	console.log('Sheet rules:', sheet.cssRules.length)
-		// 	document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-		// 	console.log('Adopted stylesheets:', document.adoptedStyleSheets.length)
-		// 	console.log('Sheet rules:', sheet.cssRules.length)
-
-		// }
 		if (!document.querySelector('style[data-toc-styles]')) {
 			const style = document.createElement('style')
 			style.setAttribute('data-toc-styles', 'true')
@@ -62,24 +43,14 @@ class TableOfContents extends HTMLElement {
             .toc ol { list-style: none; padding-left: 1.5em; }
             .toc li { display: block; margin-bottom: 0.5em; }
             .toc li::before { content: attr(data-number) ". "; font-weight: bold; }
-            nav details { border: 1px solid #ccc; border-radius: 4px; padding: 0.5em; margin: 1em 0; }
-            nav summary { font-weight: bold; cursor: pointer; padding: 0.25em 0; list-style: none; }
+            nav details { border: 1px solid #000; border-radius: 4px; padding: 0.5em; margin: 1em 0; }
+            nav summary { font-weight: bold; cursor: pointer; padding: 0.25em 0; }
+			@media (prefers-color-scheme: dark) {
+        		nav details { border-color: #fff; }
+    		}
         `;
 			document.head.appendChild(style);
 		}
-
-		// 		style.textContent = `
-		//     .toc { list-style: none; padding-left: 0; }
-		//     .toc ol { list-style: none; padding-left: 1.5em; }
-		//     .toc li { display: block; margin-bottom: 0.5em; }
-		//     .toc li::before { content: attr(data-number) ". "; font-weight: bold; }
-		//     nav details { border: 1px solid light-dark(#ccc, #555); border-radius: 4px; padding: 0.5em; margin: 1em 0; background: light-dark(#fafafa, #1a1a1a); }
-		//     nav summary { font-weight: bold; cursor: pointer; padding: 0.25em 0; list-style: none; color: light-dark(#333, #ddd); }
-		//     nav summary::-webkit-details-marker { display: none; }
-		//     nav a { color: light-dark(#0066cc, #66b3ff); text-decoration: none; }
-		//     nav a:hover { text-decoration: underline; }
-		// `;
-
 	}
 
 	connectedCallback() {
@@ -98,13 +69,13 @@ class TableOfContents extends HTMLElement {
 
 		headings.forEach(h => {
 			// mixing html with markdown, not perfect but will do for now!
-			// i.e. <h2 data-toc-exclude>this heading will be excluded</h2>
+			// Skip headings with data-toc-exclude attribute
+			// Example: <h2 data-toc-exclude>This heading won't appear in TOC</h2>
 			if (h.hasAttribute('data-toc-exclude')) return
 			const level = parseInt(h.tagName[1]); // get heading value e.g. '2' from a h2
 			const li = document.createElement('li');
 			const a = document.createElement('a');
 			a.href = `#${h.id}`;
-			// a.textContent = h.firstChild.textContent;
 
 			const clone = h.cloneNode(true)
 			const span = clone.querySelector('.ha-placeholder')
@@ -143,7 +114,6 @@ class TableOfContents extends HTMLElement {
 			currentLevel = level;
 		})
 
-		// nav.appendChild(root);
 		const details = document.createElement('details');
 		const summary = document.createElement('summary');
 		const summaryText = this.getAttribute('summary') || 'Table of Contents'
@@ -154,7 +124,8 @@ class TableOfContents extends HTMLElement {
 		this.appendChild(nav);
 	}
 }
-// customElements.define('table-of-contents', TableOfContents);
+// customElements.define('table-of-contents', TableOfContents);, or,
 if (!customElements.get('table-of-contents')) {
 	TableOfContents.register();
 }
+
