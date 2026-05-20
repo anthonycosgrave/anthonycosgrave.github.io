@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Provide Accessible Text Descriptions For Your Images</title>
+		<meta name="description" content="How to provide accessible text descriptions for images and SVGs using FastHTML.">
+		<link rel="canonical" href="https://anthonycosgrave.github.io/fasthtml-web-a11y/accessible-text-descriptions-for-images/">
+		<!-- Open Graph -->
+		<meta property="og:title" content="Provide Accessible Text Descriptions For Your Images">
+		<meta property="og:description" content="How to provide accessible text descriptions for images and SVGs using FastHTML.">
+		<meta property="og:type" content="article">
+		<meta property="og:site_name" content="Web Dev and Web a11y">
+		<meta property="og:url" content="https://anthonycosgrave.github.io/fasthtml-web-a11y/accessible-text-descriptions-for-images/">
+		<meta property="og:image" content="https://anthonycosgrave.github.io/fasthtml-web-a11y/social/17-accessible-text-descriptions.png">
+		
+			<meta property="article:published_time" content="Thu May 21 2026 01:00:00 GMT+0100 (British Summer Time)">
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="Provide Accessible Text Descriptions For Your Images">
+		<meta name="twitter:description" content="How to provide accessible text descriptions for images and SVGs using FastHTML.">
+		<meta name="twitter:image" content="https://anthonycosgrave.github.io/fasthtml-web-a11y/social/17-accessible-text-descriptions.png">
+		<meta name="twitter:site" content="@anthonycosgrave">
+		<meta name="twitter:creator" content="@anthonycosgrave">
+		<meta name="twitter:image:alt" content="Provide Accessible Text Descriptions For Your Images">
+
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
+		
+		
+		
+		<style>/* This is an arbitrary CSS string added to the bundle */
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #0c5a9a;
+	--text-color-link-active: #545484;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+
+	scrollbar-color: #003888 #d3d1d1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		--text-color: #EFEDED;
+		--text-color-link: #1493fb;
+		--text-color-link-active: #a1a1ff;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+		scrollbar-color: #003888 white;
+	}
+}
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+@view-transition {
+	navigation: auto;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	/* max-width: 40em; */
+	max-width: 60em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* Fluid images via https://www.zachleat.com/web/fluid-images/ */
+img {
+	max-width: 100%;
+}
+
+img[width][height] {
+	height: auto;
+}
+
+img[src$=".svg"] {
+	width: 100%;
+	height: auto;
+	max-width: none;
+}
+
+video,
+iframe {
+	width: 100%;
+	height: auto;
+}
+
+iframe {
+	aspect-ratio: 16/9;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main,
+footer {
+	padding: 1rem;
+}
+
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+
+.links-nextprev {
+	display: flex;
+	justify-content: space-between;
+	gap: .5em 1em;
+	list-style: "";
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+.links-nextprev>* {
+	flex-grow: 1;
+}
+
+.links-nextprev-next {
+	text-align: right;
+}
+
+table {
+	margin: 1em 0;
+}
+
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375;
+	/* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	overflow-x: auto;
+}
+
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1em;
+}
+
+.home-link {
+	flex-grow: 1;
+	font-size: 1em;
+	/* 16px /16 */
+	font-weight: 700;
+}
+
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	gap: .5em 1em;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.nav-item {
+	display: inline-block;
+}
+
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	counter-reset: start-from var(--postlist-index);
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em;
+	/* 13px /16 */
+	color: var(--color-gray-90);
+}
+
+.postlist-date {
+	word-spacing: -0.5px;
+}
+
+.postlist-link {
+	font-size: 1.1875em;
+	/* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+
+.postlist-item>.post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.post-metadata time {
+	margin-right: 1em;
+}
+
+*:focus {
+	outline: 3px solid #facc15;
+	outline-offset: 3px;
+}
+
+/* my stuff */
+*:focus-visible {
+	outline: 3px solid white;
+	box-shadow: 0 0 0 6px black;
+	/* position: relative; */
+	/* z-index: 1; */
+}
+
+/* 11ty skip link wasn't working */
+a[href="#main-content"].visually-hidden:focus-visible {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	overflow: visible;
+	position: static;
+	white-space: normal;
+
+	padding: 0.5rem 1rem;
+	background: #000;
+	color: #fff;
+	z-index: 1000;
+}
+
+kbd {
+	display: inline-block;
+	padding: 4px 8px;
+	margin: 0 2px;
+	font-size: 1em;
+	font-family: system-ui, sans-serif;
+	font-weight: bold;
+	color: #24292f;
+	background-color: #f6f8fa;
+	/* Light gray background */
+	border: 1px solid #d1d5da;
+	/* Subtle border */
+	border-radius: 6px;
+	box-shadow: inset 0 -1px 0 #d1d5da;
+	vertical-align: middle;
+}
+
+/* code examples */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	/* provided color from prismjs is too low in contrast (3.95:1) */
+	color: #ff4689 !important;
+}
+
+html,
+body {
+	font-size: 100%; /* 16px */
+	line-height: 1.6;
+}
+
+/* Headings */
+h1 {
+	font-size: 2.2rem;
+	line-height: 1.2;
+}
+
+h2 {
+	font-size: 1.8rem;
+	line-height: 1.25;
+}
+
+h3 {
+	font-size: 1.5rem;
+	line-height: 1.3;
+}
+
+h4 {
+	font-size: 1.25rem;
+	line-height: 1.35;
+}
+
+h5 {
+	font-size: 1.1rem;
+	line-height: 1.4;
+}
+
+h6 {
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+/* Desktop and larger screens */
+@media (min-width: 64rem) {
+
+	html,
+	body {
+		font-size: 112.5%; /* 18px */
+	}
+
+	h1 {
+		font-size: 2.5rem;
+	}
+
+	h2 {
+		font-size: 2rem;
+	}
+
+	h3 {
+		font-size: 1.7rem;
+	}
+
+	h4 {
+		font-size: 1.4rem;
+	}
+
+	h5 {
+		font-size: 1.15rem;
+	}
+
+	h6 {
+		font-size: 1rem;
+	}
+}
+
+/* Footer/meta text */
+.license-footer,
+.eleventy-footer {
+	font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+
+/* the visible '#' */
+@media (prefers-color-scheme: dark) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(134, 134, 134);
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.ha-placeholder {
+		opacity: 1.0 !important;
+		color: rgb(89, 89, 89);
+	}
+
+	/* the 'hover' on '#' */
+	:is(h2, h3, h4, h5, h6)+.ha span {
+		color: rgb(65, 65, 217);
+	}
+}
+
+.license-footer,
+.eleventy-footer {
+	font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
+}
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}</style>
+
+		<link rel="stylesheet" href="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.css">
+		
+	</head>
+	<body>
+		<a href="#main-content" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/" class="home-link">Web Dev and Web a11y</a>
+			<nav>
+				<h2 class="visually-hidden" id="top-level-navigation-menu">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/blog/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About</a></li>
+					<li class="nav-item"><a href="/feed/feed.xml">Feed</a></li>
+				</ul>
+			</nav>
+		</header>
+		<main id="main-content">
+			<heading-anchors>
+				
+
+
+<h1 id="provide-accessible-text-descriptions-for-your-images">Provide Accessible Text Descriptions For Your Images</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2026-05-21">21 May 2026</time></li>
+
+  
+  
+
+  <li>
+    <a href="/tags/fasthtml/" class="post-tag">
+      FastHtml
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/alt-text/" class="post-tag">
+      alt-text
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/screen-reader/" class="post-tag">
+      screen-reader
+    </a>, 
+  </li>
+
+  
+  
+
+  <li>
+    <a href="/tags/images/" class="post-tag">
+      images
+    </a>
+  </li>
+
+</ul>
+
+<p><strong>The code to accompany this post is &quot;<a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/accessible-text-descriptions-for-images">Accessible Text Descriptions For Images</a>&quot;. Screen reader required!</strong></p>
+<p>Images are often essential content. Product photos, charts, diagrams, buttons and promotional banners can all communicate information that may not exist elsewhere on the page.</p>
+<p>When someone cannot see an image - for example because they are blind and using a screen reader, the image fails to load due to a CDN (Content Delivery Network) outage or, they have disabled image loading to save on bandwidth - that information can be lost unless an alternative is provided.</p>
+<p>WCAG success criterion (<a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html">1.1.1 Non-text Content (Level A)</a>) requires that:</p>
+<blockquote>
+<p><em>&quot;All non-text content presented to a user must have a text alternative that serves the equivalent purpose.&quot;</em></p>
+</blockquote>
+<p>Despite this long-standing baseline - Level A - web accessibility requirement, the 2026 Web AIM Millions project found <a href="https://webaim.org/projects/million/#alttext">16.2% of all home page images</a> (almost 11 images per page) were missing appropriate alternative text - more commonly known as &quot;<code>alt</code> text&quot;.</p>
+<p><table-of-contents selector="h2, h3, h4, h5" summary="Overview"></table-of-contents></p>
+<h2 id="what-is-alt-text">What is <code>alt</code> text?</h2>
+<p>The HTML <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/alt"><code>alt</code></a> attribute on <code>&lt;img&gt;</code> elements (<code>Image()</code> in FastHTML) provides the text alternative WCAG requires. If the image cannot load and <code>alt</code> has been provided, it will be displayed in the browser instead of the image.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/iBK1BvemwL-698.avif 698w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/iBK1BvemwL-698.webp 698w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/iBK1BvemwL-698.png" alt="A screenshot of an image that failed to load. The alt text is visible. It is A black forest style cake covered with chocolate shavings. On top of the cake are 8 cherries evenly spaced in a circle and a lit candle in the centre." width="698" height="80"></picture></p>
+<p>Alt text becomes the image's &quot;accessible name&quot; (what a screen reader will announce) and appears in the accessibility tree - see <a href="/fasthtml-web-a11y/intro-accessibility-tree/#the-accessibility-tree">&quot;Intro to the Accessibility Tree&quot;</a> for a recap - making it available to assistive technologies like screen readers.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/OyqIRDsNUz-687.avif 687w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/OyqIRDsNUz-687.webp 687w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/OyqIRDsNUz-687.png" alt="A screenshot of the DevTools accessibility tree information for the cake example above. It has the correct alt text, role of Image and a URL to a fake content delivery network so that the image does not load" width="687" height="202"></picture></p>
+<h2 id="types-of-images">Types of images</h2>
+<p>Not all images serve the same purpose, and their <code>alt</code> text should reflect that. A decorative section divider, a product photo and a chart all have different accessibility needs.</p>
+<p>Every <code>&lt;img&gt;</code> must have an <code>alt</code> <strong>attribute</strong>, but not every image needs an <code>alt</code> text <strong>value</strong>.</p>
+<p>Without an <code>alt</code> attribute present, a screen reader may create a confusing experience by announcing the missing image as:</p>
+<ul>
+<li><em>&quot;Unlabelled graphic&quot;</em>.</li>
+<li><em>&quot;Graphic. To get missing image description, open the context menu.&quot;</em>.</li>
+<li>or, read out the <strong>full url and image filename</strong> from the <code>src</code> attribute.</li>
+</ul>
+<h3 id="decorative">Decorative</h3>
+<p>Decorative images are purely for visual appeal. They do not convey information required to understand the content or perform tasks on the page.</p>
+<p>The <code>alt</code> attribute should be present but <strong>empty</strong> so screen readers know to ignore the image.</p>
+<p><strong>Empty <code>alt</code> text contains NOTHING - not even whitespace</strong></p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Incorrect: whitespace is NOT an empty value</span>
+H1<span class="token punctuation">(</span>Image<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'loud-speaker.png'</span><span class="token punctuation">,</span> alt<span class="token operator">=</span><span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'Announcements!'</span><span class="token punctuation">)</span></code></pre>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># Correct</span>
+H1<span class="token punctuation">(</span>Image<span class="token punctuation">(</span>src<span class="token operator">=</span><span class="token string">'loud-speaker.png'</span><span class="token punctuation">,</span> alt<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'Announcements!'</span><span class="token punctuation">)</span></code></pre>
+<p>Visually there will be no difference:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/-Fsunlj0L4-657.avif 657w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/-Fsunlj0L4-657.webp 657w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/-Fsunlj0L4-657.png" alt="A screenshot of a loud speaker icon to the left of an Announcements heading" width="657" height="117"></picture></p>
+<p>However, there will be a <strong>significant</strong> difference in what is exposed to screen readers via the accessibility tree. Whitespace is treated as actual text content, so incorrectly the image will be included in the accessibility tree:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/UlGp-kI0st-946.avif 946w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/UlGp-kI0st-946.webp 946w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/UlGp-kI0st-946.png" alt="A screenshot of DevTools showing the image is present in the accessibility tree with an blank space for its accessible name." width="946" height="428"></picture></p>
+<p>And this is how it will be announced by a screen reader (NVDA in this example).</p>
+<lite-youtube videoid="J-UoJbgQonA" title="Whitespace Alt Text Example with NVDA" style="background-image: url('https://i.ytimg.com/vi/J-UoJbgQonA/hqdefault.jpg');">
+  <a href="https://youtu.be/J-UoJbgQonA" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: Whitespace Alt Text Example with NVDA</span>
+  </a>
+</lite-youtube>
+<p>The empty <code>alt</code> text is correctly excluded from the accessibility tree. Also note that DevTools identify that &quot;<em>Element has empty alt text.</em>&quot;</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/MoaEpm8BGD-577.avif 577w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/MoaEpm8BGD-577.webp 577w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/MoaEpm8BGD-577.png" alt="A screenshot of the DevTools accessibility tree illustrating the expected behaviour that the image with the empty alt attribute is excluded from the tree" width="577" height="417"></picture></p>
+<h3 id="functional">Functional</h3>
+<p>Functional images are part of controls - e.g. company logo links, a &quot;Save&quot; button icon. The <code>alt</code> text details were covered in previous posts - <a href="/fasthtml-web-a11y/empty-buttons/#alt-text-tips">&quot;Don't create empty buttons&quot;</a> and <a href="/fasthtml-web-a11y/empty-links/#alt-text-tips-for-functional-images">&quot;Don't create empty links&quot;</a>.</p>
+<p>To summarise the <code>alt</code> text should:</p>
+<ul>
+<li>Tell the person what will happen if they activate the button.</li>
+<li>Tell the person where link goes or what happens if it is activated.</li>
+</ul>
+<h3 id="images-of-text">Images of text</h3>
+<p>These are stylised images typically used to promote products, sales and events. Avoid images of text as they can present several accessibility issues for people who rely on page zooming, screen magnification, or high contrast colour modes.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/kmg1JGv9wp-680.avif 680w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/kmg1JGv9wp-680.webp 680w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/kmg1JGv9wp-680.png" alt="An image of text to highlight the issue addressed. It reads &quot;Tuesdays and Thursdays. 20% off sunscreen. 15% off sunglasses. Minimum purchase of 25 euro to qualify." width="680" height="420"></picture></p>
+<p>A more accessible solution is to use native HTML and CSS to achieve the same visual presentation. The stricter Level AAA success criterion - <a href="https://www.w3.org/WAI/WCAG22/Understanding/images-of-text-no-exception.html">1.4.9 Images of Text (No Exception)</a> - states that all text should be actual text unless it is used for decorative purposes or the type presentation is absolutely essential.</p>
+<p>If you must use an image of text then the <code>alt</code> text must contain the <strong>same words as the image</strong>.</p>
+<h3 id="complex">Complex</h3>
+<p>Complex images contain detailed information, structure or relationships that can't be communicated in a short phrase or single sentence. Examples include infographics, graphs, maps and charts.</p>
+<p>The <code>alt</code> text must be a <strong>very brief summary</strong> of the image's most important information, not a full description, and where appropriate, indicates where the full description can be found. The full detailed description should be provided separately.</p>
+<p>The full description must also be provided as visible text that assistive technology can access.</p>
+<p>If the image represents structured information like chart data, provide that information in a structured format such as a table. Screen readers have built-in keyboard commands specifically for navigating tables.</p>
+<p>This example from <a href="https://webaim.org/projects/million/#wcag">WebAIM</a> showing &quot;<em>The percentage of pages with most common errors</em>&quot;. The the <code>alt</code> text communicates the main takeaway without including every value and where the longer description is located:</p>
+<blockquote>
+<p><em>&quot;Bar chart showing percentage of homepages with each error type from 2019 to 2026. Full data for this chart is below.&quot;</em></p>
+</blockquote>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/7qjztoyfkp-896.avif 896w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/7qjztoyfkp-896.webp 896w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/7qjztoyfkp-896.png" alt="A screenshot from the WebAIM.org millions project showing the percentage of pages with most common errors graphs with data from 2019 to 2026. Below that graph is a table representation of the same information." width="896" height="842"></picture></p>
+<p>There are several valid ways to provide the longer description depending on the complexity of the image and how much detail is required:</p>
+<ol>
+<li>Provide the description immediately after the image e.g. in the next paragraph.</li>
+<li>Wrap the <code>&lt;img&gt;</code> inside a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure"><code>&lt;figure&gt;</code></a> and provide the description inside the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figcaption"><code>&lt;figcaption&gt;</code></a>.</li>
+</ol>
+<p>If including the description would interrupt the reading flow:</p>
+<ol start="3">
+<li>
+<p>A <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details">&quot;disclosure component&quot;</a> using the <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements can hide the longer description until requested by the reader. The image is placed inside the <code>&lt;summary&gt;&lt;/summary&gt;</code> element and the description is placed after it. Be aware that it may be necessary to override some default/3rd party CSS framework styling rules to &quot;shrink-wrap&quot; the <code>&lt;summary&gt;</code> around the <code>&lt;img&gt;</code> and remove the default disclosure triangle. A working example is included in this post's accompanying <a href="https://github.com/anthonycosgrave/fasthtml-web-a11y/tree/main/accessible-text-descriptions-for-images">source code</a>.</p>
+</li>
+<li>
+<p>Place it in an appendix section further down the page or on a separate page entirely, with a link adjacent to the image.</p>
+</li>
+</ol>
+<p>If the description does not rely on structure such as ordered lists or tables:</p>
+<ol start="5">
+<li>Use <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-describedby"><code>aria-describedby</code></a> to associate a plain text description with the image using an element id. The description element must have a <strong>unique id</strong> and must exist on the same page. Many screen readers flatten or simplifiy structured markup when announcing <code>aria-describedby</code> content, making it less suitable for complex structured descriptions.</li>
+</ol>
+<h3 id="informative">Informative</h3>
+<p>Informative images are not directly discussed in the page but they add to the reader's experience or provide some complementary information in some way. For example photos of people, pets, objects and products.</p>
+<p>The <code>alt</code> text should not describe every visible detail, but instead <strong>describe what in the image is relevant to the surrounding content</strong>.</p>
+<p>For example, an article about blindness and assistive reading methods might include an image related to braille.</p>
+<picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/BJ4D4z4aRl-423.avif 423w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/BJ4D4z4aRl-423.webp 423w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/BJ4D4z4aRl-423.png" alt="A close-up of a pair of hands resting on an open book with fingertips reading a page of braille." width="423" height="282"></picture>
+<blockquote>
+<p><em>&quot;A close-up of a pair of hands resting on an open book with fingertips reading a page of braille.&quot;</em></p>
+</blockquote>
+<p>It would be unnecessary to describe the size of the hands, position of each finger or the colour of the pages.</p>
+<h2 id="text-descriptions-for-inline-svg">Text descriptions for inline <code>&lt;svg&gt;</code></h2>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/SVG"><code>&lt;svg&gt;</code></a> element does not have an <code>alt</code> attribute and requires a slightly different approach, but same logic for image types applies.</p>
+<p>Accessible text descriptions for SVGs can be provided using:</p>
+<ul>
+<li>the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/title"><code>&lt;title&gt;</code></a> element.</li>
+<li>the <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/desc"><code>&lt;desc&gt;</code></a> element.</li>
+<li>the <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby"><code>aria-labelledby</code></a>.   attribute</li>
+</ul>
+<h3 id="decorative-svg">Decorative <code>&lt;svg&gt;</code></h3>
+<p>Like the page divider image below, decorative <code>&lt;svg&gt;</code> do not require a text description and should be <strong>hidden</strong> from the accessibility tree using <code>aria-hidden=&quot;true&quot;</code>.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/4AgvNTr8za-1440.avif 1440w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/4AgvNTr8za-1440.webp 1440w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/4AgvNTr8za-1440.png" alt="A page divider image made up of 3 sine wave shaped lines layered on top of each other." width="1440" height="252"></picture></p>
+<pre class="language-python" tabindex="0"><code class="language-python">Svg<span class="token punctuation">(</span>
+    Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">"M0 50 C80 20,160 70,240 45 C320 20,400 65,480 40 C560 15,620 55,680 35"</span><span class="token punctuation">,</span>
+         fill<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> stroke<span class="token operator">=</span><span class="token string">"#6ea8d8"</span><span class="token punctuation">,</span> stroke_width<span class="token operator">=</span><span class="token string">"2"</span><span class="token punctuation">,</span> opacity<span class="token operator">=</span><span class="token string">"0.9"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">"M0 55 C90 30,170 72,250 50 C330 28,410 68,490 46 C570 24,630 58,680 42"</span><span class="token punctuation">,</span>
+         fill<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> stroke<span class="token operator">=</span><span class="token string">"#4a7fb5"</span><span class="token punctuation">,</span> stroke_width<span class="token operator">=</span><span class="token string">"1.5"</span><span class="token punctuation">,</span> opacity<span class="token operator">=</span><span class="token string">"0.6"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Path<span class="token punctuation">(</span>d<span class="token operator">=</span><span class="token string">"M0 60 C70 38,150 75,230 55 C310 35,390 72,470 52 C550 32,625 62,680 48"</span><span class="token punctuation">,</span>
+         fill<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> stroke<span class="token operator">=</span><span class="token string">"#2c5f8a"</span><span class="token punctuation">,</span> stroke_width<span class="token operator">=</span><span class="token string">"1"</span><span class="token punctuation">,</span> opacity<span class="token operator">=</span><span class="token string">"0.35"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+     aria_hidden<span class="token operator">=</span><span class="token string">"true"</span><span class="token punctuation">,</span>
+     xmlns<span class="token operator">=</span><span class="token string">"http://www.w3.org/2000/svg"</span><span class="token punctuation">,</span>
+     width<span class="token operator">=</span><span class="token string">"100%"</span><span class="token punctuation">,</span>
+     viewBox<span class="token operator">=</span><span class="token string">"0 0 680 80"</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span></code></pre>
+<h3 id="functional-svg">Functional <code>&lt;svg&gt;</code></h3>
+<p>How to deal with inline <code>&lt;svg&gt;</code> elements has been specifically covered in both of the following earlier posts:</p>
+<ul>
+<li><a href="/fasthtml-web-a11y/empty-buttons/#when-using-inline-svg">&quot;Don't create empty buttons&quot;</a></li>
+<li><a href="/fasthtml-web-a11y/empty-links/#when-using-inline-svg-images">&quot;Don't create empty links&quot;</a></li>
+</ul>
+<h3 id="informative-and-complex-svg">Informative and Complex <code>&lt;svg&gt;</code></h3>
+<p>Informative and complex SVGs require accessible text descriptions.</p>
+<p>An additional important step is adding <code>role='img'</code> to the <code>&lt;svg&gt;</code> element. This helps assistive technologies treat the SVG as a <strong>single image</strong> instead of exposing internal SVG structure and content individually. Without <code>role='img'</code>, some browsers and screen readers may expose SVG elements as <code>SVGRoot</code>, <code>graphics-document</code>, <code>graphics-symbol</code>, as well as individual symbols or paths.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/4Nt467ejBm-1457.avif 1457w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/4Nt467ejBm-1457.webp 1457w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/4Nt467ejBm-1457.png" alt="A screenshot of an inline SVG without the image role. The element has an SvgRoot role instead." width="1457" height="458"></picture></p>
+<p>Here is an example of NVDA reading out every bit of text exposed to it from inside the SVG.</p>
+<lite-youtube videoid="t2hE8XwPfdM" title="SVG without role='img' Example with NVDA" style="background-image: url('https://i.ytimg.com/vi/t2hE8XwPfdM/hqdefault.jpg');">
+  <a href="https://youtu.be/t2hE8XwPfdM" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: SVG without role='img' Example with NVDA</span>
+  </a>
+</lite-youtube>
+<p>Use:</p>
+<ul>
+<li><code>&lt;title&gt;</code> for a <em>short</em> text description.</li>
+<li><code>&lt;desc&gt;</code> for a longer description.</li>
+<li><code>aria-labelledby</code> associates the <code>&lt;svg&gt;</code> with those descriptions by their ids.</li>
+</ul>
+<p>The <code>id</code> values referenced by <code>aria-labelledby</code> must be <strong>unique</strong> within the page.</p>
+<p><code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code> are accessibility features and are not rendered as visible text on the page. (In some browsers <code>&lt;title&gt;</code> may appear as a &quot;tooltip&quot; when the mouse pointer hovers over it).</p>
+<pre class="language-python" tabindex="0"><code class="language-python">Svg<span class="token punctuation">(</span>
+    Title<span class="token punctuation">(</span><span class="token string">'Monthly support tickets Q1 2026'</span><span class="token punctuation">,</span> <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'chart-title'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Desc<span class="token punctuation">(</span><span class="token string">'Bar chart showing a sharp decline in support tickets. There were 10000 in January, 8500 in February, and 3500 in March'</span><span class="token punctuation">,</span>  <span class="token builtin">id</span><span class="token operator">=</span><span class="token string">'chart-desc'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Line<span class="token punctuation">(</span>x1<span class="token operator">=</span><span class="token string">'80'</span><span class="token punctuation">,</span> y1<span class="token operator">=</span><span class="token string">'20'</span><span class="token punctuation">,</span> x2<span class="token operator">=</span><span class="token string">'80'</span><span class="token punctuation">,</span> y2<span class="token operator">=</span><span class="token string">'200'</span><span class="token punctuation">,</span> stroke<span class="token operator">=</span><span class="token string">'#888'</span><span class="token punctuation">,</span> stroke_width<span class="token operator">=</span><span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span>
+    Text<span class="token punctuation">(</span><span class="token string">'3,500'</span><span class="token punctuation">,</span> x<span class="token operator">=</span><span class="token string">'490'</span><span class="token punctuation">,</span> y<span class="token operator">=</span><span class="token string">'138'</span><span class="token punctuation">,</span> text_anchor<span class="token operator">=</span><span class="token string">'middle'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    role<span class="token operator">=</span><span class="token string">'img'</span><span class="token punctuation">,</span>
+    aria_labelledby<span class="token operator">=</span><span class="token string">'chart-title chart-desc'</span><span class="token punctuation">,</span>
+    width<span class="token operator">=</span><span class="token string">'100%'</span><span class="token punctuation">,</span>
+    viewBox<span class="token operator">=</span><span class="token string">'0 0 680 260'</span><span class="token punctuation">,</span>
+    xmlns<span class="token operator">=</span><span class="token string">'http://www.w3.org/2000/svg'</span>
+<span class="token punctuation">)</span></code></pre>
+<p>The SVG as it appears in the accessibility tree with the <code>role='img'</code> ARIA attribute.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/fZRsHOGeA1-755.avif 755w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/fZRsHOGeA1-755.webp 755w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/fZRsHOGeA1-755.png" alt="A DevTools screenshot showing the accessibility tree information with role of img. It's title and description are also available." width="755" height="361"></picture></p>
+<p>Unlike the previous example without <code>role='img</code>' a screen reader will only announce the parts that are available to it:</p>
+<lite-youtube videoid="kvlFb53pjtE" title="SVG with role='img' and accessible text description example with NVDA" style="background-image: url('https://i.ytimg.com/vi/kvlFb53pjtE/hqdefault.jpg');">
+  <a href="https://youtube.com/shorts/kvlFb53pjtE" class="lyt-playbtn" title="Play Video">
+    <span class="lyt-visually-hidden">Play Video: SVG with role='img' and accessible text description example with NVDA</span>
+  </a>
+</lite-youtube>
+<p>Complex SVGs follow the same rules discussed earlier for other complex images. If the SVG contains detailed information such as chart data, provide a visible text alternative elsewhere on the page such as a table or extended description.</p>
+<h2 id="writing-good-alt-text-descriptions">Writing good alt text descriptions</h2>
+<p>Think of <code>alt</code> text as what the image <em>means</em> in the context of the page, not just what it is an image of.</p>
+<p>The <a href="https://html.spec.whatwg.org/multipage/images.html#alt">HTML Standard</a> provides a great tip:</p>
+<blockquote>
+<p><em>&quot;One way to think of alternative text is to think about how you would
+read the page containing the image to someone over the phone, without
+mentioning that there is an image present. Whatever you say instead of
+the image is typically a good start for writing the alternative text.&quot;</em></p>
+</blockquote>
+<p><strong>Be as concise as possible, but as detailed as needed.</strong></p>
+<h3 id="common-mistakes">Common mistakes</h3>
+<p>Good <code>alt</code> text is a balancing act and it is crucial to avoid these common mistakes:</p>
+<ol>
+<li>Including &quot;<code>An image of</code>&quot;, &quot;<code>A photo of</code>&quot; etc. This is unnecessary duplication because a screen reader will already announce that it is an image. Exceptions to this would be &quot;<code>An oil painting of</code>&quot;, &quot;<code>A screenshot of</code>&quot; etc. where that detail helps to convey additional information.</li>
+<li>Being <strong>too short</strong>, e.g. <code>alt=&quot;cake&quot;</code> gives no useful information.</li>
+<li>Being <strong>too long</strong>, e.g. describing every shadow or crease of the table cloth and place settings surrounding the cake.</li>
+<li>Cramming in SEO keywords. e.g. <code>alt=&quot;Black Forest cake dessert chocolate cherries bakery baking best cake celebration&quot;</code>. These don't describe the important features of the image, you're spamming the person!</li>
+<li>Including photographer credits or attributions.</li>
+<li>Using emojis - they rarely improve descriptions and can create broken screen reader output.</li>
+</ol>
+<h3 id="punctuation">Punctuation</h3>
+<p>Use correct punctuation throughout and end with a <strong>full stop</strong>. The full stop will cause the screen reader to pause briefly giving the listener a moment to take in the previous announcement.</p>
+<h3 id="how-to-describe-people-in-images">How to describe people in images</h3>
+<p>Context matters. Only include characteristics - e.g. gender, ethnicity, religion - when relevant to the content.</p>
+<p>Be neutral and factual.</p>
+<p>For example, an article about a health condition that predominantly affects men in their 50s:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/cYADJhRMog-423.avif 423w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/cYADJhRMog-423.webp 423w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/cYADJhRMog-423.jpeg" alt="a middle-aged man in a hospital gown sits on a hospital bed, leaning forward with his hands clasped together and his chin resting on them. He stares down at the ground, appearing deep in thought." width="423" height="282"></picture></p>
+<blockquote>
+<p><em>&quot;a middle-aged man in a hospital gown sits on a hospital bed, leaning forward with his hands clasped together and his chin resting on them. He stares down at the ground, appearing deep in thought.&quot;</em></p>
+</blockquote>
+<p>Or, a profile of footballer Nouhaila Benzina the first player to wear a hijab at a World Cup.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/wEegL6teUD-484.avif 484w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/wEegL6teUD-484.webp 484w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/wEegL6teUD-484.png" alt="&quot;Moroccan defender Nouhaila Benzina looks down at the ball during a Women's World Cup match, right leg drawn back to kick the ball in front of her. She wears an all-white kit with her surname and the number 3 on the back, white leggings, a white hijab and light blue boots. A crowd watches in the background.&quot;" width="484" height="298"></picture></p>
+<p>Her identity would be central to the story.</p>
+<blockquote>
+<p><em>&quot;Moroccan defender Nouhaila Benzina looks down at the ball during a Women's World Cup match,
+right leg drawn back to kick the ball in front of her. She wears an all-white kit with her
+surname and the number 3 on the back, white leggings, a white hijab and light blue boots. A
+crowd watches in the background.&quot;</em></p>
+</blockquote>
+<h3 id="why-not-just-make-every-image-decorative">Why not just make every image &quot;decorative&quot;?</h3>
+<p>It may be tempting to think about treating all your images as &quot;decorative&quot; to avoid having to tackle the <code>alt</code> text and silence accessibility warnings. This is not making content accessible; it is just hiding it.</p>
+<h2 id="testing-for-alt-text-issues">Testing for alt text issues</h2>
+<p>Automated accessibility checkers like Google Lighthouse and the WebAIM WAVE tool can detect missing <code>alt</code> text but cannot provide guidance on the quality of the text.</p>
+<p>The best way to evaluate <code>alt</code> text is to:</p>
+<ul>
+<li>navigate the page with a screen reader.</li>
+<li>disable image loading temporarily.</li>
+<li>or inspect the accessibility tree in browser DevTools.</li>
+</ul>
+<p>These approaches help reveal how the image is actually exposed to assistive technologies.</p>
+<h3 id="webaims-wave-tool">WebAIM's WAVE Tool</h3>
+<p>Available as a <a href="https://chromewebstore.google.com/detail/jbbplnpkjmmeebjpijfedlgcdilocofh?utm_source=item-share-cb">browser extension</a> and launchable from the browser extension toolbar or via the right click context menu and selecting the &quot;WAVE this page&quot; option.</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/cfp1ZYoUFq-367.avif 367w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/cfp1ZYoUFq-367.webp 367w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/cfp1ZYoUFq-367.png" alt="A screenshot of the report details of a WAVE report showing three missing alternative text errors." width="367" height="462"></picture></p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/6yewqbG-zm-306.avif 306w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/6yewqbG-zm-306.webp 306w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/6yewqbG-zm-306.png" alt="A screenshot of one of the alternative text errors on the page. The popup text reads &quot;Missing alternative text&quot;." width="306" height="203"></picture></p>
+<h3 id="google-lighthouse">Google Lighthouse</h3>
+<p><a href="https://developer.chrome.com/docs/lighthouse/overview#devtools">Lighthouse</a> is available in Chrome (and almost all Chromium based browser) DevTools.</p>
+<ol>
+<li>Open the Command Palette <code>Ctrl + Shift + P</code> (Windows) or <code>Cmd + Shift + P</code> (MacOS).</li>
+<li>Type &quot;Lighthouse&quot;.</li>
+<li>Press Enter or click on &quot;Show Lighthouse&quot;.</li>
+<li>Check the &quot;Accessibility&quot; checkbox under the &quot;Categories&quot; heading.</li>
+<li>Click the &quot;Analyze page load&quot; button to begin generating the report.</li>
+</ol>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/6YhGew8vVa-950.avif 950w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/6YhGew8vVa-950.webp 950w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/6YhGew8vVa-950.png" alt="Lighthouse panel in Chrome DevTools with accessibility category checkbox checked" width="950" height="531"></picture></p>
+<p>And this is how <code>alt</code> text issues are reported by Lighthouse:</p>
+<p><picture><source type="image/avif" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/3FmxHK7yK0-721.avif 721w"><source type="image/webp" srcset="/fasthtml-web-a11y/accessible-text-descriptions-for-images/3FmxHK7yK0-721.webp 721w"><img loading="lazy" decoding="async" src="/fasthtml-web-a11y/accessible-text-descriptions-for-images/3FmxHK7yK0-721.png" alt="A screenshot of the results of a Lighthouse report showing two elements that do not have the alt attribute." width="721" height="447"></picture></p>
+<h3 id="using-llms-to-generate-text-descriptions-of-images">Using LLMs to generate text descriptions of images</h3>
+<p>LLMs can help generate draft <code>alt</code> text if given an image, but they often lack the surrounding page context needed to determine what information is actually important.</p>
+<p>The same image may require different <code>alt</code> text depending on:</p>
+<ul>
+<li>the purpose of the page.</li>
+<li>the surrounding content.</li>
+<li>whether the image is decorative, informative or functional.</li>
+</ul>
+<p>Generated descriptions should therefore be reviewed and edited manually.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p>This post focuses on the most common image accessibility patterns and beginner-friendly approaches to writing effective <code>alt</code> text.</p>
+<p>There are many instances of where you may need to use images in your web app or site. The Web Accessibility Initiative (WAI) provides a thorough list for almost every situation: <a href="https://www.w3.org/WAI/tutorials/images/">WAI Images Tutorial</a>.</p>
+<h2 id="wcag-success-criteria">WCAG Success Criteria</h2>
+<p>These WCAG success criteria relate to the accessibility topics covered in this post.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html">1.1.1 Non-text Content (Level A)</a></strong> - All non-text content presented to a user must have a text alternative that serves the equivalent purpose.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/images-of-text.html">1.4.5 Images of Text (Level AA)</a></strong> - If the technologies being used can achieve the visual presentation, text is used to convey information rather than images of text.</p>
+<p><strong><a href="https://www.w3.org/WAI/WCAG22/Understanding/images-of-text-no-exception.html">1.4.9 Images of Text (No Exception) (Level AAA)</a></strong> - Images of text are only used for pure decoration or where a particular presentation of text is essential to the information being conveyed.</p>
+<h2 id="image-source-credits">Image Source Credits</h2>
+<p><a href="https://pixabay.com/users/clker-free-vector-images-3736/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=33944">Clker-Free-Vector-Images</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=33944">Pixabay</a></p>
+<p><a href="https://pixabay.com/users/myriams-fotos-1627417/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=5498805">Myriams-Fotos</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=5498805">Pixabay</a></p>
+<p><a href="https://www.pexels.com/photo/bald-man-sitting-on-the-hospital-bed-6010798/">Photo by Tima Miroshnichenko</a></p>
+
+
+<!--
+<ul class="links-nextprev"><li class="links-nextprev-prev">← Previous<br> <a href="/the-weakest-hint/">The Weakest Hint</a></li>
+</ul>-->
+
+
+  
+  <nav class="series-nav" aria-label="Previous and Next In Series Navigation">
+  <ul class="links-nextprev">
+    
+      <li class="links-nextprev-prev">← Previous <br><a href="/fasthtml-web-a11y/picocss-focus-indicator/">Creating a more accessible Pico CSS Focus Indicator</a></li>
+    
+    
+  </ul>
+  </nav>
+
+			</heading-anchors>
+		</main>
+
+		<footer>
+			<p class="license-footer">
+© 2025 Anthony Cosgrave — This work is licensed under a
+<a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener noreferrer">
+    Creative Commons Attribution 4.0 International Licence (CC BY 4.0)
+</a>.
+</p>
+			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
+		</footer>
+
+		<!-- This page `/fasthtml-web-a11y/accessible-text-descriptions-for-images/` was built on 2026-05-20T10:31:19.496Z -->
+		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
+		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
+		<script src="/js/table-of-contents.js"></script>
+	</body>
+</html>

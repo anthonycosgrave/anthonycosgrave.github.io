@@ -2,112 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/about/</loc>
+		<loc>https://anthonycosgrave.github.io/about/</loc>
 		<lastmod>2025-04-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/blog/</loc>
+		<loc>https://anthonycosgrave.github.io/blog/</loc>
 		<lastmod>2025-04-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/</loc>
+		<loc>https://anthonycosgrave.github.io/</loc>
 		<lastmod>2025-04-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/tags/</loc>
+		<loc>https://anthonycosgrave.github.io/tags/</loc>
 		<lastmod>2025-04-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/assistive-technologies/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/assistive-technologies/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/do-not-disable-zoom/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/do-not-disable-zoom/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/do-not-rely-on-colour-alone/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/do-not-rely-on-colour-alone/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/empty-buttons/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/empty-buttons/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/empty-links/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/empty-links/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/focus-indicators/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/focus-indicators/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/headings/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/headings/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/intro-accessibility-tree/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/intro-accessibility-tree/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/keyboard-navigation/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/keyboard-navigation/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/landmarks/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/landmarks/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/low-contrast-text/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/low-contrast-text/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/picocss-focus-indicator/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/picocss-focus-indicator/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/set-the-language/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/set-the-language/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/set-the-page-title/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/set-the-page-title/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/skip-links/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/skip-links/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/fasthtml-web-a11y/wcag-basics/</loc>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/wcag-basics/</loc>
 		<lastmod>2025-11-15</lastmod>
 	</url>
 	
 	<url>
-		<loc>/anthonycosgrave.github.io/feed/feed.xml</loc>
-		<lastmod>2025-11-15</lastmod>
+		<loc>https://anthonycosgrave.github.io/the-weakest-hint/</loc>
+		<lastmod>2025-12-14</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://anthonycosgrave.github.io/feed/feed.xml</loc>
+		<lastmod>2026-05-20</lastmod>
+	</url>
+	
+	<url>
+		<loc>https://anthonycosgrave.github.io/fasthtml-web-a11y/accessible-text-descriptions-for-images/</loc>
+		<lastmod>2026-05-21</lastmod>
 	</url>
 </urlset>

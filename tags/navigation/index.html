@@ -5,6 +5,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Tagged &#39;navigation&#39;</title>
 		<meta name="description" content="Web development focused on accessibility, with practical examples exploring FastHTML and other web technologies.">
+		<link rel="canonical" href="https://anthonycosgrave.github.io/tags/navigation/">
+		<!-- Open Graph -->
+		<meta property="og:title" content="Tagged &#39;navigation&#39;">
+		<meta property="og:description" content="">
+		<meta property="og:type" content="article">
+		<meta property="og:site_name" content="Web Dev and Web a11y">
+		<meta property="og:url" content="https://anthonycosgrave.github.io/tags/navigation/">
+		<meta property="og:image" content="https://anthonycosgrave.github.io">
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="Tagged &#39;navigation&#39;">
+		<meta name="twitter:description" content="">
+		<meta name="twitter:image" content="https://anthonycosgrave.github.io">
+		<meta name="twitter:site" content="@anthonycosgrave">
+		<meta name="twitter:creator" content="@anthonycosgrave">
+		<meta name="twitter:image:alt" content="Tagged &#39;navigation&#39;">
+
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Web Dev and Web a11y">
 		
 		
@@ -325,6 +343,11 @@ header {
 	margin-right: 1em;
 }
 
+*:focus {
+	outline: 3px solid #facc15;
+	outline-offset: 3px;
+}
+
 /* my stuff */
 *:focus-visible {
 	outline: 3px solid white;
@@ -380,26 +403,82 @@ kbd {
 
 html,
 body {
-	font-size: 120%;
+	font-size: 100%; /* 16px */
+	line-height: 1.6;
+}
 
-	/* 
-	@media (max-width: layoutVariables.$xxs) {
-    font-size: 100%;
-    line-height: 1.2;
-  }
+/* Headings */
+h1 {
+	font-size: 2.2rem;
+	line-height: 1.2;
+}
 
-  @media (min-width: layoutVariables.$s) {
-    font-size: 130%;
-  }
+h2 {
+	font-size: 1.8rem;
+	line-height: 1.25;
+}
 
-  @media (min-width: layoutVariables.$m) {
-    font-size: 150%;
-  }
+h3 {
+	font-size: 1.5rem;
+	line-height: 1.3;
+}
 
-  @media (min-width: layoutVariables.$xl) {
-    font-size: 180%;
-  }
-	*/
+h4 {
+	font-size: 1.25rem;
+	line-height: 1.35;
+}
+
+h5 {
+	font-size: 1.1rem;
+	line-height: 1.4;
+}
+
+h6 {
+	font-size: 1rem;
+	line-height: 1.4;
+}
+
+/* Desktop and larger screens */
+@media (min-width: 64rem) {
+
+	html,
+	body {
+		font-size: 112.5%; /* 18px */
+	}
+
+	h1 {
+		font-size: 2.5rem;
+	}
+
+	h2 {
+		font-size: 2rem;
+	}
+
+	h3 {
+		font-size: 1.7rem;
+	}
+
+	h4 {
+		font-size: 1.4rem;
+	}
+
+	h5 {
+		font-size: 1.15rem;
+	}
+
+	h6 {
+		font-size: 1rem;
+	}
+}
+
+/* Footer/meta text */
+.license-footer,
+.eleventy-footer {
+	font-size: 0.9rem;
+}
+
+.license-footer {
+	text-align: center;
 }
 
 /* the visible '#' */
@@ -417,13 +496,14 @@ body {
 	}
 
 	/* the 'hover' on '#' */
-	:is(h2, h3, h4, h5, h6) + .ha span {
+	:is(h2, h3, h4, h5, h6)+.ha span {
 		color: rgb(65, 65, 217);
 	}
 }
- 
-.license-footer, .eleventy-footer {
-  font-size: 0.9rem;
+
+.license-footer,
+.eleventy-footer {
+	font-size: 0.9rem;
 }
 
 .license-footer {
@@ -475,7 +555,7 @@ body {
 		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
 	</li>
 	<li class="postlist-item">
-		<a href="/fasthtml-web-a11y/focus-indicators/" class="postlist-link">Focus Indicators Are the Keyboard User&#39;s Cursor</a>
+		<a href="/fasthtml-web-a11y/focus-indicators/" class="postlist-link">Focus indicators Are the Keyboard User&#39;s Cursor</a>
 		<time class="postlist-date" datetime="2025-11-15">November 2025</time>
 	</li>
 </ol>
@@ -497,7 +577,7 @@ body {
 			<p class="eleventy-footer">Built with <a href="https://www.11ty.dev/">Eleventy</a>.</p>
 		</footer>
 
-		<!-- This page `/tags/navigation/` was built on 2025-11-15T17:47:07.764Z -->
+		<!-- This page `/tags/navigation/` was built on 2026-05-20T10:31:19.859Z -->
 		<script type="module" src="/dist/hvgLPmUcTG.js"></script>
 		<script src="https://unpkg.com/lite-youtube-embed/src/lite-yt-embed.js"></script>
 		<script src="/js/table-of-contents.js"></script>
